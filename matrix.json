@@ -1,0 +1,17 @@
+{
+  inputs: [
+    'mic-1',
+    'mic-2',
+    'mic-3',
+    'mic-4',
+    'phydrum-1',
+  ],
+  outputs: [
+    'dac-1',
+    'dac-2',
+    'dac-3',
+    'dac-4',
+    'dac-5',
+    'dac-6',
+  ],
+}
