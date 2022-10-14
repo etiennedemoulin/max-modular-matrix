@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 59.0, 119.0, 640.0, 480.0 ],
+		"rect" : [ 585.0, 324.0, 640.0, 480.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -232,14 +232,14 @@
 					"id" : "obj-7",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
-					"numoutlets" : 3,
-					"outlettype" : [ "", "", "" ],
-					"patching_rect" : [ 37.0, 119.0, 196.0, 22.0 ],
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
+					"patching_rect" : [ 37.0, 119.0, 200.0, 22.0 ],
 					"saved_object_attributes" : 					{
 						"parameter_enable" : 0
 					}
 ,
-					"text" : "spat5.matrix @inputs 3 @outputs 3",
+					"text" : "spat5.routing @inputs 3 @outputs 3",
 					"varname" : "matrixctl"
 				}
 
@@ -347,13 +347,6 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-19", 0 ],
-					"source" : [ "obj-7", 2 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
 					"destination" : [ "obj-2", 1 ],
 					"order" : 2,
 					"source" : [ "obj-7", 0 ]
@@ -385,11 +378,11 @@
 			}
  ],
 		"dependency_cache" : [ 			{
-				"name" : "spat5.matrix.mxo",
+				"name" : "spat5.osc.iter.mxo",
 				"type" : "iLaX"
 			}
 , 			{
-				"name" : "spat5.osc.iter.mxo",
+				"name" : "spat5.routing.mxo",
 				"type" : "iLaX"
 			}
  ],

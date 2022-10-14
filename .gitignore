@@ -1,0 +1,9 @@
+# transpiled files and dependencies
+node_modules
+
+# junk files
+package-lock.json
+matrix-presets
+.existing-boxes
+.DS_Store
+Thumbs.db
