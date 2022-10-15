@@ -5,7 +5,7 @@ const JSON5 = require('json5');
 const Max = require('max-api');
 
 // read config
-const matrixFilename = path.join(process.cwd(), 'matrix.json');
+let matrixFilename = path.join(process.cwd(), 'matrix.json');
 let matrixStr = fs.readFileSync(matrixFilename);
 let matrix = JSON5.parse(matrixStr);
 let numInputs = matrix.inputs.length;
@@ -24,11 +24,11 @@ if (fs.existsSync(existingBoxesFilename)) {
 let gains = [];
 let writeFilename = null;
 
-function generateBox(varName, boxName, args, position) {
+function generateBox(varName, boxName, args, position, presentation) {
   existingBoxes.push(varName);
   fs.writeFileSync(existingBoxesFilename, existingBoxes.join(' '));
 
-  const msg = `thispatcher script newobject newobj @text "${boxName} ${args.join(' ')}" @varname ${varName} @patching_position ${position.x} ${position.y}`;
+  const msg = `thispatcher script newobject newobj @text "${boxName} ${args.join(' ')}" @varname ${varName} @patching_position ${position.x} ${position.y} @presentation ${presentation}`;
   Max.outlet(msg);
 }
 
@@ -58,11 +58,33 @@ function generateMatrixLabel(type, name, index) {
   Max.outlet(msg);
 }
 
+function computeMatrixSize(inputs, outputs) {
+
+  let largeur = 70 + (inputs*30);
+  let hauteur = 20 + (outputs*25);
+
+  if (largeur < 125) {
+    largeur = 125
+  }
+
+  if (hauteur < 125) {
+    hauteur = 125
+  }
+
+  return [largeur,hauteur]
+
+}
+
 // This will be printed directly to the Max console
 Max.post(`Loaded the ${path.basename(__filename)} script`);
 
 // // Use the 'addHandler' function to register a function for a particular message
-Max.addHandler("generate_matrix", () => {
+Max.addHandler("generate_matrix", (name) => {
+
+  if (name === 0) {
+    console.log("No configuration file specified, abord.");
+    return;
+  }
   // delete previous existing boxes
   existingBoxes.forEach(name => {
     deleteBox(name);
@@ -71,18 +93,19 @@ Max.addHandler("generate_matrix", () => {
   existingBoxes = [];
 
   // override config
-  matrixStr = fs.readFileSync(path.join(process.cwd(), 'matrix.json'));
+  matrixFilename = path.join(process.cwd(), name);
+  matrixStr = fs.readFileSync(matrixFilename);
   matrix = JSON5.parse(matrixStr);
   numInputs = matrix.inputs.length;
   numOutputs = matrix.outputs.length;
 
   // create the matrix object
-  generateBox('matrix', 'matrix~', [numInputs, numOutputs], { x: 40, y: 340 });
+  generateBox('matrix', 'matrix~', [numInputs, numOutputs], { x: 40, y: 340 }, 0);
   // spat5.matrix @inputs 3 @outputs 3
-  generateBox('matrix_ctl', 'spat5.matrix', ['@inputs', numInputs, '@outputs', numOutputs], { x: 20, y: 260 });
-  generateBox('matrix_routing', 'spat5.routing', ['@inputs', numInputs, '@outputs', numOutputs], { x: 20, y: 210 });
-  generateBox('matrix_ctl_rcv', 'receive', ['spatmatrix'], { x: 20, y: 180 });
-  generateBox('send-dump', 'send', ['spatdump'], { x: 200, y: 235});
+  generateBox('matrix_ctl', 'spat5.matrix', ['@inputs', numInputs, '@outputs', numOutputs], { x: 20, y: 260 }, 0);
+  generateBox('matrix_routing', 'spat5.routing.embedded', ['@inputs', numInputs, '@outputs', numOutputs], { x: 20, y: 210 }, 1);
+  generateBox('matrix_ctl_rcv', 'receive', ['spatmatrix'], { x: 20, y: 180 }, 0);
+  generateBox('send-dump', 'send', ['spatdump'], { x: 200, y: 235}, 0);
   // connect both
   generateLink('matrix_ctl', 0, 'matrix', 0);
   generateLink('matrix_routing', 0, 'matrix_ctl', 0);
@@ -91,12 +114,12 @@ Max.addHandler("generate_matrix", () => {
 
   // generate receive boxes
   matrix.inputs.forEach((name, index) => {
-    generateBox(`recv-${name}`, 'receive~', [name], { x: (40 + index * 120), y: 300 });
+    generateBox(`recv-${name}`, 'receive~', [name], { x: (40 + index * 120), y: 300 }, 0);
     generateLink(`recv-${name}`, 0, 'matrix', index);
   });
 
   matrix.outputs.forEach((name, index) => {
-    generateBox(`send-${name}`, 'send~', [name], { x: (40 + index * 120), y: 380 });
+    generateBox(`send-${name}`, 'send~', [name], { x: (40 + index * 120), y: 380 }, 0);
     generateLink('matrix', index, `send-${name}`, 0);
   });
 
@@ -110,7 +133,15 @@ Max.addHandler("generate_matrix", () => {
       generateMatrixLabel('output', name, index);
     });
 
-    Max.outlet('thispatcher write');
+    const matrixSize = computeMatrixSize(numInputs, numOutputs);
+    const initLeftOffset = 125;
+    const initTopOffset = 0;
+    const endLeft = matrixSize[0];
+    const endTop = matrixSize[1];
+    Max.outlet(`spatmatrix presentation_rect ${initLeftOffset} ${initTopOffset} ${endLeft} ${endTop}`);
+    Max.outlet(`window 435 203 ${435+initLeftOffset+endLeft} ${203+initTopOffset+endTop}`);
+
+    // Max.outlet('thispatcher write');
 
   }, 100);
 
@@ -171,3 +202,6 @@ Max.addHandler('load', (filename) => {
 Max.addHandler('edit_matrix', (filename) => {
   open(matrixFilename);
 });
+
+
+Max.outlet('bootstraped');
