@@ -2,8 +2,8 @@
   inputs: [
     'mic-1',
     'mic-2',
-    'mic-3',
     'phydrum-1',
+    'mic-3',
   ],
   outputs: [
     'dac-1',
