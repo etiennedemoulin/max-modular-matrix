@@ -1,16 +1,14 @@
 {
   inputs: [
-    'mic-1',
-    'mic-2',
-    'phydrum-1',
-    'mic-3',
+    'cycle-110',
+    'cycle-220',
+    'cycle-330',
+    'cycle-440',
   ],
   outputs: [
     'dac-1',
     'dac-2',
+    'dac-3',
     'dac-4',
-    'dac-6',
-    'dac-7',
-    'dac-8',
   ],
 }

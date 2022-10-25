@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 485.0, 100.0, 993.0, 583.0 ],
+		"rect" : [ 263.0, 100.0, 732.0, 583.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -40,12 +40,24 @@
 		"assistshowspatchername" : 0,
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-2",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 371.0, 383.0, 39.0, 22.0 ],
+					"text" : "ready"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-12",
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 280.0, 361.0, 67.0, 22.0 ],
+					"patching_rect" : [ 321.0, 342.0, 67.0, 22.0 ],
 					"text" : "edit_matrix"
 				}
 
@@ -64,25 +76,13 @@
 			}
 , 			{
 				"box" : 				{
-					"id" : "obj-37",
-					"linecount" : 13,
-					"maxclass" : "comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 8.0, 14.0, 342.0, 181.0 ],
-					"text" : "@TODO\nintegration :\n\n-> parse error on load if no name corresponding with current matrix\n\n-> sometimes names and position and not well recalled timeout ?\n\n-> update matrix if the file is saved\n\n-> if object is duplicated, @config arg is not well recalled (because of zl.reg)"
-				}
-
-			}
-, 			{
-				"box" : 				{
 					"id" : "obj-24",
 					"maxclass" : "newobj",
 					"numinlets" : 4,
-					"numoutlets" : 6,
-					"outlettype" : [ "signal", "signal", "signal", "signal", "signal", "signal" ],
-					"patching_rect" : [ 396.5, 376.0, 196.0, 22.0 ],
-					"text" : "modular.matrix @config matrix.json"
+					"numoutlets" : 4,
+					"outlettype" : [ "signal", "signal", "signal", "signal" ],
+					"patching_rect" : [ 451.5, 373.0, 149.0, 22.0 ],
+					"text" : "modular.matrix matrix.json"
 				}
 
 			}
@@ -284,7 +284,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 623.0, 376.0, 243.483993530273438, 69.0 ]
+					"patching_rect" : [ 583.0, 447.0, 243.483993530273438, 69.0 ]
 				}
 
 			}
@@ -369,6 +369,13 @@
  ],
 		"lines" : [ 			{
 				"patchline" : 				{
+					"destination" : [ "obj-24", 0 ],
+					"source" : [ "obj-2", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-9", 1 ],
 					"source" : [ "obj-20", 0 ]
 				}
@@ -411,8 +418,22 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-24", 3 ],
+					"source" : [ "obj-3", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-24", 0 ],
 					"source" : [ "obj-42", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-24", 2 ],
+					"source" : [ "obj-7", 0 ]
 				}
 
 			}
