@@ -4,13 +4,20 @@
 ## TODO
 
 
-- if object is duplicated, arg is not well recalled
-  + bootstrapped AND patcherargs should bang before the message is send 
-    * normally bootstrapped is the last to bang but in case of duplicate an object it is the opposite
 
-- si pas de config, créer uniquement 1 inlet
+  + matrix checksum AND existing box should be object type with index == #0_instance;
 
+
+  + thispatcher.write is not a good idea with multiple objects because trying to save the same file with 2 differents config.
+
+  
+solutions : 
+- 
 
 
 ## Known issues
-- sometimes names and position and not well recalled (normally solved)
+- work only with 1 object PER FOLDER!
+  + 2 problems :
+    * patch is saved with boxes created inside
+    * attached file with the patch to make it work
+- debug broken

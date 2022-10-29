@@ -125,9 +125,10 @@ Max.post(`Loaded the ${path.basename(__filename)} script`);
 
 // // Use the 'addHandler' function to register a function for a particular message
 Max.addHandler("generate_matrix", (name) => {
-
+  //console.log('generate_matrix');
   if (name === 0) {
     console.log("No configuration file specified, abord.");
+    //defaultCreator();
     process.exit()
   }
 
@@ -157,6 +158,26 @@ Max.addHandler("generate_matrix", (name) => {
   }
 
 });
+
+function defaultCreator() {
+  // delete previous existing boxes
+  existingBoxes.forEach(name => {
+    deleteBox(name);
+  });
+
+  existingBoxes = [];
+
+  // create an inlet
+  generateNamedBox('inlet', 'inlet', [], { x: 60, y: 300}, 0, 'inlet');
+  generateLink('inlet', 0, 'route_mtrx', 0);
+
+  setTimeout(() => {
+    Max.outlet('ready bang');
+  }, 1000)
+
+
+
+}
 
 function generate_matrix(name) {
   //console.log('generate_matrix');
@@ -257,8 +278,15 @@ Max.addHandler('load', (filename) => {
     console.log("No configuration file specified, abord.");
     process.exit()
   }
+
   const loadFilename = path.join(presetsFolder, `${filename}`);
+
+  if (!fs.existsSync(loadFilename)) {
+    console.log(`preset ${filename} do not exist`);
+    return;
+  }
   const data = fs.readFileSync(loadFilename);
+
 
   // clear matrix
   Max.outlet('spatmatrix /clear');
