@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 263.0, 100.0, 732.0, 583.0 ],
+		"rect" : [ 519.0, 100.0, 732.0, 583.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -40,13 +40,13 @@
 		"assistshowspatchername" : 0,
 		"boxes" : [ 			{
 				"box" : 				{
-					"id" : "obj-2",
+					"id" : "obj-47",
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 371.0, 383.0, 39.0, 22.0 ],
-					"text" : "ready"
+					"patching_rect" : [ 223.0, 388.0, 143.0, 22.0 ],
+					"text" : "generate_matrix 2x2.json"
 				}
 
 			}
@@ -79,9 +79,9 @@
 					"id" : "obj-24",
 					"maxclass" : "newobj",
 					"numinlets" : 4,
-					"numoutlets" : 4,
-					"outlettype" : [ "signal", "signal", "signal", "signal" ],
-					"patching_rect" : [ 451.5, 373.0, 149.0, 22.0 ],
+					"numoutlets" : 2,
+					"outlettype" : [ "signal", "signal" ],
+					"patching_rect" : [ 414.5, 375.0, 149.0, 22.0 ],
 					"text" : "modular.matrix matrix.json"
 				}
 
@@ -369,13 +369,6 @@
  ],
 		"lines" : [ 			{
 				"patchline" : 				{
-					"destination" : [ "obj-24", 0 ],
-					"source" : [ "obj-2", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
 					"destination" : [ "obj-9", 1 ],
 					"source" : [ "obj-20", 0 ]
 				}
@@ -454,7 +447,7 @@
 ,
 		"dependency_cache" : [ 			{
 				"name" : "app.js",
-				"bootpath" : "~/Desktop/max-modular-matrix",
+				"bootpath" : "~/Github/max-modular-matrix",
 				"patcherrelativepath" : ".",
 				"type" : "TEXT",
 				"implicit" : 1
@@ -467,7 +460,7 @@
 			}
 , 			{
 				"name" : "modular.matrix.maxpat",
-				"bootpath" : "~/Desktop/max-modular-matrix",
+				"bootpath" : "~/Github/max-modular-matrix",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1

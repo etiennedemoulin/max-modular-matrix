@@ -8,7 +8,5 @@
   outputs: [
     'dac-1',
     'dac-2',
-    'dac-3',
-    'dac-4',
   ],
 }

@@ -11,7 +11,6 @@ let matrix = null;
 let numInputs = null;
 let numOutputs = null;
 
-
 const presetsFolder = path.join(process.cwd(), `matrix-presets`);
 fs.ensureDirSync(presetsFolder);
 
@@ -153,11 +152,14 @@ Max.addHandler("generate_matrix", (name) => {
     generate_matrix(matrix);
   }
 
+  else {
+    Max.outlet('ready bang');
+  }
 
 });
 
 function generate_matrix(name) {
-  console.log('generate_matrix');
+  //console.log('generate_matrix');
 
   // delete previous existing boxes
   existingBoxes.forEach(name => {
@@ -171,7 +173,7 @@ function generate_matrix(name) {
   // spat5.matrix @inputs 3 @outputs 3
   generateBox('matrix_ctl', 'spat5.matrix', ['@inputs', numInputs, '@outputs', numOutputs], { x: 20, y: 260 }, 0);
   generateBox('matrix_routing', 'spat5.routing.embedded', ['@inputs', numInputs, '@outputs', numOutputs], { x: 20, y: 210 }, 1);
-  generateBox('matrix_ctl_rcv', 'receive', ['_spatmatrix'], { x: 20, y: 180 }, 0);
+  generateBox('matrix_ctl_rcv', 'receive', ['#0_spatmatrix'], { x: 20, y: 180 }, 0);
   // generateBox('send-dump', 'send', ['spatdump'], { x: 200, y: 235}, 0);
   // generateBox('tonode', 'send', ['_node'], { x: 40, y: 300}, 0);
   // connect both
@@ -202,6 +204,11 @@ function generate_matrix(name) {
   });
 
   generateLink('inlet-0', 0, 'tonode', 0);
+
+  setTimeout(() => {
+    Max.outlet('ready bang');
+  }, 1000)
+
 
 };
 
@@ -240,6 +247,8 @@ Max.addHandler('gains', (value) => {
 
     fs.writeFileSync(filename, lineText);
     writeFilename = null;
+
+    Max.outlet('update_preset_list bang');
   }
 });
 
@@ -255,13 +264,25 @@ Max.addHandler('load', (filename) => {
   Max.outlet('spatmatrix /clear');
 
   const lines = data.toString().split('\n');
+  if (lines.length > (numInputs*numOutputs) ) {
+    console.log('preset size do not match matrix size, please be careful');
+  }
+
   lines.forEach((line) => {
     const [inName, outName, value] = line.split(' ');
     inputIndex = matrix.inputs.indexOf(inName) + 1;
     outputIndex = matrix.outputs.indexOf(outName) + 1;
 
+    if (inputIndex == 0) {
+      return;
+    }
+    if (outputIndex == 0) {
+      return;
+    }
+
     const msg = `/row/${inputIndex}/col/${outputIndex} ${value}`;
     Max.outlet(`spatmatrix ${msg}`);
+
   });
 });
 
@@ -287,6 +308,7 @@ Max.addHandler('clear', () => {
 })
 
 Max.addHandler('ready', () => {
+  //console.log('ready');
   // generate receive boxes
   matrix.inputs.forEach((name, index) => {
     generateMatrixLabel('input', name, index);
@@ -308,3 +330,4 @@ Max.addHandler('ready', () => {
 })
 
 Max.outlet('bootstraped');
+Max.outlet('update_preset_list bang');

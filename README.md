@@ -3,11 +3,14 @@
 
 ## TODO
 
-- sometimes names and position and not well recalled (timeout ?)
-- if object is duplicated, @config arg is not well recalled (because of zl.reg) ??
-- should we open generate_matrix message ? how to deal with unconsistent config ? (modular.matrix matrix.json and then generate_matrix 2x2.json ?) (peut-être que c'est pas grave)
-- toujours créer l'outlet 1
-- handle load preset with different config file (try to fill, but if no name corresponding, don't send the message!)
+
+- if object is duplicated, arg is not well recalled
+  + bootstrapped AND patcherargs should bang before the message is send 
+    * normally bootstrapped is the last to bang but in case of duplicate an object it is the opposite
+
+- si pas de config, créer uniquement 1 inlet
+
+
 
 ## Known issues
-- patcher cords are not recalled when a patch is loaded (how to deal????)
+- sometimes names and position and not well recalled (normally solved)
