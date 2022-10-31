@@ -26,7 +26,6 @@ Please see modular.matrix.maxhelp for more infos
 ## Known issues
 - Use only one object per working directory
 - Do not duplicate the object
-- Copy 
 - work only with 1 object PER FOLDER!
   + 2 problems :
     * patch is saved with boxes created inside
