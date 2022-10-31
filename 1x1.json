@@ -1,8 +1,0 @@
-{
-  inputs: [
-    'in-1',
-  ],
-  outputs: [
-    'out-1',
-  ],
-}

@@ -4,6 +4,7 @@
     'cycle-220',
     'cycle-330',
     'cycle-440',
+    'train',
   ],
   outputs: [
     'dac-1',
@@ -12,5 +13,6 @@
     'dac-4',
     'dac-5',
     'dac-6',
+    'ear-1',
   ],
 }
