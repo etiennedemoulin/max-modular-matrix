@@ -3,14 +3,14 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 8,
-			"minor" : 3,
-			"revision" : 3,
+			"minor" : 5,
+			"revision" : 1,
 			"architecture" : "x64",
 			"modernui" : 1
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 746.0, 100.0, 732.0, 583.0 ],
+		"rect" : [ 100.0, 100.0, 732.0, 583.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -39,6 +39,46 @@
 		"subpatcher_template" : "",
 		"assistshowspatchername" : 0,
 		"boxes" : [ 			{
+				"box" : 				{
+					"bubble" : 1,
+					"fontname" : "Arial",
+					"fontsize" : 13.0,
+					"id" : "obj-13",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 443.0, 280.0, 191.0, 25.0 ],
+					"text" : "clear (mute) all connections"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 13.0,
+					"id" : "obj-22",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 398.0, 283.0, 40.0, 23.0 ],
+					"text" : "clear"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-1",
+					"maxclass" : "newobj",
+					"numinlets" : 4,
+					"numoutlets" : 1,
+					"outlettype" : [ "multichannelsignal" ],
+					"patching_rect" : [ 404.5, 359.0, 247.0, 22.0 ],
+					"text" : "mc.pack~ 4"
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"id" : "obj-35",
 					"maxclass" : "meter~",
@@ -73,7 +113,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 18.0, 452.0, 138.0, 54.0 ],
-					"presentation_linecount" : 3,
 					"text" : "connections also work with send~ and receive~"
 				}
 
@@ -112,7 +151,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 78.5, 261.0, 173.0, 40.0 ],
-					"presentation_linecount" : 2,
 					"text" : "write and load some presets"
 				}
 
@@ -129,7 +167,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 12.0, 341.0, 154.0, 40.0 ],
-					"presentation_linecount" : 3,
 					"text" : "generate matrix with another json file"
 				}
 
@@ -158,34 +195,8 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 539.0, 373.5, 177.0, 25.0 ],
+					"patching_rect" : [ 536.5, 437.5, 177.0, 25.0 ],
 					"text" : "double click to open editor"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-24",
-					"linecount" : 6,
-					"maxclass" : "comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 374.0, 54.315789473684205, 323.0, 87.0 ],
-					"presentation_linecount" : 10,
-					"text" : "Known issue :\nUse only ONE object per working directory\nDo not duplicate\nCopy the entire matrix folder into your current Max working directory\nDo NOT put the folder into your ~/Document/Max 8/Library",
-					"textcolor" : [ 1.0, 0.0, 0.0, 1.0 ]
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-22",
-					"maxclass" : "comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 270.0, 28.315789473684205, 168.0, 20.0 ],
-					"text" : "First beta test working version",
-					"textcolor" : [ 1.0, 0.0, 0.0, 1.0 ]
 				}
 
 			}
@@ -207,7 +218,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 12.0, 76.315789473684205, 301.0, 20.0 ],
-					"presentation_linecount" : 2,
 					"text" : "inlet and outlet can be generated with attached json file"
 				}
 
@@ -219,7 +229,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 12.0, 54.315789473684205, 257.0, 20.0 ],
-					"presentation_linecount" : 2,
 					"text" : "Matrix object with control and preset integrated"
 				}
 
@@ -249,18 +258,6 @@
 			}
 , 			{
 				"box" : 				{
-					"id" : "obj-60",
-					"maxclass" : "newobj",
-					"numinlets" : 6,
-					"numoutlets" : 1,
-					"outlettype" : [ "multichannelsignal" ],
-					"patching_rect" : [ 385.5, 405.0, 125.0, 22.0 ],
-					"text" : "mc.pack~ 6"
-				}
-
-			}
-, 			{
-				"box" : 				{
 					"id" : "obj-59",
 					"maxclass" : "number",
 					"numinlets" : 1,
@@ -275,10 +272,10 @@
 				"box" : 				{
 					"id" : "obj-58",
 					"maxclass" : "newobj",
-					"numinlets" : 5,
-					"numoutlets" : 7,
-					"outlettype" : [ "signal", "signal", "signal", "signal", "signal", "signal", "signal" ],
-					"patching_rect" : [ 388.0, 375.0, 149.0, 22.0 ],
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "multichannelsignal" ],
+					"patching_rect" : [ 385.5, 391.0, 149.0, 22.0 ],
 					"text" : "modular.matrix matrix.json"
 				}
 
@@ -375,20 +372,6 @@
 			}
 , 			{
 				"box" : 				{
-					"bubble" : 1,
-					"fontname" : "Arial",
-					"fontsize" : 13.0,
-					"id" : "obj-6",
-					"maxclass" : "comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 430.5, 291.0, 191.0, 25.0 ],
-					"text" : "clear (mute) all connections"
-				}
-
-			}
-, 			{
-				"box" : 				{
 					"id" : "obj-14",
 					"local" : 1,
 					"maxclass" : "ezdac~",
@@ -423,7 +406,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 385.5, 294.0, 40.0, 23.0 ],
+					"patching_rect" : [ 398.0, 125.0, 40.0, 23.0 ],
 					"text" : "clear"
 				}
 
@@ -437,7 +420,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "signal" ],
-					"patching_rect" : [ 632.5, 333.0, 74.0, 23.0 ],
+					"patching_rect" : [ 632.5, 323.0, 74.0, 23.0 ],
 					"text" : "cycle~ 440"
 				}
 
@@ -451,7 +434,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "signal" ],
-					"patching_rect" : [ 556.5, 333.0, 74.0, 23.0 ],
+					"patching_rect" : [ 556.5, 323.0, 74.0, 23.0 ],
 					"text" : "cycle~ 330"
 				}
 
@@ -465,7 +448,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "signal" ],
-					"patching_rect" : [ 480.5, 333.0, 74.0, 23.0 ],
+					"patching_rect" : [ 480.5, 323.0, 74.0, 23.0 ],
 					"text" : "cycle~ 220"
 				}
 
@@ -479,7 +462,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "signal" ],
-					"patching_rect" : [ 404.5, 333.0, 74.0, 23.0 ],
+					"patching_rect" : [ 404.5, 323.0, 74.0, 23.0 ],
 					"text" : "cycle~ 110"
 				}
 
@@ -488,6 +471,13 @@
 		"lines" : [ 			{
 				"patchline" : 				{
 					"destination" : [ "obj-58", 0 ],
+					"source" : [ "obj-1", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-20", 0 ],
 					"source" : [ "obj-11", 0 ]
 				}
 
@@ -508,8 +498,15 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-58", 1 ],
+					"destination" : [ "obj-1", 1 ],
 					"source" : [ "obj-21", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-58", 0 ],
+					"source" : [ "obj-22", 0 ]
 				}
 
 			}
@@ -529,7 +526,7 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-58", 3 ],
+					"destination" : [ "obj-1", 3 ],
 					"source" : [ "obj-3", 0 ]
 				}
 
@@ -550,7 +547,7 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-58", 0 ],
+					"destination" : [ "obj-1", 0 ],
 					"source" : [ "obj-42", 0 ]
 				}
 
@@ -571,42 +568,7 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-60", 5 ],
-					"source" : [ "obj-58", 5 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-60", 4 ],
-					"source" : [ "obj-58", 4 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-60", 3 ],
-					"source" : [ "obj-58", 3 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-60", 2 ],
-					"source" : [ "obj-58", 2 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-60", 1 ],
-					"source" : [ "obj-58", 1 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-60", 0 ],
+					"destination" : [ "obj-61", 0 ],
 					"source" : [ "obj-58", 0 ]
 				}
 
@@ -620,14 +582,7 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-61", 0 ],
-					"source" : [ "obj-60", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-58", 2 ],
+					"destination" : [ "obj-1", 2 ],
 					"source" : [ "obj-7", 0 ]
 				}
 
@@ -635,17 +590,21 @@
  ],
 		"dependency_cache" : [ 			{
 				"name" : "app.js",
-				"bootpath" : "~/Github/max-modular-matrix",
-				"patcherrelativepath" : ".",
+				"bootpath" : "~/Github/max-modular-matrix/modular-matrix/javascript",
+				"patcherrelativepath" : "../javascript",
 				"type" : "TEXT",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "modular.matrix.maxpat",
-				"bootpath" : "~/Github/max-modular-matrix",
-				"patcherrelativepath" : ".",
+				"bootpath" : "~/Github/max-modular-matrix/modular-matrix/patchers",
+				"patcherrelativepath" : "../patchers",
 				"type" : "JSON",
 				"implicit" : 1
+			}
+, 			{
+				"name" : "spat5.hostinfos.mxo",
+				"type" : "iLaX"
 			}
 , 			{
 				"name" : "spat5.matrix.mxo",

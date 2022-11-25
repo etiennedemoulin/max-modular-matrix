@@ -10,68 +10,87 @@ let matrixStr = null;
 let matrix = null;
 let numInputs = null;
 let numOutputs = null;
-
-const presetsFolder = path.join(process.cwd(), `matrix-presets`);
-fs.ensureDirSync(presetsFolder);
-
-const existingBoxesFilename = path.join(process.cwd(), `.existing-boxes`);
-let existingBoxes = [];
-
-const matrixChecksumFilename = path.join(process.cwd(), `.matrix-checksum`);
-let matrixChecksum = '';
-
-if (fs.existsSync(existingBoxesFilename)) {
-  existingBoxes = fs.readFileSync(existingBoxesFilename).toString().split(' ');
-}
-
-if (fs.existsSync(matrixChecksumFilename)) {
-  matrixChecksum = fs.readFileSync(matrixChecksumFilename).toString();
-}
+let presetsFolder = null;
+let cwd = null;
+let boxesDictName = null;
 
 let gains = [];
 let writeFilename = null;
 
-//watch for save
-function watchConfigFile(path) {
-  let md5Previous = null;
-  let fsWait = false;
-  fs.watch(path, (event, filename) => {
-  if (filename) {
-    if (fsWait) return;
-    fsWait = setTimeout(() => {
-      fsWait = false;
-    }, 100);
-    const md5Current = md5(fs.readFileSync(path));
-    if (md5Current === md5Previous) {
-      return;
-    }
-    md5Previous = md5Current;
-    matrixStr = fs.readFileSync(path);
-    matrix = JSON5.parse(matrixStr);
-    numInputs = matrix.inputs.length;
-    numOutputs = matrix.outputs.length;
-    console.log(`${filename} update`);
-    if (matrixChecksum !== md5Current) {
-      matrixChecksum = md5Current;
-      fs.writeFileSync(matrixChecksumFilename, matrixChecksum);
-      generate_matrix(matrix);
-    }
+// generate matrix is called before
+Max.addHandler('init', (name, patchPath, patchIndex) => {
+  if (patchPath === '') {
+    cwd = process.cwd();
+  } else {
+    const parts = patchPath.split('/');
+    const cleaned = parts.slice(3);
+    cleaned.pop();
+    cwd = `/${cleaned.join('/')}`;
+  }
+
+  presetsFolder = path.join(cwd, `matrix-presets`);
+  fs.ensureDirSync(presetsFolder);
+
+  boxesDictName = `${patchIndex}_existing_boxes`;
+
+  if (name) {
+    generateMatrix(name);
   }
 });
+
+Max.addHandler('ready', (n) => {
+  // generate receive boxes
+  matrix.inputs.forEach((name, index) => {
+    generateMatrixLabel('input', name, index);
+  });
+
+  matrix.outputs.forEach((name, index) => {
+    generateMatrixLabel('output', name, index);
+  });
+
+  const matrixSize = computeMatrixSize(numInputs, numOutputs);
+  const initLeftOffset = 125;
+  const initTopOffset = 0;
+  const endLeft = matrixSize[0];
+  const endTop = matrixSize[1];
+  Max.outlet(`spatmatrix presentation_rect ${initLeftOffset} ${initTopOffset} ${endLeft} ${endTop}`);
+  Max.outlet(`window 435 203 ${435+initLeftOffset+endLeft} ${203+initTopOffset+endTop}`);
+
+  // Max.outlet('thispatcher write');
+});
+
+Max.addHandler('generate_matrix', name => generateMatrix(name));
+
+function generateMatrix(name) {
+  if (name === 0) {
+    console.log('No config file specified, abort...');
+    process.exit();
+  }
+
+  // read config file
+  matrixFilename = path.join(cwd, name);
+
+  if (fs.existsSync(matrixFilename)) {
+    generateMatrixPatch(matrix);
+
+    fs.watchFile(matrixFilename, () => {
+      generateMatrixPatch(matrix);
+    });
+  } else {
+    console.log(`no config file found, please create "${matrixFilename}" file and relaunch`);
+    process.exit();
+  }
 }
 
-
 function generateBox(varName, boxName, args, position, presentation, comment) {
-  existingBoxes.push(varName);
-  fs.writeFileSync(existingBoxesFilename, existingBoxes.join(' '));
+  existingBoxes.list.push(varName);
 
   const msg = `thispatcher script newobject newobj @text "${boxName} ${args.join(' ')}" @varname ${varName} @patching_position ${position.x} ${position.y} @presentation ${presentation} @comment ${comment}`;
   Max.outlet(msg);
 }
 
 function generateNamedBox(varName, boxName, args, position, presentation, comment) {
-  existingBoxes.push(varName);
-  fs.writeFileSync(existingBoxesFilename, existingBoxes.join(' '));
+  existingBoxes.list.push(varName);
 
   const msg = `thispatcher script newobject ${boxName} @varname ${varName} @patching_position ${position.x} ${position.y} @presentation ${presentation} @comment ${comment}`;
   Max.outlet(msg);
@@ -123,71 +142,23 @@ function computeMatrixSize(inputs, outputs) {
 // This will be printed directly to the Max console
 Max.post(`Loaded the ${path.basename(__filename)} script`);
 
-// // Use the 'addHandler' function to register a function for a particular message
-Max.addHandler("generate_matrix", (name) => {
-  //console.log('generate_matrix');
-  if (name === 0) {
-    console.log("No configuration file specified, abord.");
-    //defaultCreator();
-    process.exit()
+async function generateMatrixPatch(name) {
+  matrix = JSON5.parse(fs.readFileSync(matrixFilename));
+  numInputs = matrix.inputs.length;
+  numOutputs = matrix.outputs.length;
+
+  existingBoxes = await Max.getDict(boxesDictName);
+
+  if (!('list' in existingBoxes)) {
+    existingBoxes.list = [];
   }
 
-  //Read config file
-  matrixFilename = path.join(process.cwd(), name);
-  if (fs.existsSync(matrixFilename) === true) {
-    // override config
-    matrixStr = fs.readFileSync(matrixFilename);
-    matrix = JSON5.parse(matrixStr);
-    numInputs = matrix.inputs.length;
-    numOutputs = matrix.outputs.length;
-    watchConfigFile(path.join(process.cwd(), name));
-  }
-  else {
-    console.log("wrong config file specified. abord.")
-    process.exit()
-  }
-
-  if (matrixChecksum !== md5(fs.readFileSync(matrixFilename)) ) {
-    matrixChecksum = md5(fs.readFileSync(matrixFilename));
-    fs.writeFileSync(matrixChecksumFilename, matrixChecksum);
-    generate_matrix(matrix);
-  }
-
-  else {
-    Max.outlet('ready bang');
-  }
-
-});
-
-function defaultCreator() {
   // delete previous existing boxes
-  existingBoxes.forEach(name => {
+  existingBoxes.list.forEach(name => {
     deleteBox(name);
   });
 
-  existingBoxes = [];
-
-  // create an inlet
-  generateNamedBox('inlet', 'inlet', [], { x: 60, y: 300}, 0, 'inlet');
-  generateLink('inlet', 0, 'route_mtrx', 0);
-
-  setTimeout(() => {
-    Max.outlet('ready bang');
-  }, 1000)
-
-
-
-}
-
-function generate_matrix(name) {
-  //console.log('generate_matrix');
-
-  // delete previous existing boxes
-  existingBoxes.forEach(name => {
-    deleteBox(name);
-  });
-
-  existingBoxes = [];
+  existingBoxes.list = [];
 
   // create the matrix object
   generateBox('matrix', 'matrix~', [numInputs, numOutputs], { x: 40, y: 340 }, 0);
@@ -195,6 +166,8 @@ function generate_matrix(name) {
   generateBox('matrix_ctl', 'spat5.matrix', ['@inputs', numInputs, '@outputs', numOutputs], { x: 20, y: 260 }, 0);
   generateBox('matrix_routing', 'spat5.routing.embedded', ['@inputs', numInputs, '@outputs', numOutputs], { x: 20, y: 210 }, 1);
   generateBox('matrix_ctl_rcv', 'receive', ['#0_spatmatrix'], { x: 20, y: 180 }, 0);
+  generateBox('matrix_unpack', 'mc.unpack~', [numInputs], { x: 20, y:300 }, 0);
+  generateBox('matrix_pack', 'mc.pack~', [numOutputs], { x: 20, y:400 }, 0);
   // generateBox('send-dump', 'send', ['spatdump'], { x: 200, y: 235}, 0);
   // generateBox('tonode', 'send', ['_node'], { x: 40, y: 300}, 0);
   // connect both
@@ -202,35 +175,30 @@ function generate_matrix(name) {
   generateLink('matrix_routing', 0, 'matrix_ctl', 0);
   generateLink('matrix_ctl_rcv', 0, 'matrix_routing', 0);
   generateLink('matrix_routing', 1, 'send-dump', 0);
+  generateLink('matrix_pack', 0, 'mc-outlet', 0);
+
 
   // generate receive boxes
   matrix.inputs.forEach((name, index) => {
     generateBox(`recv-${name}`, 'receive~', [name], { x: (40 + index * 120), y: 300 }, 0);
     generateLink(`recv-${name}`, 0, 'matrix', index);
-    generateNamedBox(`inlet-${index}`, 'inlet', [], { x: (60 + index * 120), y: 300}, 0, `${name}`);
+    generateLink('matrix_unpack', index, 'matrix', index);
+    // generateNamedBox(`inlet-${index}`, 'inlet', [], { x: (60 + index * 120), y: 300}, 0, `${name}`);
+
     if (index === 0) {
-      generateLink('inlet-0', 0, 'route_mtrx', 0);
-      generateLink('route_mtrx', 4, 'matrix', 0);
-    }
-    else {
-      generateLink(`inlet-${index}`, 0, 'matrix', index);
+      generateLink('route_mtrx', 6, 'matrix_unpack', 0);
     }
   });
 
   matrix.outputs.forEach((name, index) => {
     generateBox(`send-${name}`, 'send~', [name], { x: (40 + index * 120), y: 380 }, 0);
     generateLink('matrix', index, `send-${name}`, 0);
-    generateNamedBox(`outlet-${index}`, 'outlet', [], { x: (60 + index * 120), y: 380}, 0, `${name}`);
-    generateLink('matrix', index, `outlet-${index}`, 0);
+    generateLink('matrix', index, 'matrix_pack', index);
   });
 
-  generateLink('inlet-0', 0, 'tonode', 0);
+  await Max.setDict(boxesDictName, existingBoxes);
 
-  setTimeout(() => {
-    Max.outlet('ready bang');
-  }, 1000)
-
-
+  setTimeout(() => Max.outlet('ready bang'), 1000);
 };
 
 Max.addHandler("write", (filename) => {
@@ -323,7 +291,6 @@ Max.addHandler('edit_matrix', (filename) => {
 });
 
 Max.addHandler('list', (row, col, gain) => {
-  // console.log("col ", col, ' row ', row, ' gain ', gain);
   msg = `/row/${row + 1}/col/${col + 1} ${gain}`;
 
   out = `spatmatrix ${msg}`;
@@ -335,27 +302,6 @@ Max.addHandler('clear', () => {
   Max.outlet(msg);
 })
 
-Max.addHandler('ready', () => {
-  //console.log('ready');
-  // generate receive boxes
-  matrix.inputs.forEach((name, index) => {
-    generateMatrixLabel('input', name, index);
-  });
-
-  matrix.outputs.forEach((name, index) => {
-    generateMatrixLabel('output', name, index);
-  });
-
-  const matrixSize = computeMatrixSize(numInputs, numOutputs);
-  const initLeftOffset = 125;
-  const initTopOffset = 0;
-  const endLeft = matrixSize[0];
-  const endTop = matrixSize[1];
-  Max.outlet(`spatmatrix presentation_rect ${initLeftOffset} ${initTopOffset} ${endLeft} ${endTop}`);
-  Max.outlet(`window 435 203 ${435+initLeftOffset+endLeft} ${203+initTopOffset+endTop}`);
-
-  Max.outlet('thispatcher write');
-})
-
 Max.outlet('bootstraped');
 Max.outlet('update_preset_list bang');
+
