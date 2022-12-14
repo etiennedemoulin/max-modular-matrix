@@ -2293,7 +2293,7 @@
 				"box" : 				{
 					"id" : "obj-15",
 					"maxclass" : "newobj",
-					"numinlets" : 3,
+					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
 					"patcher" : 					{
@@ -2307,7 +2307,7 @@
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 186.0, 186.0, 994.0, 650.0 ],
+						"rect" : [ 369.0, 451.0, 994.0, 650.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -2453,8 +2453,8 @@
 									"numinlets" : 2,
 									"numoutlets" : 2,
 									"outlettype" : [ "", "" ],
-									"patching_rect" : [ 90.0, 134.0, 48.0, 22.0 ],
-									"text" : "zl reg 0"
+									"patching_rect" : [ 90.0, 134.0, 99.0, 22.0 ],
+									"text" : "zl reg #1"
 								}
 
 							}
@@ -2473,21 +2473,8 @@
 , 							{
 								"box" : 								{
 									"comment" : "",
-									"id" : "obj-2",
-									"index" : 2,
-									"maxclass" : "inlet",
-									"numinlets" : 0,
-									"numoutlets" : 1,
-									"outlettype" : [ "" ],
-									"patching_rect" : [ 131.0, 58.0, 30.0, 30.0 ]
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"comment" : "",
 									"id" : "obj-6",
-									"index" : 3,
+									"index" : 2,
 									"maxclass" : "inlet",
 									"numinlets" : 0,
 									"numoutlets" : 1,
@@ -2609,13 +2596,6 @@
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-8", 1 ],
-									"source" : [ "obj-2", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
 									"destination" : [ "obj-9", 0 ],
 									"source" : [ "obj-24", 0 ]
 								}
@@ -2680,7 +2660,7 @@
  ]
 					}
 ,
-					"patching_rect" : [ 909.0, 127.5, 71.0, 22.0 ],
+					"patching_rect" : [ 909.0, 127.5, 88.0, 22.0 ],
 					"saved_object_attributes" : 					{
 						"description" : "",
 						"digest" : "",
@@ -2688,7 +2668,7 @@
 						"tags" : ""
 					}
 ,
-					"text" : "p max_args"
+					"text" : "p max_args #1"
 				}
 
 			}
@@ -2924,14 +2904,14 @@
 					"fontname" : "Arial",
 					"fontsize" : 13.0,
 					"id" : "obj-202",
-					"items" : [ "dfskdjsls", ",", "pouet", ",", "pouet2", ",", "preset-1", ",", "preset-2", ",", "preset-4", ",", "toto" ],
+					"items" : [ "preset-1", ",", "preset-2", ",", "preset-3", ",", "preset-4" ],
 					"maxclass" : "umenu",
 					"numinlets" : 1,
 					"numoutlets" : 3,
 					"outlettype" : [ "int", "", "" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 307.0, 66.0, 153.0, 23.0 ],
-					"prefix" : "matrix-presets",
+					"prefix" : "~/Github/max-modular-matrix/modular-matrix/help/matrix-presets/",
 					"prefix_mode" : 2,
 					"presentation" : 1,
 					"presentation_rect" : [ 9.0, 85.0, 107.0, 23.0 ]
@@ -3069,6 +3049,8 @@
 					"saved_object_attributes" : 					{
 						"autostart" : 1,
 						"defer" : 0,
+						"node_bin_path" : "",
+						"npm_bin_path" : "",
 						"watch" : 0
 					}
 ,
@@ -3172,15 +3154,8 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-15", 2 ],
-					"source" : [ "obj-2", 1 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
 					"destination" : [ "obj-15", 1 ],
-					"source" : [ "obj-2", 0 ]
+					"source" : [ "obj-2", 1 ]
 				}
 
 			}

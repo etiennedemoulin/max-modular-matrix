@@ -3,7 +3,6 @@ node_modules
 
 # junk files
 package-lock.json
-matrix-presets
 .existing-boxes
 .matrix-checksum
 .DS_Store
