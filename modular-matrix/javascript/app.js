@@ -127,8 +127,8 @@ function generateMatrixLabel(type, name, index) {
 
 function computeMatrixSize(inputs, outputs) {
 
-  let largeur = 70 + (inputs*30);
-  let hauteur = 20 + (outputs*25);
+  let largeur = 70 + (outputs*30);
+  let hauteur = 70 + (inputs*25);
 
   if (largeur < 125) {
     largeur = 125
