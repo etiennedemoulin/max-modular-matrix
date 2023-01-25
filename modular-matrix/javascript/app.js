@@ -13,12 +13,13 @@ let numOutputs = null;
 let presetsFolder = null;
 let cwd = null;
 let boxesDictName = null;
+let interpolationTime = 0;
 
 let gains = [];
 let writeFilename = null;
 
 // generate matrix is called before
-Max.addHandler('init', (name, patchPath, patchIndex) => {
+Max.addHandler('init', (name, patchPath, patchIndex, interp) => {
   if (patchPath === '') {
     cwd = process.cwd();
   } else {
@@ -32,6 +33,8 @@ Max.addHandler('init', (name, patchPath, patchIndex) => {
   fs.ensureDirSync(presetsFolder);
 
   boxesDictName = `${patchIndex}_existing_boxes`;
+
+  interpolationTime = interp;
 
   if (name) {
     generateMatrix(name);
@@ -161,7 +164,7 @@ async function generateMatrixPatch(name) {
   existingBoxes.list = [];
 
   // create the matrix object
-  generateBox('matrix', 'matrix~', [numInputs, numOutputs], { x: 40, y: 340 }, 0);
+  generateBox('matrix', 'matrix~', [numInputs, numOutputs, '1.', `@ramp ${interpolationTime}`], { x: 40, y: 340 }, 0);
   // spat5.matrix @inputs 3 @outputs 3
   generateBox('matrix_ctl', 'spat5.matrix', ['@inputs', numInputs, '@outputs', numOutputs], { x: 20, y: 260 }, 0);
   generateBox('matrix_routing', 'spat5.routing.embedded', ['@inputs', numInputs, '@outputs', numOutputs], { x: 20, y: 210 }, 1);
