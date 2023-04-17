@@ -16,7 +16,3 @@ Connections the the matrix can be made with inlets and outlets or with send~ and
 `write myConcertPreset.txt` will write a preset file with the current matrix connections  
 `load myConcertPreset.txt` will load the preset  
 Please see modular.matrix.maxhelp for more infos  
-
-
-## Issue
-Please name matrix-presets according to your matrix.json
