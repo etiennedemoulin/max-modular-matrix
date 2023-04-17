@@ -201,7 +201,7 @@ async function generateMatrixPatch(name) {
 
   await Max.setDict(boxesDictName, existingBoxes);
 
-  setTimeout(() => Max.outlet('ready bang'), 1000);
+  setTimeout(() => Max.outlet('ready bang'), 2000);
 };
 
 Max.addHandler("write", (filename) => {
