@@ -164,13 +164,13 @@ async function generateMatrixPatch(name) {
   existingBoxes.list = [];
 
   // create the matrix object
-  generateBox('matrix', 'matrix~', [numInputs, numOutputs, '1.', `@ramp ${interpolationTime}`], { x: 40, y: 340 }, 0);
+  generateBox('matrix', 'matrix~', [numInputs, numOutputs, '1.', `@ramp ${interpolationTime}`], { x: 40, y: 190 }, 0);
   // spat5.matrix @inputs 3 @outputs 3
-  generateBox('matrix_ctl', 'spat5.matrix', ['@inputs', numInputs, '@outputs', numOutputs], { x: 20, y: 260 }, 0);
-  generateBox('matrix_routing', 'spat5.routing.embedded', ['@inputs', numInputs, '@outputs', numOutputs], { x: 20, y: 210 }, 1);
-  generateBox('matrix_ctl_rcv', 'receive', ['#0_spatmatrix'], { x: 20, y: 180 }, 0);
-  generateBox('matrix_unpack', 'mc.unpack~', [numInputs], { x: 20, y:300 }, 0);
-  generateBox('matrix_pack', 'mc.pack~', [numOutputs], { x: 20, y:400 }, 0);
+  generateBox('matrix_ctl', 'spat5.matrix', ['@inputs', numInputs, '@outputs', numOutputs], { x: 20, y: 110 }, 0);
+  generateBox('matrix_routing', 'spat5.routing.embedded', ['@inputs', numInputs, '@outputs', numOutputs], { x: 20, y: 60 }, 1);
+  generateBox('matrix_ctl_rcv', 'receive', ['#0_spatmatrix'], { x: 20, y: 5 }, 0);
+  generateBox('matrix_unpack', 'mc.unpack~', [numInputs], { x: 20, y:30 }, 0);
+  generateBox('matrix_pack', 'mc.pack~', [numOutputs], { x: 20, y:280 }, 0);
   // generateBox('send-dump', 'send', ['spatdump'], { x: 200, y: 235}, 0);
   // generateBox('tonode', 'send', ['_node'], { x: 40, y: 300}, 0);
   // connect both
@@ -183,7 +183,7 @@ async function generateMatrixPatch(name) {
 
   // generate receive boxes
   matrix.inputs.forEach((name, index) => {
-    generateBox(`recv-${name}`, 'receive~', [name], { x: (40 + index * 120), y: 300 }, 0);
+    generateBox(`recv-${name}`, 'receive~', [name], { x: (40 + index * 120), y: 150 }, 0);
     generateLink(`recv-${name}`, 0, 'matrix', index);
     generateLink('matrix_unpack', index, 'matrix', index);
     // generateNamedBox(`inlet-${index}`, 'inlet', [], { x: (60 + index * 120), y: 300}, 0, `${name}`);
@@ -194,7 +194,7 @@ async function generateMatrixPatch(name) {
   });
 
   matrix.outputs.forEach((name, index) => {
-    generateBox(`send-${name}`, 'send~', [name], { x: (40 + index * 120), y: 380 }, 0);
+    generateBox(`send-${name}`, 'send~', [name], { x: (40 + index * 120), y: 230 }, 0);
     generateLink('matrix', index, `send-${name}`, 0);
     generateLink('matrix', index, 'matrix_pack', index);
   });
