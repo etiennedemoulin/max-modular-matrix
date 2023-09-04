@@ -56,7 +56,7 @@ Max.addHandler('ready', (n) => {
   const initTopOffset = 0;
   const endLeft = matrixSize[0];
   const endTop = matrixSize[1];
-  Max.outlet(`spatmatrix presentation_rect ${initLeftOffset} ${initTopOffset} ${endLeft} ${endTop}`);
+  // Max.outlet(`spatmatrix presentation_rect ${initLeftOffset} ${initTopOffset} ${endLeft} ${endTop}`);
   Max.outlet(`window 435 203 ${435+initLeftOffset+endLeft} ${203+initTopOffset+endTop}`);
 
   // Max.outlet('thispatcher write');
@@ -114,10 +114,10 @@ function generateMatrixLabel(type, name, index) {
 
   switch(type) {
     case 'input':
-      msg = `/row/${index + 1}/name ${name}`;
+      msg = `/row/${index + 1}/label ${name}`;
       break;
     case 'output':
-      msg = `/col/${index + 1}/name ${name}`;
+      msg = `/col/${index + 1}/label ${name}`;
       break;
   }
 
@@ -127,8 +127,8 @@ function generateMatrixLabel(type, name, index) {
 
 function computeMatrixSize(inputs, outputs) {
 
-  let largeur = 70 + (outputs*30);
-  let hauteur = 70 + (inputs*25);
+  let largeur = 70 + (outputs*60);
+  let hauteur = 70 + (inputs*60);
 
   if (largeur < 125) {
     largeur = 125
@@ -138,7 +138,8 @@ function computeMatrixSize(inputs, outputs) {
     hauteur = 125
   }
 
-  return [largeur,hauteur]
+  // return [largeur,hauteur]
+  return [125, 125]
 
 }
 
@@ -166,16 +167,16 @@ async function generateMatrixPatch(name) {
   // create the matrix object
   generateBox('matrix', 'matrix~', [numInputs, numOutputs, '1.', `@ramp ${interpolationTime}`], { x: 40, y: 190 }, 0);
   // spat5.matrix @inputs 3 @outputs 3
-  generateBox('matrix_ctl', 'spat5.matrix', ['@inputs', numInputs, '@outputs', numOutputs], { x: 20, y: 110 }, 0);
-  generateBox('matrix_routing', 'spat5.routing.embedded', ['@inputs', numInputs, '@outputs', numOutputs], { x: 20, y: 60 }, 1);
+  // generateBox('matrix_ctl', 'spat5.matrix', ['@inputs', numInputs, '@outputs', numOutputs], { x: 20, y: 110 }, 0);
+  generateBox('matrix_routing', 'spat5.matrix', ['@inputs', numInputs, '@outputs', numOutputs], { x: 20, y: 60 }, 1);
   generateBox('matrix_ctl_rcv', 'receive', ['#0_spatmatrix'], { x: 20, y: 5 }, 0);
   generateBox('matrix_unpack', 'mc.unpack~', [numInputs], { x: 20, y:30 }, 0);
   generateBox('matrix_pack', 'mc.pack~', [numOutputs], { x: 20, y:280 }, 0);
   // generateBox('send-dump', 'send', ['spatdump'], { x: 200, y: 235}, 0);
   // generateBox('tonode', 'send', ['_node'], { x: 40, y: 300}, 0);
   // connect both
-  generateLink('matrix_ctl', 0, 'matrix', 0);
-  generateLink('matrix_routing', 0, 'matrix_ctl', 0);
+  // generateLink('matrix_ctl', 0, 'matrix', 0);
+  generateLink('matrix_routing', 0, 'matrix', 0);
   generateLink('matrix_ctl_rcv', 0, 'matrix_routing', 0);
   generateLink('matrix_routing', 1, 'send-dump', 0);
   generateLink('matrix_pack', 0, 'mc-outlet', 0);
@@ -189,7 +190,7 @@ async function generateMatrixPatch(name) {
     // generateNamedBox(`inlet-${index}`, 'inlet', [], { x: (60 + index * 120), y: 300}, 0, `${name}`);
 
     if (index === 0) {
-      generateLink('route_mtrx', 6, 'matrix_unpack', 0);
+      generateLink('route_mtrx', 7, 'matrix_unpack', 0);
     }
   });
 
