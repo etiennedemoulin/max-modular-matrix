@@ -1,0 +1,30 @@
+:root {
+
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  min-height: 100vh;
+  background-color: var(--sc-color-primary-1);
+  color: white;
+}
+
+html {
+  font-size: 62.5%;
+  line-height: 1.4rem;
+}
+
+body {
+  margin: 0;
+  font-family: Consolas, monaco, monospace;
+  padding: 20px;
+}
+
+button {
+  background-color: var(--sc-color-primary-1);
+  color: white;
+}
+
