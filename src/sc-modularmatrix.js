@@ -5,6 +5,16 @@ import { map } from 'lit/directives/map.js';
 import ScElement from './ScElement.js';
 import KeyboardController from './controllers/keyboard-controller.js';
 
+import './sc-speed-surface.js';
+import './sc-dial.js';
+
+import { getTime } from '@ircam/sc-gettime';
+import getScale from './utils/get-scale.js';
+import getTextWidth from './utils/get-text-width.js';
+import { describeArc, polarToCartesian } from './utils/describe-arc.js';
+import { dial } from './utils/dial-table.js';
+import { isNumber } from './utils/isNumber.js';
+
 /**
  * Given data follows a row-first convention with the 0 index
  * being displayed at the top of the matrix
@@ -40,6 +50,12 @@ class ScModularMatrix extends ScElement {
     disabled: {
       type: Boolean,
       reflect: true,
+    },
+    cellSize: {
+      type: Number,
+    },
+    matrix: {
+      type: Array,
     },
   }
 
@@ -91,42 +107,40 @@ class ScModularMatrix extends ScElement {
       shape-rendering: crispedges;
       pointer-events: none;
     }
+
+    g {
+      width:100%
+      height:100%
+    }
+
+    .dial-line {
+      stroke-width: 2px;
+      stroke: #888888;
+      stroke-linecap: butt;
+    }
+
+    path.bg {
+      stroke: #fff;
+      stroke-width: 2px;
+      fill: transparent;
+    }
+
+    path.fg {
+      stroke: #888888;
+      stroke-width: 2px;
+      fill: transparent;
+    }
+
   `;
 
-  set rows(value) {
-    if (value < 1) {
-      console.warn('sc-matrix: Invalid value for rows, should be >= 1');
-      return;
-    }
-
-    this._rows = value;
-    this._resizeMatrix();
-  }
-
-  get rows() {
-    return this._rows;
-  }
-
-  set columns(value) {
-    if (value < 1) {
-      console.warn('sc-matrix: Invalid value for columns, should be >= 1');
-      return;
-    }
-
-    this._columns = value;
-    this._resizeMatrix();
-  }
-
-  get columns() {
-    return this._columns;
-  }
-
   set value(value) {
+
     this._value = value;
+
     // if we replace the internal data matrix with an external one, we want
     // to keep the matrix description consistent
-    this._rows = this._value.length;
-    this._columns = this._value[0].length;
+    // this._rows = this._value.length;
+    // this._columns = this._value[0].length;
     // `requestUpdate` because in many cases `value` might be the same instance
     this.requestUpdate();
   }
@@ -143,34 +157,59 @@ class ScModularMatrix extends ScElement {
     return undefined;
   }
 
-  set states(states) {
-    this._states = states;
+  get min() {
+    return this._min;
+  }
 
-    // check existing values against new states
-    for (let y = 0; y < this._value.length; y++) {
-      const row = this._value[y];
-
-      for (let x = 0; x < row.length; x++) {
-        const currentValue = row[x];
-        // find closest entry
-        if (this._states.indexOf(currentValue) === -1) {
-          // @note on`reduce` - by default accumulator (here `a`) is the first
-          // element of the array
-          const closest = this.states.reduce((a, b) => {
-            return Math.abs(b - currentValue) < Math.abs(a - currentValue) ? b : a;
-          });
-
-          this._value[y][x] = closest;
-        }
-      }
+  set min(value) {
+    // workaround weird display issue when min and max are equal
+    if (value === this.max) {
+      value -= 1e-10;
     }
 
-    this._emitChange();
+    this._min = value;
+    // clamp value
+    this.value = this.value;
+    // update scales
+    this._updateScales();
     this.requestUpdate();
   }
 
-  get states() {
-    return this._states;
+  get max() {
+    return this._max;
+  }
+
+  set matrix(matrix) {
+    this.rows = matrix.inputs.length;
+    this.columns = matrix.outputs.length;
+    this._matrix = matrix;
+    this._resizeMatrix();
+    // this._resizeMatrix();
+    this.requestUpdate();
+  }
+
+  set cellSize(value) {
+    // this._resizeMatrix();
+    // this.requestUpdate();
+    // console.log(this._matrix);
+    // this._width = this.borderWidth + this._matrix.outputs.length * value;
+    // this._height = this.borderHeight + this._matrix.inputs.length * value;
+    // this._resizeMatrix();
+    // this.requestUpdate();
+  }
+
+  set max(value) {
+    // workaround weird display issue when min and max are equal
+    if (value === this.min) {
+      value += 1e-10;
+    }
+
+    this._max = value;
+    // clamp value
+    this.value = this.value;
+    // update scales
+    this._updateScales();
+    this.requestUpdate();
   }
 
   constructor() {
@@ -178,27 +217,55 @@ class ScModularMatrix extends ScElement {
 
     this._value = [];
     this._states = [0, 1];
+    this._min = 0;
+    this._max = 0;
     this._width = 300; // these are the default from css
     this._height = 200;
     this._resizeObserver = null;
+    this._matrix = [];
 
-    this.columns = 8;
-    this.rows = 4;
+    this.borderWidth = 100;
+    this.borderHeight = 100;
+    this.columns = 0;
+    this.rows = 0;
     this.disabled = false;
+    this.max = 1;
+    this.min = 0;
 
     // for keyboard controlled selection of cells
     this._keyboardHighlightCell = null;
     this._onFocus = this._onFocus.bind(this);
     this._onBlur = this._onBlur.bind(this);
 
+    this._mouseMove = this._mouseMove.bind(this);
+    this._mouseUp = this._mouseUp.bind(this);
+    this._displayConnection = this._displayConnection.bind(this);
+
+    this._propagateValues = this._propagateValues.bind(this);
+    this._rafId = null;
+
+    this._pointerId = null;
+    this._lastPointer = null;
+    this._lastTime = null;
+    this._pointerPos = null;
+
+    this._mousePointerPos = null;
+
+    this._typedValue = null;
+
     this.keyboard = new KeyboardController(this, {
       filterCodes: [
-        'ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft',
         'Space', 'Enter', 'Escape', 'Backspace',
+        'Digit0', 'Digit1', 'Digit2', 'Digit3',
+        'Digit4', 'Digit5', 'Digit6', 'Digit7',
+        'Digit8', 'Digit9', 'Equal', 'Comma'
       ],
       callback: this._onKeyboardEvent.bind(this),
       deduplicateEvents: true,
     });
+
+    window.addEventListener('mousemove', this._displayConnection);
+
   }
 
   render() {
@@ -209,9 +276,13 @@ class ScModularMatrix extends ScElement {
     // Relying on rect stroke or outline does not give a clean result neither
     // so we manually draw the lines.
 
-    const cellWidth = this._width / this.columns;
-    const cellHeight = this._height / this.rows;
+    this.borderWidth = this._width * 0.2;
+    this.borderHeight = this._height * 0.2;
 
+    const cellWidth = (this._width - this.borderWidth) / this.columns;
+    const cellHeight = (this._height - this.borderHeight) / this.rows;
+
+    // should be removed
     const minValue = this._states[0];
     const maxValue = this._states[this._states.length - 1];
 
@@ -239,24 +310,58 @@ class ScModularMatrix extends ScElement {
       >
         <g>
           ${this.value.map((row, rowIndex) => {
-            const y = rowIndex * cellHeight;
-
+            const y = this.borderHeight + (rowIndex * cellHeight);
             return row.map((value, columnIndex) => {
-              const x = columnIndex * cellWidth;
-              const opacity = (value - minValue) / (maxValue - minValue);
+              const x = this.borderWidth + (columnIndex * cellWidth);
+              const radius = Math.min(cellWidth, cellHeight) * 0.25;
+              // console.log(cellWidth, cellHeight);
+              const cx = (cellWidth  * 0.5);
+              const cy = (cellHeight * 0.35);
+              const angle = this._valueToAngleScale(this.value[rowIndex][columnIndex]); // computed from value
+              const position = polarToCartesian(cx, cy, radius + 2, angle); // + 2  is half path stroke-width
 
-              return svg`
-                <rect
-                  width=${cellWidth}
-                  height=${cellHeight}
+              let displayValue = Math.round(dial[Math.round(value * 511)] * 10) / 10;
+              if (displayValue === dial[0]) {
+                displayValue = "-∞";
+              }
+              if (displayValue > 0) {
+                displayValue = `+${displayValue}`;
+              }
+
+              // console.log(angle, position, this.value);
+
+              return html`
+                <svg
                   x=${x}
                   y=${y}
-                  style="fill-opacity: ${opacity}"
-                  data-row-index=${rowIndex}
-                  data-column-index=${columnIndex}
-                  @mousedown=${this._onCellEvent}
-                  @touchend=${this._onCellEvent}
-                ></rect>
+                  width=${cellWidth}
+                  height=${cellHeight}
+                >
+                  <path
+                    class="bg"
+                    d="${describeArc(cx, cy, radius, Math.min(140, angle + 8), 140)}"
+                  />
+                  <path
+                    class="fg"
+                    d="${describeArc(cx, cy, radius, -140, angle)}"
+                  />
+                  <line class="dial-line" x1=${cx}px y1=${cy}px x2=${position.x}px y2=${position.y}px />
+                  <foreignObject x=0 y="50%" width="100%" height="50%">
+                  <p style="display: block;margin-block-start: 0;margin-block-end: 0;margin-inline-start: 0;margin-inline-end: 0;padding-block-start: 0;padding-block-end: 0px;font-size: 0.9rem;text-align: center;">${displayValue}</p>
+                  </foreignObject>
+                  <rect
+                    width=100%
+                    height=100%
+                    x=0
+                    y=0
+                    style="fill-opacity: 0"
+                    data-row-index=${rowIndex}
+                    data-column-index=${columnIndex}
+                    @mousedown=${this._onCellEvent}
+                    @touchend=${this._onCellEvent}
+                    @dblclick=${this._resetValue}
+                  ></rect>
+                </svg>
               `;
             });
           })}
@@ -266,19 +371,93 @@ class ScModularMatrix extends ScElement {
           ? svg`<g>${highligthCell}</g>`
           : nothing
         }
+        <!-- CENTRAL TEXT -->
+        <g>
+          <svg
+            x=0
+            y=0
+            width=${this.borderWidth}
+            height=${this.borderHeight}
+          >
+            <text
+              x=50%
+              y=40%
+              dy="0"
+              dominant-baseline="middle"
+              text-anchor="middle"
+              font-size="1em"
+              style="fill:white"
+            >
+              <tspan x="50%" dy="1.2em">${this._mousePointerPos ? this._matrix.inputs[this._mousePointerPos.rowIndex] : ""}</tspan>
+              <tspan x="50%" dy="1.2em">${this._mousePointerPos ? "->" : ""}</tspan>
+              <tspan x="50%" dy="1.2em">${this._mousePointerPos ? this._matrix.outputs[this._mousePointerPos.columnIndex] : ""}</tspan>
+            </text>
+          </svg>
+        </g>
         <g>
           <!-- horizontal lines -->
-          ${map(range(1, this.value.length), i => {
-            const y = i * cellHeight;
-            return svg`<line x1="0" y1=${y} x2=${this._width} y2=${y}></line>`;
+          ${map(range(0, this.value.length), i => {
+            const y = this.borderHeight + (i * cellHeight);
+            return html`
+              <svg>
+                <line
+                  x1="0"
+                  y1=${y}
+                  x2=${this._width}
+                  y2=${y}
+                ></line>
+              </svg>
+              <svg
+                x=0
+                y=${y}
+                width=${this.borderWidth}
+                height=${cellHeight}
+              >
+                <text
+                  x=50%
+                  y=50%
+                  dominant-baseline="middle"
+                  text-anchor="middle"
+                  font-size="1em"
+                  style="fill:white"
+                >${this._matrix.inputs[i]}</text>
+              </svg>
+            `;
           })}
 
           <!-- vertical lines -->
-          ${map(range(1, this.value[0].length), i => {
-            const x = i * cellWidth;
-            return svg`<line x1=${x} y1="0" x2=${x} y2=${this._height}></line>`;
+          ${map(range(0, this.value[0].length), i => {
+            const x = this.borderWidth + (i * cellWidth);
+            return html`
+              <svg>
+                <line
+                  x1=${x}
+                  y1="0"
+                  x2=${x}
+                  y2=${this._height}
+                ></line>
+              </svg>
+              <svg
+                x=${x}
+                y=0
+                width=${cellWidth}
+                height=${this.borderHeight}
+              >
+                <text
+                  x=${cellWidth/2}
+                  y=${this.borderHeight/2}
+                  width=100%
+                  height=100%
+                  style="fill:white"
+                  font-size="1em"
+                  transform="rotate(270, ${cellWidth/2}, ${this.borderHeight/2})"
+                  dominant-baseline="central"
+                  text-anchor="middle"
+                >${this._matrix.outputs[i]}</text>
+              </svg>
+            `;
           })}
-        <g>
+        </g>
       </svg>
     `;
   }
@@ -291,6 +470,7 @@ class ScModularMatrix extends ScElement {
       if (this.disabled) { this.blur(); }
     }
   }
+
 
   connectedCallback() {
     super.connectedCallback();
@@ -357,6 +537,47 @@ class ScModularMatrix extends ScElement {
     this.requestUpdate();
   }
 
+  _updateScales() {
+    this._valueToAngleScale = getScale([this.min, this.max], [-140, 140]);
+    this._pixelToDiffScale = getScale([0, 15], [0, this.max - this.min]);
+  }
+
+  _onKeyboardEvent(e) {
+    const rowIndex = this._pointerPos.rowIndex;
+    const columnIndex = this._pointerPos.columnIndex;
+    if (e.type === 'keydown') {
+      switch (e.key) {
+        case 'Enter':
+          if (isNumber(this._typedValue)) {
+            // find the closest index in dial
+            const dB = parseFloat(this._typedValue);
+            const nearestdB = dial.reduce((a, b) => {
+              return Math.abs(b - dB) < Math.abs(a - dB) ? b : a;
+              });
+            const index = dial.findIndex(e => e === nearestdB);
+            const value = index / 511;
+
+            this.value[rowIndex][columnIndex] = value;
+            this.requestUpdate();
+            this._typedValue = null;
+          } else {
+            this._typedValue = null;
+          }
+          break;
+        case 'Escape':
+          this._typedValue = null;
+          break;
+        default:
+          if (this._typedValue === null) {
+            this._typedValue = e.key;
+          } else {
+            this._typedValue += e.key;
+          }
+          break;
+      }
+    }
+  }
+
   _onFocus() {
     this._keyboardHighlightCell = null;
     this.requestUpdate();
@@ -365,62 +586,6 @@ class ScModularMatrix extends ScElement {
   _onBlur() {
     this._keyboardHighlightCell = null;
     this.requestUpdate();
-  }
-
-  _onKeyboardEvent(e) {
-    if (e.type === 'keydown') {
-      // first interaction always init the cell
-      if (this._keyboardHighlightCell === null) {
-        this._keyboardHighlightCell = { x: 0, y: this.rows - 1 };
-      } else {
-        switch (e.code) {
-          case 'ArrowUp': {
-            this._keyboardHighlightCell.y -= 1;
-            break;
-          }
-          case 'ArrowRight': {
-            this._keyboardHighlightCell.x += 1;
-            break;
-          }
-          case 'ArrowDown': {
-            this._keyboardHighlightCell.y += 1;
-            break;
-          }
-          case 'ArrowLeft': {
-            this._keyboardHighlightCell.x -= 1;
-            break;
-          }
-          case 'Space':
-          case 'Enter': {
-            const rowIndex = this._keyboardHighlightCell.y;
-            const columnIndex = this._keyboardHighlightCell.x;
-            this._updateCell(rowIndex, columnIndex);
-            break;
-          }
-          case 'Escape':
-          case 'Backspace': {
-            this._reset();
-            break;
-          }
-        }
-      }
-
-      // wrap around
-      if (this._keyboardHighlightCell.y < 0) {
-        this._keyboardHighlightCell.y = this.rows - 1;
-      }
-      if (this._keyboardHighlightCell.y >= this.rows) {
-        this._keyboardHighlightCell.y = 0;
-      }
-      if (this._keyboardHighlightCell.x < 0) {
-        this._keyboardHighlightCell.x = this.columns - 1;
-      }
-      if (this._keyboardHighlightCell.x >= this.columns) {
-        this._keyboardHighlightCell.x = 0;
-      }
-
-      this.requestUpdate();
-    }
   }
 
   _reset() {
@@ -435,21 +600,115 @@ class ScModularMatrix extends ScElement {
   }
 
   _onCellEvent(e) {
+
+    window.addEventListener('mousemove', this._mouseMove);
+    window.addEventListener('mouseup', this._mouseUp);
+
+    // this._requestUserSelectNoneOnBody();
+
     e.preventDefault(); // important to prevent focus when disabled
     if (this.disabled) { return; }
 
     this.focus();
 
+    this._pointerId = 'mouse';
+
+    this._lastTime = getTime();
+    this._lastPointer = e;
     const { rowIndex, columnIndex } = e.target.dataset;
-    this._updateCell(rowIndex, columnIndex);
+    this._pointerPos = { rowIndex, columnIndex };
   }
 
-  _updateCell(rowIndex, columnIndex) {
-    const currentIndex = this._states.indexOf(this.value[rowIndex][columnIndex]);
-    // handle situations where _states as changed in between two interactions
-    const nextIndex = currentIndex === -1 ? 0 : (currentIndex + 1) % this._states.length;
+  _resetValue(e) {
+    const { rowIndex, columnIndex } = e.target.dataset;
+    this.value[rowIndex][columnIndex] = 0;
+    this.requestUpdate();
+  }
 
-    this.value[rowIndex][columnIndex] = this._states[nextIndex];
+  _mouseMove(e) {
+    this._requestPropagateValues(e);
+  }
+
+  _displayConnection(e) {
+    const cellWidth = (this._width - this.borderWidth) / this.columns;
+    const cellHeight = (this._height - this.borderHeight) / this.rows;
+    const columnIndex = Math.floor((e.offsetX - this.borderWidth) / cellWidth);
+    const rowIndex = Math.floor((e.offsetY - this.borderHeight) / cellHeight);
+
+    if ((!this._mousePointerPos || this._mousePointerPos.rowIndex !== rowIndex
+      || this._mousePointerPos !== columnIndex) && this._pointerId === null ) {
+      this._mousePointerPos = { rowIndex, columnIndex };
+      this.requestUpdate();
+    }
+  }
+
+  _mouseUp(e) {
+    window.removeEventListener('mousemove', this._mouseMove);
+    window.removeEventListener('mouseup', this._mouseUp);
+
+    // this._cancelUserSelectNoneOnBody();
+    this._requestPropagateValues(e);
+    // we want to have { dx: 0, dy: 0 } on mouse up,
+    // with 20ms, we should be in the next requestAnimationFrame
+    setTimeout(() => {
+      this._pointerId = null;
+      this._requestPropagateValues(e);
+    }, 20);
+
+    // this._requestPropagateValues(e);
+  }
+
+  _requestPropagateValues(e) {
+    window.cancelAnimationFrame(this._rafId);
+    this._rafId = window.requestAnimationFrame(() => this._propagateValues(e));
+  }
+
+  _propagateValues(e) {
+    const lastX = this._lastPointer.screenX;
+    const lastY = this._lastPointer.screenY;
+    const x = e.screenX;
+    const y = e.screenY;
+
+    const now = getTime();
+    const dt = (this._lastTime - now) * 1000; // ms
+
+    const dx = (x - lastX) / dt;
+    const dy = (y - lastY) / dt;
+
+    this._lastTime = now;
+    this._lastPointer = e;
+    // propagate outside the shadow DOM boundaries
+    // cf. https://lit-element.polymer-project.org/guide/events#custom-events
+    const event = new CustomEvent('input', {
+      bubbles: true,
+      composed: true,
+      detail: { dx, dy, pointerId: this._pointerId },
+    });
+
+    const { rowIndex, columnIndex } = this._pointerPos;
+    // console.log(dx, dy, rowIndex, columnIndex);
+    this._updateCell(rowIndex, columnIndex, dx, dy);
+
+    // this.dispatchEvent(event);
+  }
+
+  _updateCell(rowIndex, columnIndex, dx, dy) {
+    // const currentIndex = this._states.indexOf(this.value[rowIndex][columnIndex]);
+    // handle situations where _states as changed in between two interactions
+    // const nextIndex = currentIndex === -1 ? 0 : (currentIndex + 1) % this._states.length;
+
+    // console.log(this.value[rowIndex][columnIndex])
+    // if (this.value[rowIndex][columnIndex] < 0) {
+    //   this.value[rowIndex][columnIndex] = 0;
+    // } else if (this.value[rowIndex][columnIndex] > 1) {
+    //   this.value[rowIndex][columnIndex] = 1;
+    // } else {
+    //   this.value[rowIndex][columnIndex] += dy * 0.05;
+    // }
+    const diff = this._pixelToDiffScale(dy) * 0.32;
+    this.value[rowIndex][columnIndex] += diff;
+    const clamp = (min, max) => value => Math.max(Math.min(value, max), min);
+    this.value[rowIndex][columnIndex] = clamp(this.min, this.max)(this.value[rowIndex][columnIndex]);
 
     this._emitChange();
     this.requestUpdate();
@@ -464,6 +723,11 @@ class ScModularMatrix extends ScElement {
 
     this.dispatchEvent(event);
   }
+
+  _updateValue(e) {
+    console.log(e);
+  }
+
 }
 
 if (customElements.get('sc-modularmatrix') === undefined) {

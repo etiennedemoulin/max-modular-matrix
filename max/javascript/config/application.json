@@ -1,0 +1,10 @@
+{
+  name: 'javascript',
+  author: '',
+  clients: {
+    matrix: {
+      target: 'browser',
+      default: true,
+    },
+  },
+}
