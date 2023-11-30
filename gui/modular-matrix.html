@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+<!--
+  We start with a basic html 'page' that is the size of the jweb object,
+  but has no scrollbars nor floating content.
+-->
+
+<head>
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0px;
+      border: 0;
+      overflow: hidden;  /*  Disable scrollbars */
+      display: block;    /* No floating content on sides */
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="myCanvas" style='position:absolute; left:0px; top:0px;'>
+  </canvas>
+
+  <script>
+    const MINVAL = 0;            // minimum control value of 0
+    const MAXVAL = 127;          // maximum control value of 127
+    const ITER = 270 / MAXVAL;   // angular iteration per value change (in degrees)
+    const TWOPI = Math.PI * 2;   // precalculate 2 * pi
+
+    var value = 0;
+
+    var mouseDown = false;
+    var mouseDownYPos;
+    var mouseDownValue;
+
+    var maxSize = 0;
+    var halfSize = 0;
+    var wDims = [0, 0];    // the window dimensions
+    var cPoint = [0, 0];   // the center point in canvas XY coordinates
+    var iPoint = [0, 0];   // the indicator point in canvas XY coordinates
+    var tPoint = [0, 0, 100];   // the text value
+
+    (function() {
+      var htmlCanvas = document.getElementById('myCanvas');  // get canvas by id
+      var ctx = htmlCanvas.getContext('2d'); // get a graphics context
+
+      window.max.bindInlet("value", setValue);
+      initialize();
+
+      // required startup for the control
+      function initialize() {
+        // listen for the resize event
+        window.addEventListener('resize', resizeCanvas, false);
+
+        // we have to use document-level tracking, rather than local tracking
+        // in order to capture mouse movement outside the canvas area.
+        document.onmousedown = onMouseDown;
+        document.onmousemove = onMouseMove;
+        document.onmouseup = onMouseUp;
+
+        // draw the canvas for the first time.
+        resizeCanvas();
+      }
+
+      // set the value of the control, making sure it fits within the values
+      // allowed. Output the value on any change, and redraw the canvas if
+      // needed.
+      function setValue(v) {
+        var test = Math.min(Math.max(v, MINVAL), MAXVAL);
+        if (test != value) {
+          value = test;
+          max.outlet("value", value);
+          redraw();
+        }
+      }
+
+      // calculate the centerpoint of the current canvas area
+      function calcCenterpoint() {
+        maxSize = (wDims[0] > wDims[1]) ? wDims[1] : wDims[0];
+        halfSize = maxSize / 2;
+
+        var xOff = (wDims[0] - maxSize) / 2;
+        var yOff = (wDims[1] - maxSize) / 2;
+        cPoint[0] = (maxSize / 2) + xOff;
+        cPoint[1] = (maxSize / 2) + yOff;
+      }
+
+      // calculate the positioning of the indicator along the 'orbital'
+      function calcIndicator() {
+        // here we have to calculate the indicator size (i.e., smallSize
+        // variable) which is a max of 10 pixels, but is otherwise 1/10th the
+        // control size.
+        smallSize = Math.min(10, maxSize / 10);
+
+        // The indicator angle will be the value time the interation value,
+        // but offset by 135 degrees.
+        var initAngle = 135 + (value * ITER);
+
+        // For arc drawing, we will need to change the angle from degrees
+        // to radians
+        var initRadians = initAngle * (TWOPI / 360);
+
+        // Now we use basic trig to figure out the X/Y location of the indicator
+        iPoint[0] = (Math.cos(initRadians) * (halfSize - smallSize)) + cPoint[0];
+        iPoint[1] = (Math.sin(initRadians) * (halfSize - smallSize)) + cPoint[1];
+      }
+
+      function calcText() {
+        const halfHeight = wDims[1] / 2;
+        const fontSize = Math.min(12, wDims[1]/10);
+        tPoint[0] = wDims[0] / 2;
+        tPoint[1] = halfHeight + halfHeight * 2/3;
+        tPoint[2] = fontSize;
+      }
+
+      function degToRad(deg) {
+        return deg * (TWOPI / 360);
+      }
+
+      function drawKnob() {
+
+      }
+
+      // Display custom canvas, which is the 'orbital' control
+      function redraw() {
+        wDims[0] = window.innerWidth;
+        wDims[1] = window.innerHeight;
+        ctx.clearRect(0, 0, wDims[0], wDims[1]);
+
+        calcCenterpoint();
+        calcIndicator();
+        calcText();
+
+        ctx.strokeStyle = "black";
+        ctx.fillStyle = "white";
+        ctx.lineWidth = 2;
+
+        // draw the 'orbital' ring that the indicator sits upon
+        ctx.beginPath();
+        ctx.arc(cPoint[0], cPoint[1], halfSize - smallSize, degToRad(-225), degToRad(45));
+        ctx.stroke();
+        ctx.closePath();
+
+        // draw the indicator
+        // ctx.beginPath();
+        // ctx.arc(iPoint[0], iPoint[1], smallSize * .6, 0, TWOPI);
+        // ctx.fill();
+        // ctx.stroke();
+        // ctx.closePath();
+
+        // draw the line from center
+        ctx.beginPath();
+        ctx.moveTo(cPoint[0], cPoint[1]);
+        ctx.lineTo(iPoint[0], iPoint[1]);
+        ctx.stroke();
+        ctx.closePath();
+        // ctx.beginPath();
+        // ctx.arc(cPoint[0], cPoint[1], halfSize / 2, 0, TWOPI);
+        // ctx.fill();
+        // ctx.stroke();
+        // ctx.closePath();
+        // const match = /(?<value>\d+\.?\d*)/;
+        // ctx.font = ctx.font.replace(match, tPoint[2]);
+        ctx.font = `${tPoint[2]}px serif`;
+        ctx.strokeText(value, tPoint[0], tPoint[1]);
+      }
+
+      // Runs each time the DOM window resize event fires, this resets the
+      // canvas dimensions to match window then redraws the content.
+      function resizeCanvas() {
+        htmlCanvas.width = window.innerWidth;
+        htmlCanvas.height = window.innerHeight;
+        redraw();
+      }
+
+      // Mouse movement is tracked with these routines. The value of the
+      // control is based on movement in the Y (up/down) dimension.
+      function onMouseDown(e) {
+        mouseDown = true;
+        mouseDownValue = value;
+        mouseDownYPos = e.clientY;
+      }
+
+      function onMouseMove(e) {
+        if (mouseDown) {
+          var delta = e.clientY - mouseDownYPos;
+          setValue(mouseDownValue - delta);
+        }
+      }
+
+      function onMouseUp(e) {
+        mouseDown = false;
+      }
+    })();
+  </script>
+
+</body>
+
+</html>

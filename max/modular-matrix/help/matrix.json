@@ -1,0 +1,27 @@
+[
+  {
+    name: "cycle",
+    inputs: 6,
+    outputs: 0,
+  },
+  {
+    name: "train",
+    inputs: 1,
+    outputs: 0,
+  },
+  {
+    name: "dac",
+    inputs: 0,
+    outputs: 6,
+  },
+  {
+    name: "ear",
+    inputs: 0,
+    outputs: 2,
+  },
+  {
+    name: "toto",
+    inputs: 0,
+    outputs: 1,
+  },
+]
