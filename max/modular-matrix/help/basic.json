@@ -1,0 +1,12 @@
+[
+  {
+    name: "cycle",
+    inputs: 4,
+    outputs: 0
+  },
+  {
+    name: "dac",
+    inputs: 0,
+    outputs: 2
+  }
+]

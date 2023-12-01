@@ -1,0 +1,32 @@
+[
+  {
+    name: "cycle-1",
+    inputs: 1,
+    outputs: 0,
+  },
+  {
+    name: "cycle-2",
+    inputs: 1,
+    outputs: 0,
+  },
+  {
+    name: "cycle-3",
+    inputs: 1,
+    outputs: 0,
+  },
+  {
+    name: "cycle-4",
+    inputs: 1,
+    outputs: 0,
+  },
+  {
+    name: "dac-1",
+    inputs: 0,
+    outputs: 1,
+  },
+  {
+    name: "dac-2",
+    inputs: 0,
+    outputs: 1,
+  },
+]

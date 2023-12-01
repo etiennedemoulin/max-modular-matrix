@@ -1,0 +1,27 @@
+[
+  {
+    name: "microphone",
+    inputs: 1,
+    outputs: 0,
+  },
+  {
+    name: "dac",
+    inputs: 0,
+    outputs: 4,
+  },
+  {
+    name: "effect-1",
+    inputs: 2,
+    outputs: 2,
+  },
+  {
+    name: "effect-2",
+    inputs: 2,
+    outputs: 2,
+  },
+  {
+    name: "monitor",
+    inputs: 0,
+    outputs: 1,
+  },
+]

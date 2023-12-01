@@ -72,28 +72,12 @@
 	</outletlist>
 	<!--ARGUMENTS-->
 	<objarglist>
-		<objarg name="inlets" optional="0" type="int">
+		<objarg name="configuration" optional="0" type="string">
 			<digest>
-				Number of inlets
+				JSON configuration file
 			</digest>
 			<description>
-				The first argument specifies the number of inlets.
-			</description>
-		</objarg>
-		<objarg name="outlets" optional="0" type="int">
-			<digest>
-				Number of outlets
-			</digest>
-			<description>
-				The second argument specifies the number of outlets.
-			</description>
-		</objarg>
-		<objarg name="default-connect-gain" optional="1" type="float">
-			<digest>
-				Default gain for connections
-			</digest>
-			<description>
-				If a float value is provided as a third argument, it sets a default gain to be used for the <m>connect</m> message when a gain argument to <m>connect</m> is not supplied.
+				The first argument specifies the configuration file for the matrix.
 			</description>
 		</objarg>
 	</objarglist>

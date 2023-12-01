@@ -1,0 +1,82 @@
+[
+  {
+    name: "fleurs",
+    inputs: 1,
+    outputs: 0,
+  },
+  {
+    name: "bambou",
+    inputs: 1,
+    outputs: 0,
+  },
+  {
+    name: "obus",
+    inputs: 1,
+    outputs: 0,
+  },
+  {
+    name: "obuspiezo",
+    inputs: 1,
+    outputs: 0,
+  },
+  {
+    name: "sable",
+    inputs: 1,
+    outputs: 0,
+  },
+  {
+    name: "clouds",
+    inputs: 2,
+    outputs: 1,
+  },
+  {
+    name: "crystallizer",
+    inputs: 2,
+    outputs: 1,
+  },
+  {
+    name: "player",
+    inputs: 2,
+    outputs: 0,
+  },
+  {
+    name: "iana",
+    inputs: 1,
+    outputs: 1,
+  },
+  {
+    name: "delay",
+    inputs: 2,
+    outputs: 2,
+  },
+  {
+    name: "pierres",
+    inputs: 1,
+    outputs: 1,
+  },
+  {
+    name: "reverb",
+    inputs: 2,
+    outputs: 1,
+  },
+  {
+    name: "muldelay",
+    inputs: 4,
+    outputs: 1,
+  },
+  {
+    name: "spat",
+    inputs: 0,
+    outputs: 1,
+  },
+  {
+    name: "direct",
+    inputs: 0,
+    outputs: 4,
+  },
+  {
+    name: "thundersheet",
+    inputs: 0,
+    outputs: 4,
+  }
+]
