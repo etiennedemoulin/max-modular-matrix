@@ -1261,6 +1261,7 @@ var globals = {
   ramp: null,
   boxes: null,
   structure: null,
+  filepath: { absolute: null, relative: null, name: null },
   userMatrix: { inputs: [], outputs: [], initwith: "", connections: [] },
   routingMatrix: { inputs: [], outputs: [], initwith: "", crosspatch: { inputs: "", outputs: "" } },
   timeoutMap: []
@@ -1276,16 +1277,18 @@ import_max_api.default.addHandlers({
   maxId: (maxId) => globals.maxId = maxId,
   ramp: (ramp) => onRamp(ramp),
   done: () => bootstrap(),
-  generate: (filename) => onGenerate(filename),
-  file: (filename) => globals.structure = import_json5.default.parse(import_node_fs.default.readFileSync(filename)),
+  generate: (filename) => onFile(filename, true),
+  file: (filename) => onFile(filename, false),
   routing: (row, col, gain) => onRouting(row, col, gain),
   clear: () => onClear(),
   connect: (input, output, gain, time) => onConnect(input, output, gain, time),
   dumpconnections: () => dump(),
   open: () => onOpen(),
+  set: (row, col, gain) => onList(row, col, gain),
+  edit: () => onEdit(),
   [import_max_api.default.MESSAGE_TYPES.ALL]: (handled, ...args) => onMessage(...args)
 });
-var handledMessages = ["debug", "maxId", "ramp", "done", "generate", "structure", "routing", "clear", "list", "connect", "dumpconnections", "dict", "file", "open"];
+var handledMessages = ["debug", "maxId", "ramp", "done", "generate", "structure", "routing", "clear", "list", "connect", "dumpconnections", "dict", "file", "open", "set", "edit"];
 async function bootstrap() {
   try {
   } catch (err) {
@@ -1354,6 +1357,8 @@ function onConnect(input, output, dB, time) {
     import_max_api.default.outlet("tomatrixctl", inputIndex, outputIndex, gainLin);
   }
 }
+function onEdit() {
+}
 function dump() {
   const maxDict = {
     "numins": globals.userMatrix.inputs.length,
@@ -1395,9 +1400,22 @@ function sendLine(inputIndex, outputIndex, gainLin, time) {
     function: timeout
   });
 }
-function onGenerate(filename) {
-  globals.structure = import_json5.default.parse(import_node_fs.default.readFileSync(filename));
-  if (globals.structure) {
+function onFile(filename, generate = false) {
+  globals.filepath.absolute = filename;
+  const json5file = import_json5.default.parse(import_node_fs.default.readFileSync(globals.filepath.absolute));
+  globals.structure = json5file.matrix;
+  const relative = filename.split("/").pop();
+  globals.filepath.relative = relative;
+  globals.filepath.name = relative.split(".").shift();
+  import_node_fs.default.writeFileSync(
+    globals.filepath.absolute,
+    JSON.stringify(
+      json5file,
+      null,
+      " "
+    )
+  );
+  if (globals.structure && generate === true) {
     generateMatrix();
   }
 }
@@ -1439,6 +1457,7 @@ function generateMatrix() {
   generateBox("matrix", "matrix~", [globals.routingMatrix.inputs.length, globals.routingMatrix.outputs.length, "1.", `@ramp ${globals.ramp}`], { x: 40, y: 190 }, 0);
   generateBox("matrix_unpack", "mc.unpack~", [globals.routingMatrix.inputs.length], { x: 20, y: 30 }, 0);
   generateBox("matrix_pack", "mc.pack~", [globals.routingMatrix.outputs.length], { x: 20, y: 280 }, 0);
+  generateBox("dict", "dict", [globals.filepath.name, globals.filepath.relative], { x: 20, y: 3 }, 0);
   generateLink("user_matrix_routing", 0, "user_matrix_out", 0);
   generateLink("matrix_pack", 0, "mc-outlet", 0);
   generateLink("routing_matrix_in", 0, "matrix", 0);
@@ -1446,6 +1465,7 @@ function generateMatrix() {
   generateLink("route_mtrx", 0, "matrix_unpack", 0);
   generateLink("route_mtrx", 1, "matrix_unpack", 0);
   generateLink("routing_matrix_filter", 1, "routing_matrix_routing", 0);
+  generateLink("route_mtrx", 2, "dict", 0);
   globals.routingMatrix.inputs.forEach((name, index) => {
     generateBox(`recv-${name}`, "receive~", [name], { x: 40 + index * 120, y: 150 }, 0);
     generateLink(`recv-${name}`, 0, "matrix", index);

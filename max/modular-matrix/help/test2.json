@@ -1,4 +1,4 @@
-[
+{"matrix":[
   {
     name: "fleurs",
     inputs: 1,
@@ -79,4 +79,4 @@
     inputs: 0,
     outputs: 4,
   }
-]
+]}

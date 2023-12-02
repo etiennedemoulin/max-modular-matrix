@@ -11,6 +11,8 @@
 		<o>modular.matrix~</o> is an array of signal connectors and mixers (adders). It can have any number of inlets and outlets. Signals entering at each inlet can be routed to one or more of the outlets, with a variable amount of gain. If an outlet is connected to more than one inlet, its output signal is the sum of the signals from the inlets.
 		<br />
 		<o>modular.matrix~</o> is a mc object : all of its signal inlets are combined into a single multichannel inlet and all of its signal outlets are combined into a single multichannel outlet. The behavior of <o>modular.matrix~</o> is otherwise identical to <o>matrix~</o>.
+		<br />
+		The only difference between <o>matrix~</o> and <o>modular.matrix~</o> is the way of accessing datas. <o>modular.matrix~</o> access datas by name instead of index, this permit to modify the matrix without breaking connections.
 	</description>
 	<!--METADATA-->
 	<metadatalist>
@@ -88,7 +90,7 @@
 				<arg name="inlet-to-outlet indices" optional="0" type="list" />
 			</arglist>
 			<digest>
-				Connect inlets and outlets
+				Connect inlets and outlets with indexes
 			</digest>
 			<description>
 				In left inlet: A list of three numbers connects inlets and outlets. The first number specifies the inlet, the second number specifies the outlet. If the third number is 0, the inlet is disconnected from the outlet. If the third number is non-zero it is interprted as a gain for the connection between the input and output.
@@ -97,6 +99,20 @@
 				Note: To specify the gain of individual connections, you must use three-element list messages rather than the <m>connect</m> message. Connections formed with the <m>connect</m> message always have a gain specified by the third argument initially given to the <o>matrix~</o> object. However, subsequent list messages can alter the gain of connections formed with the <m>connect</m> message.
 				<br />
 				<bar />
+				The addition of an optional fourth element to the list message can be used to specify a ramp time, in milliseconds, for the individual connection. Example: <m>1 2 .8 500</m> would connect the first inlet to the second outlet and specify a gain of .8 and a ramp time of .5 seconds).
+			</description>
+		</method>
+			<method name="patch">
+			<arglist>
+				<arg name="inlet-to-outlet indices" optional="0" type="list" />
+			</arglist>
+			<digest>
+				Connect inlets and outlets with names
+			</digest>
+			<description>
+				In left inlet: A list of two strings and a number connects inlets and outlets. The first string specifies the inlet name, the second string specifies the outlet name. The third element of the list is the connection gain, exprimed in dB.
+				<br />
+				<br />
 				The addition of an optional fourth element to the list message can be used to specify a ramp time, in milliseconds, for the individual connection. Example: <m>1 2 .8 500</m> would connect the first inlet to the second outlet and specify a gain of .8 and a ramp time of .5 seconds).
 			</description>
 		</method>
@@ -109,15 +125,13 @@
 				In left inlet: The word <m>clear</m> removes all connections.
 			</description>
 		</method>
-		<method name="connect">
-			<arglist>
-				<arg name="inlet-to-outlet indices" optional="0" type="list" />
-			</arglist>
+		<method name="edit">
+			<arglist />
 			<digest>
-				Connect an inlet to an outlet
+				Edit configuration file
 			</digest>
 			<description>
-				In left inlet: The word <m>connect</m>, followed by one or more ints, will connect any inlet specified by the first int to the outlet or outlets specified by the remaining ints in the list. Inlets and outlets are numbered from left to right, starting at zero. For example, the message <m>connect 0 0 1</m> would connect the first inlet from the left to the leftmost outlet and the second outlet from the left. If the last item in the list is a float, it will set the gain for all specified connections.
+				Open editor in order to modify the matrix configuration file.
 			</description>
 		</method>
 		<method name="dictionary">
@@ -131,24 +145,13 @@
 				The <o>matrix~</o> object can receive dictionaries to configure its state. When receiving a dictionary, all previous connections are cleared and replaced by the connections in the dictionary. You can also set some attributes with a dictionary, including the default gain and ramp time.
 			</description>
 		</method>
-		<method name="disconnect">
-			<arglist>
-				<arg name="inlet-to-outlet indices" optional="0" type="list" />
-			</arglist>
-			<digest>
-				Disconnect an inlet from outlets
-			</digest>
-			<description>
-				In left inlet: The word <m>disconnect</m>, followed by one or more ints, will disconnect any inlet specified by the first int to the outlet or outlets specified by the remaining ints in the list.
-			</description>
-		</method>
-		<method name="dump">
+		<method name="dumppatch">
 			<arglist />
 			<digest>
-				Send connection information out the right outlet
+				Send connection information out the right outlet as a dictionary
 			</digest>
 			<description>
-				In left inlet: The word <m>dump</m> causes the current state of all <o>matrix~</o> object connections to be sent out the rightmost outlet of the object in the form of a list for each connection. The list consists of two numbers which specify the inlet and outlet, followed by a float which specifies the gain for the connection. Note that the current gains are not necessarily the same as the target gains of all <o>matrix~</o> object connections, since a connection's gain can ramp to its new target over time.
+				In left inlet: The word <m>dumpconnections</m> causes the current contents of the <o>matrix~</o> object to be sent out the rightmost outlet of the object as a dictionary. <o>dumppatch</o> message is specific to <o>modular.matrix~</o> and connections are stored with inlets and outlets names.
 			</description>
 		</method>
 		<method name="dumpconnections">
@@ -157,16 +160,7 @@
 				Send connections out the right outlet as a dictionary
 			</digest>
 			<description>
-				In left inlet: The word <m>dumpconnections</m> causes the current contents of the <o>matrix~</o> object to be sent out the rightmost outlet of the object as a dictionary.
-			</description>
-		</method>
-		<method name="dumptarget">
-			<arglist />
-			<digest>
-				Send target state information out the right outlet
-			</digest>
-			<description>
-				In left inlet: The word <m>dumptarget</m> causes the target state of all <o>matrix~</o> object connections to be sent out the rightmost outlet of the object in the form of a list for each connection. The list consists of two numbers which specify the inlet and outlet, followed by a float which specifies the target gain for the connection. Note that the target gains are not necessarily the same as the current gains, which can be accessed with the <m>dump</m> message.
+				In left inlet: The word <m>dumpconnections</m> causes the current contents of the <o>matrix~</o> object to be sent out the rightmost outlet of the object as a dictionary. Fully compatible with <o>matrix~</o>.
 			</description>
 		</method>
 		<method name="print">
@@ -175,7 +169,7 @@
 				Print a connection list to the Max Console
 			</digest>
 			<description>
-				In left inlet: The word <m>print</m> causes the current state of all <o>matrix~</o> object connections to be printed in the Max Console in the form of a list for each connection. The list consists of two numbers which specify the inlet and outlet, followed by a float which specifies the gain for the connection.
+				In left inlet: The word <m>print</m> causes the current state of all <o>matrix~</o> object connections to be printed in the Max Console in the form of a list for each connection. The list consists of two strings which specify the inlet and outlet names, followed by a float which specifies the gain, in decibel for the connection.
 			</description>
 		</method>
 	</methodlist>
@@ -199,6 +193,7 @@
 	</examplelist>
 	<!--SEEALSO-->
 	<seealsolist>
+		<seealso name="matrix~" />
 		<seealso name="crosspatch" />
 		<seealso name="gate~" />
 		<seealso name="mcs.matrix~" />

@@ -1,12 +1,14 @@
-[
+{
+ "matrix": [
   {
-    name: "in",
-    inputs: 1,
-    outputs: 0,
+   "name": "in",
+   "inputs": 1,
+   "outputs": 0
   },
   {
-    name: "out",
-    inputs: 0,
-    outputs: 2,
+   "name": "out",
+   "inputs": 0,
+   "outputs": 2
   }
-]
+ ]
+}

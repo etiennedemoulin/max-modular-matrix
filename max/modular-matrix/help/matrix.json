@@ -1,4 +1,4 @@
-[
+{"matrix":[
   {
     name: "cycle",
     inputs: 6,
@@ -25,3 +25,4 @@
     outputs: 1,
   },
 ]
+}

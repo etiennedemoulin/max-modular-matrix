@@ -12,6 +12,7 @@ const globals = {
   ramp: null,
   boxes: null,
   structure: null,
+  filepath: { absolute : null, relative: null, name: null },
   userMatrix: { inputs: [], outputs: [], initwith: "", connections: []},
   routingMatrix: { inputs: [], outputs: [], initwith: "", crosspatch: { inputs: "", outputs: ""}},
   timeoutMap: [],
@@ -26,17 +27,18 @@ Max.addHandlers({
   maxId: (maxId) => globals.maxId = maxId,
   ramp: (ramp) => onRamp(ramp),
   done: () => bootstrap(),
-  generate: (filename) => onGenerate(filename),
-  file: (filename) => globals.structure = JSON5.parse(fs.readFileSync(filename)),
+  generate: (filename) => onFile(filename, true),
+  file: (filename) => onFile(filename, false),
   routing: (row, col, gain) => onRouting(row, col, gain),
   clear: () => onClear(),
   connect: (input, output, gain, time) => onConnect(input, output, gain, time),
   dumpconnections: () => dump(),
   open: () => onOpen(),
+  set: (row, col, gain) => onList(row, col, gain),
   [Max.MESSAGE_TYPES.ALL]: (handled, ...args) => onMessage(...args),
 });
 
-const handledMessages = ['debug', 'maxId', 'ramp', 'done', 'generate', 'structure', 'routing', 'clear', 'list', 'connect', 'dumpconnections', 'dict', 'file', 'open'];
+const handledMessages = ['debug', 'maxId', 'ramp', 'done', 'generate', 'structure', 'routing', 'clear', 'list', 'connect', 'dumpconnections', 'dict', 'file', 'open', 'set'];
 
 function log(...args) {
   if (globals.verbose) {
@@ -173,9 +175,26 @@ function sendLine(inputIndex, outputIndex, gainLin, time) {
   });
 }
 
-function onGenerate(filename) {
-  globals.structure = JSON5.parse(fs.readFileSync(filename));
-  if (globals.structure) {
+function onFile(filename, generate = false) {
+  globals.filepath.absolute = filename;
+  const json5file = JSON5.parse(fs.readFileSync(globals.filepath.absolute));
+  globals.structure = json5file.matrix;
+  const relative = filename.split('/').pop()
+  globals.filepath.relative = relative;
+  globals.filepath.name = relative.split('.').shift();
+
+  // replace json5 file with fully Max compatible JSON file
+
+  fs.writeFileSync(
+    globals.filepath.absolute,
+    JSON.stringify(
+      json5file,
+      null,
+      ' '
+    )
+  );
+
+  if (globals.structure && generate === true) {
     generateMatrix();
   }
 }
@@ -223,6 +242,8 @@ function generateMatrix() {
   generateBox('matrix', 'matrix~', [globals.routingMatrix.inputs.length, globals.routingMatrix.outputs.length, '1.', `@ramp ${globals.ramp}`], { x: 40, y: 190 }, 0);
   generateBox('matrix_unpack', 'mc.unpack~', [globals.routingMatrix.inputs.length], { x: 20, y:30 }, 0);
   generateBox('matrix_pack', 'mc.pack~', [globals.routingMatrix.outputs.length], { x: 20, y:280 }, 0);
+    // generate configuration dict
+  generateBox('dict', 'dict', [globals.filepath.name, globals.filepath.relative], {x: 20, y: 3 }, 0);
 
   generateLink('user_matrix_routing', 0, 'user_matrix_out', 0);
   generateLink('matrix_pack', 0, 'mc-outlet', 0);
@@ -233,6 +254,7 @@ function generateMatrix() {
   // generateLink('user_matrix_open', 0, 'user_matrix_routing', 0);
   // generateLink('routing_matrix_open', 0, 'routing_matrix_routing', 0);
   generateLink('routing_matrix_filter', 1, 'routing_matrix_routing', 0);
+  generateLink('route_mtrx', 2, 'dict', 0);
 
   // generate receive boxes
   globals.routingMatrix.inputs.forEach((name, index) => {
