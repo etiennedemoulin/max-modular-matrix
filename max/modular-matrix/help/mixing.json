@@ -1,7 +1,7 @@
 {
  "matrix": [
   {
-   "name": "microphone",
+   "name": "mic",
    "inputs": 1,
    "outputs": 0
   },
@@ -11,14 +11,14 @@
    "outputs": 4
   },
   {
-   "name": "effect-1",
-   "inputs": 2,
-   "outputs": 2
+   "name": "3ch-output",
+   "inputs": 0,
+   "outputs": 3
   },
   {
-   "name": "monitor",
-   "inputs": 0,
-   "outputs": 1
+   "name": "freqshift",
+   "inputs": 2,
+   "outputs": 2
   }
  ]
 }

@@ -2,26 +2,21 @@
  "matrix": [
   {
    "name": "cycle",
-   "inputs": 6,
+   "inputs": 4,
    "outputs": 0
   },
   {
    "name": "train",
-   "inputs": 1,
+   "inputs": 4,
    "outputs": 0
   },
   {
    "name": "dac",
    "inputs": 0,
-   "outputs": 6
-  },
-  {
-   "name": "ear",
-   "inputs": 0,
    "outputs": 2
   },
   {
-   "name": "toto",
+   "name": "monitor",
    "inputs": 0,
    "outputs": 1
   }

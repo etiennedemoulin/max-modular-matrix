@@ -93,8 +93,8 @@ var require_parse = __commonJS({
       const value = holder[name];
       if (value != null && typeof value === "object") {
         if (Array.isArray(value)) {
-          for (let i = 0; i < value.length; i++) {
-            const key2 = String(i);
+          for (let i2 = 0; i2 < value.length; i2++) {
+            const key2 = String(i2);
             const replacement = internalize(value, key2, reviver);
             if (replacement === void 0) {
               delete value[key2];
@@ -1008,8 +1008,8 @@ var require_stringify = __commonJS({
           "\u2029": "\\u2029"
         };
         let product = "";
-        for (let i = 0; i < value2.length; i++) {
-          const c = value2[i];
+        for (let i2 = 0; i2 < value2.length; i2++) {
+          const c = value2[i2];
           switch (c) {
             case "'":
             case '"':
@@ -1017,7 +1017,7 @@ var require_stringify = __commonJS({
               product += c;
               continue;
             case "\0":
-              if (util.isDigit(value2[i + 1])) {
+              if (util.isDigit(value2[i2 + 1])) {
                 product += "\\x00";
                 continue;
               }
@@ -1083,8 +1083,8 @@ var require_stringify = __commonJS({
         if (!util.isIdStartChar(firstChar)) {
           return quoteString(key, true);
         }
-        for (let i = firstChar.length; i < key.length; i++) {
-          if (!util.isIdContinueChar(String.fromCodePoint(key.codePointAt(i)))) {
+        for (let i2 = firstChar.length; i2 < key.length; i2++) {
+          if (!util.isIdContinueChar(String.fromCodePoint(key.codePointAt(i2)))) {
             return quoteString(key, true);
           }
         }
@@ -1098,8 +1098,8 @@ var require_stringify = __commonJS({
         let stepback = indent;
         indent = indent + gap;
         let partial = [];
-        for (let i = 0; i < value2.length; i++) {
-          const propertyString = serializeProperty(String(i), value2);
+        for (let i2 = 0; i2 < value2.length; i2++) {
+          const propertyString = serializeProperty(String(i2), value2);
           partial.push(propertyString !== void 0 ? propertyString : "null");
         }
         let final;
@@ -1142,88 +1142,64 @@ var import_max_api = __toESM(require("max-api"));
 var import_json5 = __toESM(require_lib());
 
 // src/mixing.js
-var mixing = {
-  1: {
-    1: [[1]],
-    2: [[0.7], [0.7]],
-    3: [],
-    4: [[0.5], [0.5], [0.5], [0.5]],
-    5: [],
-    6: [[0.5], [0.5], [0.5], [0.5], [0.5], [0.5]],
-    7: [],
-    8: []
-  },
-  2: {
-    1: [[0.7, 0.7]],
-    2: [[1, 0], [0, 1]],
-    3: [],
-    4: [[0.7, 0], [0, 0.7], [0.7, 0], [0, 0.7]],
-    5: [],
-    6: [],
-    7: [],
-    8: []
-  },
-  3: {
-    1: [],
-    2: [],
-    3: [],
-    4: [],
-    5: [],
-    6: [],
-    7: [],
-    8: []
-  },
-  4: {
-    1: [[0.5, 0.5, 0.5, 0.5]],
-    2: [[0.7, 0, 0.7, 0], [0, 0.7, 0, 0.7]],
-    3: [],
-    4: [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]],
-    5: [],
-    6: [],
-    7: [],
-    8: []
-  },
-  5: {
-    1: [],
-    2: [],
-    3: [],
-    4: [],
-    5: [],
-    6: [],
-    7: [],
-    8: []
-  },
-  6: {
-    1: [[0.251189, 0.251189, 0.251189, 0.251189, 0.251189, 0.251189]],
-    2: [[0.354813, 0, 0.354813, 0, 0.354813, 0], [0, 0.354813, 0, 0.354813, 0, 0.354813]],
-    3: [],
-    4: [],
-    5: [],
-    6: [[1, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0], [0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 1]],
-    7: [],
-    8: []
-  },
-  7: {
-    1: [],
-    2: [],
-    3: [],
-    4: [],
-    5: [],
-    6: [],
-    7: [],
-    8: []
-  },
-  8: {
-    1: [],
-    2: [],
-    3: [],
-    4: [],
-    5: [],
-    6: [],
-    7: [],
-    8: []
+var eye = (n) => [...Array(n)].map((e, i2, a) => a.map((e2) => +!i2--));
+function allowConnectionWithName(inputName, outputName, globals2) {
+  const inputNumber = globals2.structure.find((e) => e.name === inputName).inputs;
+  const outputNumber = globals2.structure.find((e) => e.name === outputName).outputs;
+  if (getMixingLaw(inputNumber, outputNumber) === null) {
+    return false;
+  } else {
+    return true;
   }
-};
+}
+function allowConnectionWithIndex(inputIndex, outputIndex, globals2) {
+  const inputName = globals2.userMatrix.inputs[inputIndex];
+  const outputName = globals2.userMatrix.outputs[outputIndex];
+  const inputNumber = globals2.structure.find((e) => e.name === inputName).inputs;
+  const outputNumber = globals2.structure.find((e) => e.name === outputName).outputs;
+  if (getMixingLaw(inputNumber, outputNumber) === null) {
+    return false;
+  } else {
+    return true;
+  }
+}
+function getMixingLaw(inputNumber, outputNumber) {
+  if (inputNumber < outputNumber) {
+    if (Number.isInteger(outputNumber / inputNumber)) {
+      const outputArray = [];
+      const numOfDup = outputNumber / inputNumber;
+      const unitMatrix = eye(inputNumber);
+      for (i = 0; i < numOfDup; i++) {
+        unitMatrix.forEach((e) => {
+          outputArray.push(e);
+        });
+      }
+      return outputArray;
+    } else {
+      return null;
+    }
+  } else if (inputNumber > outputNumber) {
+    if (Number.isInteger(inputNumber / outputNumber)) {
+      const outputArray = [];
+      const numOfDup = inputNumber / outputNumber;
+      const unitMatrix = eye(outputNumber);
+      unitMatrix.forEach((line) => {
+        const intermediateArray = [];
+        for (i = 0; i < numOfDup; i++) {
+          line.forEach((e) => {
+            intermediateArray.push(e);
+          });
+        }
+        outputArray.push(intermediateArray);
+      });
+      return outputArray;
+    } else {
+      return null;
+    }
+  } else {
+    return eye(inputNumber);
+  }
+}
 
 // node_modules/@ircam/sc-utils/src/is-browser.js
 var isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
@@ -1231,6 +1207,11 @@ var isBrowser = new Function("try {return this===window;}catch(e){ return false;
 // node_modules/@ircam/sc-gettime/src/node.js
 var import_node_process = require("node:process");
 var start = import_node_process.hrtime.bigint();
+
+// node_modules/@ircam/sc-utils/src/atodb.js
+function atodb(val) {
+  return 8.685889638065035 * Math.log(val);
+}
 
 // node_modules/@ircam/sc-utils/src/dbtoa.js
 function dbtoa(val) {
@@ -1269,7 +1250,7 @@ var globals = {
 import_max_api.default.addHandlers({
   [import_max_api.default.MESSAGE_TYPES.BANG]: () => {
   },
-  [import_max_api.default.MESSAGE_TYPES.LIST]: (row, col, gain) => onList(row, col, gain),
+  [import_max_api.default.MESSAGE_TYPES.LIST]: (row, col, gain, time) => onList(row, col, gain, time),
   [import_max_api.default.MESSAGE_TYPES.NUMBER]: (num) => {
   },
   [import_max_api.default.MESSAGE_TYPES.DICT]: (dict) => onDict(dict),
@@ -1281,14 +1262,14 @@ import_max_api.default.addHandlers({
   file: (filename) => onFile(filename, false),
   routing: (row, col, gain) => onRouting(row, col, gain),
   clear: () => onClear(),
-  connect: (input, output, gain, time) => onConnect(input, output, gain, time),
-  dumpconnections: () => dump(),
+  patch: (input, output, gain, time) => onPatch(input, output, gain, time),
+  dumpconnections: () => dumpConnections(),
+  dumppatch: () => dumpPatch(),
   open: () => onOpen(),
   set: (row, col, gain) => onList(row, col, gain),
-  edit: () => onEdit(),
   [import_max_api.default.MESSAGE_TYPES.ALL]: (handled, ...args) => onMessage(...args)
 });
-var handledMessages = ["debug", "maxId", "ramp", "done", "generate", "structure", "routing", "clear", "list", "connect", "dumpconnections", "dict", "file", "open", "set", "edit"];
+var handledMessages = ["debug", "maxId", "ramp", "done", "generate", "structure", "routing", "clear", "list", "patch", "dumpconnections", "dumppatch", "dict", "file", "open", "set"];
 async function bootstrap() {
   try {
   } catch (err) {
@@ -1316,50 +1297,84 @@ function onRamp(ramp) {
     import_max_api.default.outlet("tomatrix", "ramp", globals.ramp);
   }
 }
-function onList(row, col, gain) {
-  import_max_api.default.outlet("tomatrixctl", row, col, gain);
+function onList(row, col, gain, time) {
+  if (!allowConnectionWithIndex(row, col, globals)) {
+    return;
+  }
+  if (!time) {
+    time = globals.ramp;
+  }
+  sendLine(row, col, gain, time);
 }
 function onClear() {
-  globals.userMatrix.inputs.forEach((input, inputIndex) => {
-    globals.userMatrix.outputs.forEach((output, outputIndex) => {
-      import_max_api.default.outlet("tomatrixctl", inputIndex, outputIndex, 0);
-    });
+  globals.timeoutMap.forEach((timeout) => {
+    clearInterval(timeout.function);
   });
-  globals.routingMatrix.inputs.forEach((input, inputIndex) => {
-    globals.routingMatrix.outputs.forEach((output, outputIndex) => {
-      import_max_api.default.outlet("tomatrix", inputIndex, outputIndex, 0);
+  import_max_api.default.outlet("tomatrixctl", "/clear");
+  setTimeout(() => {
+    globals.routingMatrix.inputs.forEach((input, inputIndex) => {
+      globals.routingMatrix.outputs.forEach((output, outputIndex) => {
+        import_max_api.default.outlet("tomatrix", inputIndex, outputIndex, 0, 20);
+      });
     });
-  });
-  globals.userMatrix.connections = [];
+    globals.userMatrix.connections = [];
+  }, 50);
 }
 function onDict(dict) {
-  onClear();
   if (dict.numins !== globals.userMatrix.inputs.length || dict.numouts !== globals.userMatrix.outputs.length) {
-    import_max_api.default.post("Be careful, you're trying to recall a preset without the same matrix size");
+    import_max_api.default.post("Be careful, you're trying to recall a preset with a different matrix size");
   }
-  if (dict.ramptime) {
-    onRamp(dict.ramptime);
+  if (!dict.patch) {
+    import_max_api.default.outlet("tomatrixctl", "/clear");
+    if (dict.ramptime) {
+      onRamp(dict.ramptime);
+    }
+    dict.connections.forEach((connection) => {
+      if (!allowConnectionWithIndex(connection.in, connection.out, globals)) {
+        return;
+      }
+      import_max_api.default.outlet("tomatrixctl", connection.in, connection.out, connection.gain);
+    });
+  } else {
+    if (dict.ramptime) {
+      onRamp(dict.ramptime);
+    }
+    globals.timeoutMap.forEach((timeout) => {
+      clearInterval(timeout.function);
+    });
+    import_max_api.default.outlet("tomatrixctl", "/clear");
+    dict.connections.forEach((connection) => {
+      if (!allowConnectionWithName(connection.in, connection.out, globals)) {
+        return;
+      }
+      const inputIndex = globals.userMatrix.inputs.findIndex((e) => e === connection.in);
+      const outputIndex = globals.userMatrix.outputs.findIndex((e) => e === connection.out);
+      let ramptime;
+      if (connection.ramptime) {
+        ramptime = connection.ramptime;
+      } else {
+        ramptime = globals.ramp;
+      }
+      sendLine(inputIndex, outputIndex, dbtoa(connection.gain), ramptime);
+    });
   }
-  dict.connections.forEach((connection) => {
-    import_max_api.default.outlet("tomatrixctl", connection.in, connection.out, connection.gain);
-  });
 }
 function onOpen() {
   import_max_api.default.outlet("tomatrixctl", "/window/open");
 }
-function onConnect(input, output, dB, time) {
+function onPatch(input, output, dB, time) {
+  if (!allowConnectionWithName(input, output, globals)) {
+    return;
+  }
+  if (!time) {
+    time = globals.ramp;
+  }
   const inputIndex = globals.userMatrix.inputs.findIndex((e) => e === input);
   const outputIndex = globals.userMatrix.outputs.findIndex((e) => e === output);
   const gainLin = dbtoa(dB);
-  if (time) {
-    sendLine(inputIndex, outputIndex, gainLin, time);
-  } else {
-    import_max_api.default.outlet("tomatrixctl", inputIndex, outputIndex, gainLin);
-  }
+  sendLine(inputIndex, outputIndex, gainLin, time);
 }
-function onEdit() {
-}
-function dump() {
+function dumpConnections() {
   const maxDict = {
     "numins": globals.userMatrix.inputs.length,
     "numouts": globals.userMatrix.outputs.length,
@@ -1369,7 +1384,34 @@ function dump() {
     "ramptime": globals.ramp,
     "connections": globals.userMatrix.connections
   };
-  import_max_api.default.outlet("dict", maxDict);
+  import_max_api.default.outlet("dump", maxDict);
+}
+function dumpPatch() {
+  const dumpConnectionArray = [];
+  globals.userMatrix.connections.forEach((connection) => {
+    let ramptime;
+    if (connection.ramptime !== void 0) {
+      ramptime = connection.ramptime;
+    } else {
+      ramptime = globals.ramp;
+    }
+    dumpConnectionArray.push({
+      in: globals.userMatrix.inputs[connection.in],
+      out: globals.userMatrix.outputs[connection.out],
+      gain: atodb(connection.gain),
+      ramptime
+    });
+  });
+  const maxDict = {
+    "numins": globals.userMatrix.inputs.length,
+    "numouts": globals.userMatrix.outputs.length,
+    "exclusive": 0,
+    "offset": 0,
+    "enablegain": 1,
+    "patch": 1,
+    "connections": dumpConnectionArray
+  };
+  import_max_api.default.outlet("dump", maxDict);
 }
 function sendLine(inputIndex, outputIndex, gainLin, time) {
   const connection = globals.userMatrix.connections.find((e) => e.in === inputIndex && e.out === outputIndex);
@@ -1384,21 +1426,36 @@ function sendLine(inputIndex, outputIndex, gainLin, time) {
       return e !== timeout;
     });
   }
-  timeout = setInterval(() => {
-    if (output < 1) {
-      output = output + 1 / time * tick;
-      import_max_api.default.outlet("tomatrixctl", inputIndex, outputIndex, scaledOutput(output));
+  if (time !== 0) {
+    timeout = setInterval(() => {
+      if (output < 1) {
+        output = output + 1 / time * tick;
+        import_max_api.default.outlet("tomatrixctl", inputIndex, outputIndex, scaledOutput(output));
+      } else {
+        output = 1;
+        import_max_api.default.outlet("tomatrixctl", inputIndex, outputIndex, scaledOutput(output));
+        clearInterval(timeout);
+      }
+    }, tick);
+    globals.timeoutMap.push({
+      in: inputIndex,
+      out: outputIndex,
+      function: timeout
+    });
+    const connectionIndex = globals.userMatrix.connections.findIndex((e) => e.in === inputIndex && e.out === outputIndex);
+    if (connectionIndex !== -1) {
+      globals.userMatrix.connections[connectionIndex].ramptime = time;
     } else {
-      output = 1;
-      import_max_api.default.outlet("tomatrixctl", inputIndex, outputIndex, scaledOutput(output));
-      clearInterval(timeout);
+      globals.userMatrix.connections.push({
+        in: inputIndex,
+        out: outputIndex,
+        gain: atodb(gainLin),
+        ramptime: time
+      });
     }
-  }, tick);
-  globals.timeoutMap.push({
-    in: inputIndex,
-    out: outputIndex,
-    function: timeout
-  });
+  } else {
+    import_max_api.default.outlet("tomatrixctl", inputIndex, outputIndex, gainLin);
+  }
 }
 function onFile(filename, generate = false) {
   globals.filepath.absolute = filename;
@@ -1420,7 +1477,7 @@ function onFile(filename, generate = false) {
   }
 }
 function generateMatrix() {
-  globals.structure.forEach((e, i) => {
+  globals.structure.forEach((e, i2) => {
     if (e.inputs !== 0) {
       globals.userMatrix.inputs.push(e.name);
       for (let s = 1; s <= e.inputs; s++) {
@@ -1438,19 +1495,26 @@ function generateMatrix() {
     }
     ;
   });
-  globals.userMatrix.inputs.forEach((e, i) => {
-    globals.userMatrix.initwith += `/row/${i + 1}/label ${e}, `;
+  globals.userMatrix.inputs.forEach((e, i2) => {
+    globals.userMatrix.initwith += `/row/${i2 + 1}/label ${e}, `;
   });
-  globals.userMatrix.outputs.forEach((e, i) => {
-    globals.userMatrix.initwith += `/col/${i + 1}/label ${e}, `;
+  globals.userMatrix.outputs.forEach((e, i2) => {
+    globals.userMatrix.initwith += `/col/${i2 + 1}/label ${e}, `;
   });
-  globals.routingMatrix.inputs.forEach((e, i) => {
-    globals.routingMatrix.initwith += `/row/${i + 1}/label ${e}, `;
+  globals.routingMatrix.inputs.forEach((e, i2) => {
+    globals.routingMatrix.initwith += `/row/${i2 + 1}/label ${e}, `;
     globals.routingMatrix.crosspatch.inputs += `${e} `;
   });
-  globals.routingMatrix.outputs.forEach((e, i) => {
-    globals.routingMatrix.initwith += `/col/${i + 1}/label ${e}, `;
+  globals.routingMatrix.outputs.forEach((e, i2) => {
+    globals.routingMatrix.initwith += `/col/${i2 + 1}/label ${e}, `;
     globals.routingMatrix.crosspatch.outputs += `${e} `;
+  });
+  globals.userMatrix.inputs.forEach((inputName, inputIndex) => {
+    globals.userMatrix.outputs.forEach((outputName, outputIndex) => {
+      if (!allowConnectionWithName(inputName, outputName, globals)) {
+        globals.userMatrix.initwith += `/row/${inputIndex + 1}/col/${outputIndex + 1}/editable 0`;
+      }
+    });
   });
   generateBox("user_matrix_routing", "spat5.matrix", ["@inputs", globals.userMatrix.inputs.length, "@outputs", globals.userMatrix.outputs.length, "@initwith", `"${globals.userMatrix.initwith}"`], { x: 400, y: 260 }, 0);
   generateBox("routing_matrix_routing", "spat5.matrix", ["@inputs", globals.routingMatrix.inputs.length, "@outputs", globals.routingMatrix.outputs.length, "@initwith", `"${globals.routingMatrix.initwith}"`], { x: 20, y: 120 }, 0);
@@ -1494,23 +1558,20 @@ function onRouting(row, col, gain) {
     globals.userMatrix.connections.push({
       in: row,
       out: col,
-      // inName:userMatrixInput,
-      // outName:userMatrixOutput,
-      gain,
-      line: null
+      gain
     });
   }
   const userMatrixInputNumber = globals.structure.find((e) => e.name === userMatrixInput).inputs;
   const userMatrixOutputNumber = globals.structure.find((e) => e.name === userMatrixOutput).outputs;
-  const mixingLaw = mixing[userMatrixInputNumber][userMatrixOutputNumber];
+  const mixingLaw = getMixingLaw(userMatrixInputNumber, userMatrixOutputNumber);
   const routingMatrixIndexInput = [];
   const routingMatrixIndexOutput = [];
-  for (let i = 1; i <= userMatrixInputNumber; i++) {
-    const index = globals.routingMatrix.inputs.findIndex((e) => e === `${userMatrixInput}-in-${i}`);
+  for (let i2 = 1; i2 <= userMatrixInputNumber; i2++) {
+    const index = globals.routingMatrix.inputs.findIndex((e) => e === `${userMatrixInput}-in-${i2}`);
     routingMatrixIndexInput.push(index);
   }
-  for (let i = 1; i <= userMatrixOutputNumber; i++) {
-    const index = globals.routingMatrix.outputs.findIndex((e) => e === `${userMatrixOutput}-out-${i}`);
+  for (let i2 = 1; i2 <= userMatrixOutputNumber; i2++) {
+    const index = globals.routingMatrix.outputs.findIndex((e) => e === `${userMatrixOutput}-out-${i2}`);
     routingMatrixIndexOutput.push(index);
   }
   routingMatrixIndexInput.forEach((inputNumber, inputIndex) => {
