@@ -12,7 +12,7 @@ const globals = {
   ramp: null,
   boxes: null,
   structure: null,
-  filepath: { absolute : null, relative: null, name: null },
+  file: null,
   userMatrix: { inputs: [], outputs: [], initwith: "", connections: []},
   routingMatrix: { inputs: [], outputs: [], initwith: "", crosspatch: { inputs: "", outputs: ""}, connections: []},
   timeoutMap: [],
@@ -27,8 +27,8 @@ Max.addHandlers({
   maxId: (maxId) => globals.maxId = maxId,
   ramp: (ramp) => onRamp(ramp),
   done: () => bootstrap(),
-  generate: (filename) => onFile(filename, true),
-  file: (filename) => onFile(filename, false),
+  generate: (dict) => onConfigDict(dict),
+  file: (filename) => onConfigDictName(filename),
   routing: (row, col, gain) => onRouting(row, col, gain),
   clear: () => onClear(),
   patch: (input, output, gain, time) => onPatch(input, output, gain, time),
@@ -57,12 +57,10 @@ async function bootstrap() {
   // Max.post(`> client is ready!`);
   globals.ready = true;
   globals.boxes = await Max.getDict(`${globals.maxId}_modular-matrix-boxes`);
-  deleteExistingBoxes();
+
   if (globals.structure) {
     generateMatrix();
   }
-
-  Max.outlet("visualize", "set", ``);
 
 }
 
@@ -77,6 +75,12 @@ async function deleteExistingBoxes() {
   });
 
   globals.boxes.list = [];
+
+  // clear config
+  globals.userMatrix = { inputs: [], outputs: [], initwith: "", connections: []};
+  globals.routingMatrix = { inputs: [], outputs: [], initwith: "", crosspatch: { inputs: "", outputs: ""}, connections: []};
+  globals.timeoutMap = [];
+
 }
 
 function onRamp(ramp) {
@@ -294,31 +298,31 @@ function sendLine(inputIndex, outputIndex, gainLin, time) {
 
 }
 
-function onFile(filename, generate = false) {
-  globals.filepath.absolute = filename;
-  const json5file = JSON5.parse(fs.readFileSync(globals.filepath.absolute));
-  globals.structure = json5file;
-  const relative = filename.split('/').pop()
-  globals.filepath.relative = relative;
-  globals.filepath.name = relative.split('.').shift();
+async function onConfigDictName(dictName) {
+  globals.file = dictName;
+  try {
+    const structure = await Max.getDict(globals.file);
+    globals.structure = structure;
+  } catch {
+    console.log("configuration dict do not exist");
+  }
+}
 
-  // replace json5 file with fully Max compatible JSON file
+async function onConfigDict(structure) {
+  if (structure) {
+    globals.structure = structure;
+  } else {
+    const structure = await Max.getDict(globals.file);
+    globals.structure = structure;
+  }
 
-  fs.writeFileSync(
-    globals.filepath.absolute,
-    JSON.stringify(
-      json5file,
-      null,
-      ' '
-    )
-  );
-
-  if (globals.structure && generate === true) {
+  if (globals.ready && globals.structure) {
     generateMatrix();
   }
 }
 
 function generateMatrix() {
+  deleteExistingBoxes();
   // generate routingMatrix -> real in out
   // generate userMatrix -> simplified way with only names
   if (globals.structure.inputs) {
@@ -396,7 +400,7 @@ function generateMatrix() {
   generateBox('matrix_unpack', 'mc.unpack~', [globals.routingMatrix.inputs.length], { x: 20, y:30 }, 0);
   generateBox('matrix_pack', 'mc.pack~', [globals.routingMatrix.outputs.length], { x: 20, y:280 }, 0);
     // generate configuration dict
-  generateBox('dict', 'dict', [globals.filepath.name, globals.filepath.relative], {x: 20, y: 3 }, 0);
+  generateBox('dict', 'dict', [globals.file], {x: 20, y: 3 }, 0);
 
   generateLink('user_matrix_routing', 0, 'user_matrix_out', 0);
   generateLink('matrix_pack', 0, 'mc-outlet', 0);
@@ -421,6 +425,8 @@ function generateMatrix() {
     generateLink('matrix', index, `send-${name}`, 0);
     generateLink('matrix', index, 'matrix_pack', index);
   });
+
+  Max.outlet("visualize", "set", `no connections...`);
 
 }
 
@@ -556,4 +562,5 @@ function generateLink(varNameOut, outlet, varNameIn, inlet) {
 // that bootstrap can be called
 // -------------------------------------------------------
 Max.outletBang();
+Max.outlet("visualize", "set", `matrix~ is not generated`);
 

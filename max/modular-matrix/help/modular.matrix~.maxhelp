@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 171.0, 100.0, 1080.0, 767.0 ],
+		"rect" : [ 426.0, 100.0, 1080.0, 767.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -384,8 +384,8 @@
 									"numinlets" : 1,
 									"numoutlets" : 2,
 									"outlettype" : [ "multichannelsignal", "" ],
-									"patching_rect" : [ 26.842514038085938, 363.0, 198.0, 23.0 ],
-									"text" : "modular.matrix~ dictionaries.json"
+									"patching_rect" : [ 26.842514038085938, 363.0, 171.0, 23.0 ],
+									"text" : "modular.matrix~ dictionaries"
 								}
 
 							}
@@ -620,7 +620,7 @@
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 171.0, 126.0, 1080.0, 741.0 ],
+						"rect" : [ 426.0, 126.0, 1080.0, 741.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 13.0,
@@ -651,17 +651,33 @@
 						"assistshowspatchername" : 0,
 						"boxes" : [ 							{
 								"box" : 								{
+									"id" : "obj-3",
+									"maxclass" : "newobj",
+									"numinlets" : 2,
+									"numoutlets" : 4,
+									"outlettype" : [ "dictionary", "", "", "" ],
+									"patching_rect" : [ 10.0, 117.0, 139.0, 23.0 ],
+									"saved_object_attributes" : 									{
+										"embed" : 0,
+										"parameter_enable" : 0,
+										"parameter_mappable" : 0
+									}
+,
+									"text" : "dict mixing mixing.json"
+								}
+
+							}
+, 							{
+								"box" : 								{
 									"bubble" : 1,
 									"fontname" : "Arial",
 									"fontsize" : 13.0,
 									"id" : "obj-34",
-									"linecount" : 2,
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 195.5, 418.599853515625, 219.0, 40.0 ],
-									"presentation_linecount" : 2,
-									"text" : "double-click to watch connections, and open interface"
+									"patching_rect" : [ 172.5, 426.099853515625, 219.0, 25.0 ],
+									"text" : "double-click to watch connections"
 								}
 
 							}
@@ -675,8 +691,8 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 207.0, 275.5, 274.0, 40.0 ],
-									"text" : "non implemented situations are impossible to patch"
+									"patching_rect" : [ 273.0, 277.099853515625, 275.0, 40.0 ],
+									"text" : "open interface : non implemented situations are impossible to patch"
 								}
 
 							}
@@ -764,7 +780,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "signal" ],
-									"patching_rect" : [ 10.0, 120.0, 48.0, 23.0 ],
+									"patching_rect" : [ 160.195999145507812, 117.0, 48.0, 23.0 ],
 									"text" : "adc~ 1"
 								}
 
@@ -775,7 +791,7 @@
 									"maxclass" : "newobj",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 10.0, 167.0, 94.0, 23.0 ],
+									"patching_rect" : [ 160.195999145507812, 164.0, 94.0, 23.0 ],
 									"text" : "send~ mic-in-1"
 								}
 
@@ -881,7 +897,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 207.0, 369.599853515625, 37.0, 23.0 ],
+									"patching_rect" : [ 231.0, 285.599853515625, 37.0, 23.0 ],
 									"text" : "open"
 								}
 
@@ -980,8 +996,8 @@
 									"numinlets" : 1,
 									"numoutlets" : 2,
 									"outlettype" : [ "multichannelsignal", "" ],
-									"patching_rect" : [ 22.5, 427.099853515625, 170.0, 23.0 ],
-									"text" : "modular.matrix~ mixing.json"
+									"patching_rect" : [ 22.5, 427.099853515625, 143.0, 23.0 ],
+									"text" : "modular.matrix~ mixing"
 								}
 
 							}
@@ -999,7 +1015,7 @@
 									"numoutlets" : 3,
 									"outlettype" : [ "", "", "int" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 419.5, 430.099853515625, 20.0, 20.0 ],
+									"patching_rect" : [ 395.5, 430.099853515625, 20.0, 20.0 ],
 									"rounded" : 60.0,
 									"text" : "3",
 									"textcolor" : [ 0.34902, 0.34902, 0.34902, 1.0 ]
@@ -1020,7 +1036,7 @@
 									"numoutlets" : 3,
 									"outlettype" : [ "", "", "int" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 484.25, 285.5, 20.0, 20.0 ],
+									"patching_rect" : [ 550.25, 287.099853515625, 20.0, 20.0 ],
 									"rounded" : 60.0,
 									"text" : "2",
 									"textcolor" : [ 0.34902, 0.34902, 0.34902, 1.0 ]
@@ -1221,6 +1237,24 @@
 						"assistshowspatchername" : 0,
 						"boxes" : [ 							{
 								"box" : 								{
+									"id" : "obj-1",
+									"maxclass" : "newobj",
+									"numinlets" : 2,
+									"numoutlets" : 4,
+									"outlettype" : [ "dictionary", "", "", "" ],
+									"patching_rect" : [ 213.25, 517.5, 134.0, 23.0 ],
+									"saved_object_attributes" : 									{
+										"embed" : 0,
+										"parameter_enable" : 0,
+										"parameter_mappable" : 0
+									}
+,
+									"text" : "dict matrix matrix.json"
+								}
+
+							}
+, 							{
+								"box" : 								{
 									"id" : "obj-56",
 									"maxclass" : "message",
 									"numinlets" : 2,
@@ -1367,7 +1401,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "float" ],
-									"patching_rect" : [ 217.0, 555.099853515625, 139.0, 32.0 ]
+									"patching_rect" : [ 213.25, 586.849853515625, 139.0, 32.0 ]
 								}
 
 							}
@@ -1378,7 +1412,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "signal" ],
-									"patching_rect" : [ 217.0, 517.0, 139.0, 23.0 ],
+									"patching_rect" : [ 213.25, 548.75, 139.0, 23.0 ],
 									"text" : "receive~ monitor-out-1"
 								}
 
@@ -1613,8 +1647,8 @@
 									"numinlets" : 1,
 									"numoutlets" : 2,
 									"outlettype" : [ "multichannelsignal", "" ],
-									"patching_rect" : [ 25.0, 517.5, 168.0, 23.0 ],
-									"text" : "modular.matrix~ matrix.json"
+									"patching_rect" : [ 25.0, 517.5, 140.0, 23.0 ],
+									"text" : "modular.matrix~ matrix"
 								}
 
 							}
@@ -1906,6 +1940,24 @@
 						"assistshowspatchername" : 0,
 						"boxes" : [ 							{
 								"box" : 								{
+									"id" : "obj-1",
+									"maxclass" : "newobj",
+									"numinlets" : 2,
+									"numoutlets" : 4,
+									"outlettype" : [ "dictionary", "", "", "" ],
+									"patching_rect" : [ 10.0, 117.0, 195.0, 23.0 ],
+									"saved_object_attributes" : 									{
+										"embed" : 0,
+										"parameter_enable" : 0,
+										"parameter_mappable" : 0
+									}
+,
+									"text" : "dict dictionaries dictionaries.json"
+								}
+
+							}
+, 							{
+								"box" : 								{
 									"id" : "obj-13",
 									"maxclass" : "mc.ezdac~",
 									"numinlets" : 1,
@@ -2192,8 +2244,8 @@
 									"numinlets" : 1,
 									"numoutlets" : 2,
 									"outlettype" : [ "multichannelsignal", "" ],
-									"patching_rect" : [ 26.842514038085938, 363.0, 198.0, 23.0 ],
-									"text" : "modular.matrix~ dictionaries.json"
+									"patching_rect" : [ 26.842514038085938, 363.0, 171.0, 23.0 ],
+									"text" : "modular.matrix~ dictionaries"
 								}
 
 							}
@@ -2458,6 +2510,24 @@
 						"showontab" : 1,
 						"assistshowspatchername" : 0,
 						"boxes" : [ 							{
+								"box" : 								{
+									"id" : "obj-13",
+									"maxclass" : "newobj",
+									"numinlets" : 2,
+									"numoutlets" : 4,
+									"outlettype" : [ "dictionary", "", "", "" ],
+									"patching_rect" : [ 187.0, 379.099853515625, 154.0, 23.0 ],
+									"saved_object_attributes" : 									{
+										"embed" : 0,
+										"parameter_enable" : 0,
+										"parameter_mappable" : 0
+									}
+,
+									"text" : "dict connect connect.json"
+								}
+
+							}
+, 							{
 								"box" : 								{
 									"fontsize" : 13.0,
 									"id" : "obj-51",
@@ -2833,8 +2903,8 @@
 									"numinlets" : 1,
 									"numoutlets" : 2,
 									"outlettype" : [ "multichannelsignal", "" ],
-									"patching_rect" : [ 21.75, 379.099853515625, 178.0, 23.0 ],
-									"text" : "modular.matrix~ connect.json"
+									"patching_rect" : [ 21.75, 379.099853515625, 150.0, 23.0 ],
+									"text" : "modular.matrix~ connect"
 								}
 
 							}
@@ -3126,13 +3196,91 @@
 						"assistshowspatchername" : 0,
 						"boxes" : [ 							{
 								"box" : 								{
+									"id" : "obj-8",
+									"maxclass" : "message",
+									"numinlets" : 2,
+									"numoutlets" : 1,
+									"outlettype" : [ "" ],
+									"patching_rect" : [ 270.0, 226.0, 60.0, 23.0 ],
+									"text" : "generate"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"data" : 									{
+										"inputs" : [ 											{
+												"name" : "cycle-1",
+												"inputs" : 1
+											}
+, 											{
+												"name" : "cycle-2",
+												"inputs" : 1
+											}
+, 											{
+												"name" : "cycle-3",
+												"inputs" : 1
+											}
+, 											{
+												"name" : "cycle-4",
+												"inputs" : 1
+											}
+ ],
+										"outputs" : [ 											{
+												"name" : "dac",
+												"outputs" : 2
+											}
+ ]
+									}
+,
+									"id" : "obj-27",
+									"maxclass" : "newobj",
+									"numinlets" : 2,
+									"numoutlets" : 4,
+									"outlettype" : [ "dictionary", "", "", "" ],
+									"patching_rect" : [ 627.5, 217.0, 158.0, 23.0 ],
+									"saved_object_attributes" : 									{
+										"embed" : 1,
+										"parameter_enable" : 0,
+										"parameter_mappable" : 0
+									}
+,
+									"text" : "dict new-basic @embed 1"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"id" : "obj-15",
+									"maxclass" : "button",
+									"numinlets" : 1,
+									"numoutlets" : 1,
+									"outlettype" : [ "bang" ],
+									"parameter_enable" : 0,
+									"patching_rect" : [ 627.5, 185.5, 24.0, 24.0 ]
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"id" : "obj-11",
+									"maxclass" : "newobj",
+									"numinlets" : 1,
+									"numoutlets" : 1,
+									"outlettype" : [ "" ],
+									"patching_rect" : [ 627.5, 248.0, 111.0, 23.0 ],
+									"text" : "prepend generate"
+								}
+
+							}
+, 							{
+								"box" : 								{
 									"id" : "obj-10",
 									"linecount" : 6,
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 547.5, 157.0, 255.0, 94.0 ],
-									"presentation_linecount" : 9,
+									"patching_rect" : [ 750.5, 245.0, 255.0, 94.0 ],
 									"style" : "helpfile_label",
 									"text" : "you can create differents entries in the configuration file :\nmultichannels inputs, \nmultichannels outputs,\nmultichannels objects : entries in the matrix who have both inputs and outputs"
 								}
@@ -3260,7 +3408,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "multichannelsignal" ],
-									"patching_rect" : [ 49.0, 329.0, 284.0, 23.0 ],
+									"patching_rect" : [ 27.0, 372.0, 284.0, 23.0 ],
 									"text" : "mc.cycle~ @chans 4 @values 110 220 330 440"
 								}
 
@@ -3274,8 +3422,8 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 375.0, 260.0, 153.0, 25.0 ],
-									"text" : "or access it with a dict"
+									"patching_rect" : [ 651.5, 185.0, 134.0, 25.0 ],
+									"text" : "change config file !"
 								}
 
 							}
@@ -3286,7 +3434,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 4,
 									"outlettype" : [ "dictionary", "", "", "" ],
-									"patching_rect" : [ 249.0, 260.0, 124.0, 23.0 ],
+									"patching_rect" : [ 270.0, 171.0, 124.0, 23.0 ],
 									"saved_object_attributes" : 									{
 										"embed" : 0,
 										"parameter_enable" : 0,
@@ -3303,23 +3451,12 @@
 									"fontname" : "Arial",
 									"fontsize" : 13.0,
 									"id" : "obj-22",
+									"linecount" : 3,
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 77.0, 259.0, 145.0, 25.0 ],
-									"text" : "edit configuration file"
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-8",
-									"maxclass" : "message",
-									"numinlets" : 2,
-									"numoutlets" : 1,
-									"outlettype" : [ "" ],
-									"patching_rect" : [ 44.0, 259.0, 29.5, 23.0 ],
-									"text" : "edit"
+									"patching_rect" : [ 396.0, 155.5, 161.0, 54.0 ],
+									"text" : "edit configuration file, and click generate to reload"
 								}
 
 							}
@@ -3374,7 +3511,7 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 518.5, 337.0, 191.0, 25.0 ],
+									"patching_rect" : [ 67.0, 245.0, 184.0, 25.0 ],
 									"text" : "clear (mute) all connections"
 								}
 
@@ -3388,7 +3525,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 473.5, 340.0, 40.0, 23.0 ],
+									"patching_rect" : [ 22.0, 248.0, 40.0, 23.0 ],
 									"text" : "clear"
 								}
 
@@ -3402,8 +3539,8 @@
 									"numinlets" : 1,
 									"numoutlets" : 2,
 									"outlettype" : [ "multichannelsignal", "" ],
-									"patching_rect" : [ 10.0, 408.0, 163.0, 23.0 ],
-									"text" : "modular.matrix~ basic.json"
+									"patching_rect" : [ 10.0, 408.0, 135.0, 23.0 ],
+									"text" : "modular.matrix~ basic"
 								}
 
 							}
@@ -3445,6 +3582,69 @@
 									"bgcolor" : [ 1.0, 0.788235, 0.470588, 1.0 ],
 									"fontface" : 1,
 									"hint" : "",
+									"id" : "obj-24",
+									"ignoreclick" : 1,
+									"legacytextcolor" : 1,
+									"maxclass" : "textbutton",
+									"numinlets" : 1,
+									"numoutlets" : 3,
+									"outlettype" : [ "", "", "int" ],
+									"parameter_enable" : 0,
+									"patching_rect" : [ 791.0, 187.0, 20.0, 20.0 ],
+									"rounded" : 60.0,
+									"text" : "4",
+									"textcolor" : [ 0.34902, 0.34902, 0.34902, 1.0 ]
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"background" : 1,
+									"bgcolor" : [ 1.0, 0.788235, 0.470588, 1.0 ],
+									"fontface" : 1,
+									"hint" : "",
+									"id" : "obj-19",
+									"ignoreclick" : 1,
+									"legacytextcolor" : 1,
+									"maxclass" : "textbutton",
+									"numinlets" : 1,
+									"numoutlets" : 3,
+									"outlettype" : [ "", "", "int" ],
+									"parameter_enable" : 0,
+									"patching_rect" : [ 559.0, 171.0, 20.0, 20.0 ],
+									"rounded" : 60.0,
+									"text" : "3",
+									"textcolor" : [ 0.34902, 0.34902, 0.34902, 1.0 ]
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"background" : 1,
+									"bgcolor" : [ 1.0, 0.788235, 0.470588, 1.0 ],
+									"fontface" : 1,
+									"hint" : "",
+									"id" : "obj-18",
+									"ignoreclick" : 1,
+									"legacytextcolor" : 1,
+									"maxclass" : "textbutton",
+									"numinlets" : 1,
+									"numoutlets" : 3,
+									"outlettype" : [ "", "", "int" ],
+									"parameter_enable" : 0,
+									"patching_rect" : [ 242.0, 203.0, 20.0, 20.0 ],
+									"rounded" : 60.0,
+									"text" : "2",
+									"textcolor" : [ 0.34902, 0.34902, 0.34902, 1.0 ]
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"background" : 1,
+									"bgcolor" : [ 1.0, 0.788235, 0.470588, 1.0 ],
+									"fontface" : 1,
+									"hint" : "",
 									"id" : "obj-62",
 									"ignoreclick" : 1,
 									"legacytextcolor" : 1,
@@ -3463,8 +3663,22 @@
  ],
 						"lines" : [ 							{
 								"patchline" : 								{
+									"destination" : [ "obj-56", 0 ],
+									"source" : [ "obj-11", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
 									"destination" : [ "obj-13", 0 ],
 									"source" : [ "obj-12", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-27", 0 ],
+									"source" : [ "obj-15", 0 ]
 								}
 
 							}
@@ -3479,6 +3693,13 @@
 								"patchline" : 								{
 									"destination" : [ "obj-21", 0 ],
 									"source" : [ "obj-17", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-11", 0 ],
+									"source" : [ "obj-27", 0 ]
 								}
 
 							}

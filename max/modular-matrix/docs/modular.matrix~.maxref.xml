@@ -74,12 +74,12 @@
 	</outletlist>
 	<!--ARGUMENTS-->
 	<objarglist>
-		<objarg name="configuration" optional="0" type="string">
+		<objarg name="config-dict-name" optional="0" type="symbol">
 			<digest>
-				JSON configuration file
+				Configuration dictionary name
 			</digest>
 			<description>
-				The first argument specifies the configuration file for the matrix.
+				The first argument specifies the configuration dictionary for the matrix.
 			</description>
 		</objarg>
 	</objarglist>
@@ -110,7 +110,7 @@
 				Connect inlets and outlets with names
 			</digest>
 			<description>
-				In left inlet: A list of two strings and a number connects inlets and outlets. The first string specifies the inlet name, the second string specifies the outlet name. The third element of the list is the connection gain, exprimed in dB.
+				In left inlet: A list of two strings and a number connects inlets and outlets. The first string specifies the inlet name, the second string specifies the outlet name. The third element of the list is the connection gain, exprimed in decibel.
 				<br />
 				<br />
 				The addition of an optional fourth element to the list message can be used to specify a ramp time, in milliseconds, for the individual connection. Example: <m>1 2 .8 500</m> would connect the first inlet to the second outlet and specify a gain of .8 and a ramp time of .5 seconds).
@@ -134,6 +134,15 @@
 				Open editor in order to modify the matrix configuration file.
 			</description>
 		</method>
+		<method name="open">
+			<arglist />
+			<digest>
+				Open matrix control interface
+			</digest>
+			<description>
+				Open interface for changing connections gains.
+			</description>
+		</method>
 		<method name="dictionary">
 			<arglist>
 				<arg name="dict-name" type="symbol" optional="0" />
@@ -142,7 +151,7 @@
 				Configure the state of <o>matrix~</o> with a dictionary
 			</digest>
 			<description>
-				The <o>matrix~</o> object can receive dictionaries to configure its state. When receiving a dictionary, all previous connections are cleared and replaced by the connections in the dictionary. You can also set some attributes with a dictionary, including the default gain and ramp time.
+				The <o>modular.matrix~</o> object can receive dictionaries to configure its state. When receiving a dictionary, all previous connections are cleared and replaced by the connections in the dictionary. You can also set some attributes with a dictionary, including the default gain and ramp time.
 			</description>
 		</method>
 		<method name="dumppatch">
@@ -151,7 +160,7 @@
 				Send connection information out the right outlet as a dictionary
 			</digest>
 			<description>
-				In left inlet: The word <m>dumpconnections</m> causes the current contents of the <o>matrix~</o> object to be sent out the rightmost outlet of the object as a dictionary. <o>dumppatch</o> message is specific to <o>modular.matrix~</o> and connections are stored with inlets and outlets names.
+				In left inlet: The word <m>dumppatch</m> causes the current contents of the <o>modular.matrix~</o> object to be sent out the rightmost outlet of the object as a dictionary. <o>dumppatch</o> message is specific to <o>modular.matrix~</o> and connections are stored with inlets and outlets names, and gains in decibels.
 			</description>
 		</method>
 		<method name="dumpconnections">
@@ -160,16 +169,16 @@
 				Send connections out the right outlet as a dictionary
 			</digest>
 			<description>
-				In left inlet: The word <m>dumpconnections</m> causes the current contents of the <o>matrix~</o> object to be sent out the rightmost outlet of the object as a dictionary. Fully compatible with <o>matrix~</o>.
+				In left inlet: The word <m>dumpconnections</m> causes the current contents of the <o>modular.matrix~</o> object to be sent out the rightmost outlet of the object as a dictionary. Fully compatible with <o>matrix~</o>.
 			</description>
 		</method>
-		<method name="print">
+		<method name="generate" type="dictionary" optional="1">
 			<arglist />
 			<digest>
-				Print a connection list to the Max Console
+				Generate matrix configuration
 			</digest>
 			<description>
-				In left inlet: The word <m>print</m> causes the current state of all <o>matrix~</o> object connections to be printed in the Max Console in the form of a list for each connection. The list consists of two strings which specify the inlet and outlet names, followed by a float which specifies the gain, in decibel for the connection.
+				In left inlet: The word <m>generate</m> followed by a dictionary containing a matrix configuration file will change the current <o>modular.matrix~</o> configuration. Use <m>generate</m> without argument to re-generate the current configuration.
 			</description>
 		</method>
 	</methodlist>
