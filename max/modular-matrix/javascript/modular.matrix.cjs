@@ -1143,9 +1143,43 @@ var import_json5 = __toESM(require_lib());
 
 // src/mixing.js
 var eye = (n) => [...Array(n)].map((e, i2, a) => a.map((e2) => +!i2--));
+function disableConnectionWithName(inputName, outputName, globals2) {
+  if (inputName === outputName) {
+    return true;
+  } else {
+    return false;
+  }
+}
+function getNumChannelsFromInputName(inputName, globals2) {
+  let inputStructure = globals2.structure.inputs.find((e) => e.name === inputName);
+  if (inputStructure === void 0) {
+    inputStructure = globals2.structure.objects.find((e) => e.name === inputName);
+  }
+  const inputNumber = inputStructure.inputs;
+  return inputNumber;
+}
+function getNumChannelsFromOutputName(outputName, globals2) {
+  let outputStructure = globals2.structure.outputs.find((e) => e.name === outputName);
+  if (outputStructure === void 0) {
+    outputStructure = globals2.structure.objects.find((e) => e.name === outputName);
+  }
+  if (outputStructure === void 0) {
+    return null;
+  }
+  const outputNumber = outputStructure.outputs;
+  return outputNumber;
+}
+function getIndexesFromNames(inputName, outputName, globals2) {
+  const inputIndex = globals2.userMatrix.inputs.findIndex((e) => e === inputName);
+  const outputIndex = globals2.userMatrix.outputs.findIndex((e) => e === outputName);
+  return { inputIndex, outputIndex };
+}
 function allowConnectionWithName(inputName, outputName, globals2) {
-  const inputNumber = globals2.structure.find((e) => e.name === inputName).inputs;
-  const outputNumber = globals2.structure.find((e) => e.name === outputName).outputs;
+  const inputNumber = getNumChannelsFromInputName(inputName, globals2);
+  const outputNumber = getNumChannelsFromOutputName(outputName, globals2);
+  if (inputName === outputName) {
+    return false;
+  }
   if (getMixingLaw(inputNumber, outputNumber) === null) {
     return false;
   } else {
@@ -1155,13 +1189,7 @@ function allowConnectionWithName(inputName, outputName, globals2) {
 function allowConnectionWithIndex(inputIndex, outputIndex, globals2) {
   const inputName = globals2.userMatrix.inputs[inputIndex];
   const outputName = globals2.userMatrix.outputs[outputIndex];
-  const inputNumber = globals2.structure.find((e) => e.name === inputName).inputs;
-  const outputNumber = globals2.structure.find((e) => e.name === outputName).outputs;
-  if (getMixingLaw(inputNumber, outputNumber) === null) {
-    return false;
-  } else {
-    return true;
-  }
+  return allowConnectionWithName(inputName, outputName, globals2);
 }
 function getMixingLaw(inputNumber, outputNumber) {
   if (inputNumber < outputNumber) {
@@ -1244,7 +1272,7 @@ var globals = {
   structure: null,
   filepath: { absolute: null, relative: null, name: null },
   userMatrix: { inputs: [], outputs: [], initwith: "", connections: [] },
-  routingMatrix: { inputs: [], outputs: [], initwith: "", crosspatch: { inputs: "", outputs: "" } },
+  routingMatrix: { inputs: [], outputs: [], initwith: "", crosspatch: { inputs: "", outputs: "" }, connections: [] },
   timeoutMap: []
 };
 import_max_api.default.addHandlers({
@@ -1281,6 +1309,7 @@ async function bootstrap() {
   if (globals.structure) {
     generateMatrix();
   }
+  import_max_api.default.outlet("visualize", "set", ``);
 }
 async function deleteExistingBoxes() {
   if (!("list" in globals.boxes)) {
@@ -1347,8 +1376,7 @@ function onDict(dict) {
       if (!allowConnectionWithName(connection.in, connection.out, globals)) {
         return;
       }
-      const inputIndex = globals.userMatrix.inputs.findIndex((e) => e === connection.in);
-      const outputIndex = globals.userMatrix.outputs.findIndex((e) => e === connection.out);
+      const { inputIndex, outputIndex } = getIndexesFromNames(connection.in, connection.out, globals);
       let ramptime;
       if (connection.ramptime) {
         ramptime = connection.ramptime;
@@ -1369,8 +1397,7 @@ function onPatch(input, output, dB, time) {
   if (!time) {
     time = globals.ramp;
   }
-  const inputIndex = globals.userMatrix.inputs.findIndex((e) => e === input);
-  const outputIndex = globals.userMatrix.outputs.findIndex((e) => e === output);
+  const { inputIndex, outputIndex } = getIndexesFromNames(input, output, globals);
   const gainLin = dbtoa(dB);
   sendLine(inputIndex, outputIndex, gainLin, time);
 }
@@ -1449,7 +1476,7 @@ function sendLine(inputIndex, outputIndex, gainLin, time) {
       globals.userMatrix.connections.push({
         in: inputIndex,
         out: outputIndex,
-        gain: atodb(gainLin),
+        gain: gainLin,
         ramptime: time
       });
     }
@@ -1460,7 +1487,7 @@ function sendLine(inputIndex, outputIndex, gainLin, time) {
 function onFile(filename, generate = false) {
   globals.filepath.absolute = filename;
   const json5file = import_json5.default.parse(import_node_fs.default.readFileSync(globals.filepath.absolute));
-  globals.structure = json5file.matrix;
+  globals.structure = json5file;
   const relative = filename.split("/").pop();
   globals.filepath.relative = relative;
   globals.filepath.name = relative.split(".").shift();
@@ -1477,29 +1504,53 @@ function onFile(filename, generate = false) {
   }
 }
 function generateMatrix() {
-  globals.structure.forEach((e, i2) => {
-    if (e.inputs !== 0) {
-      globals.userMatrix.inputs.push(e.name);
-      for (let s = 1; s <= e.inputs; s++) {
-        globals.routingMatrix.inputs.push(`${e.name}-in-${s}`);
+  if (globals.structure.inputs) {
+    globals.structure.inputs.forEach((e, i2) => {
+      if (e.inputs !== 0) {
+        globals.userMatrix.inputs.push(e.name);
+        for (let s = 1; s <= e.inputs; s++) {
+          globals.routingMatrix.inputs.push(`${e.name}-in-${s}`);
+        }
+        ;
       }
-      ;
-    }
-    ;
-    if (e.outputs !== 0) {
-      globals.userMatrix.outputs.push(e.name);
-      for (let s = 1; s <= e.outputs; s++) {
-        globals.routingMatrix.outputs.push(`${e.name}-out-${s}`);
+    });
+  }
+  ;
+  if (globals.structure.outputs) {
+    globals.structure.outputs.forEach((e, i2) => {
+      if (e.outputs !== 0) {
+        globals.userMatrix.outputs.push(e.name);
+        for (let s = 1; s <= e.outputs; s++) {
+          globals.routingMatrix.outputs.push(`${e.name}-out-${s}`);
+        }
+        ;
       }
-      ;
-    }
-    ;
-  });
+    });
+  }
+  if (globals.structure.objects) {
+    globals.structure.objects.forEach((e, i2) => {
+      if (e.inputs !== 0 && e.outputs !== 0) {
+        globals.userMatrix.inputs.push(e.name);
+        globals.userMatrix.outputs.push(e.name);
+        for (let s = 1; s <= e.inputs; s++) {
+          globals.routingMatrix.inputs.push(`${e.name}-in-${s}`);
+        }
+        ;
+        for (let s = 1; s <= e.outputs; s++) {
+          globals.routingMatrix.outputs.push(`${e.name}-out-${s}`);
+        }
+        ;
+      }
+    });
+  }
+  ;
   globals.userMatrix.inputs.forEach((e, i2) => {
-    globals.userMatrix.initwith += `/row/${i2 + 1}/label ${e}, `;
+    const numch = getNumChannelsFromInputName(e, globals);
+    globals.userMatrix.initwith += `/row/${i2 + 1}/label ${e}(${numch}ch), `;
   });
   globals.userMatrix.outputs.forEach((e, i2) => {
-    globals.userMatrix.initwith += `/col/${i2 + 1}/label ${e}, `;
+    const numch = getNumChannelsFromOutputName(e, globals);
+    globals.userMatrix.initwith += `/col/${i2 + 1}/label ${e}(${numch}ch), `;
   });
   globals.routingMatrix.inputs.forEach((e, i2) => {
     globals.routingMatrix.initwith += `/row/${i2 + 1}/label ${e}, `;
@@ -1512,7 +1563,10 @@ function generateMatrix() {
   globals.userMatrix.inputs.forEach((inputName, inputIndex) => {
     globals.userMatrix.outputs.forEach((outputName, outputIndex) => {
       if (!allowConnectionWithName(inputName, outputName, globals)) {
-        globals.userMatrix.initwith += `/row/${inputIndex + 1}/col/${outputIndex + 1}/editable 0`;
+        globals.userMatrix.initwith += `/row/${inputIndex + 1}/col/${outputIndex + 1}/editable 0, `;
+      }
+      if (disableConnectionWithName(inputName, outputName, globals)) {
+        globals.userMatrix.initwith += `/row/${inputIndex + 1}/col/${outputIndex + 1}/visible 0, `;
       }
     });
   });
@@ -1561,8 +1615,11 @@ function onRouting(row, col, gain) {
       gain
     });
   }
-  const userMatrixInputNumber = globals.structure.find((e) => e.name === userMatrixInput).inputs;
-  const userMatrixOutputNumber = globals.structure.find((e) => e.name === userMatrixOutput).outputs;
+  const userMatrixInputNumber = getNumChannelsFromInputName(userMatrixInput, globals);
+  const userMatrixOutputNumber = getNumChannelsFromOutputName(userMatrixOutput, globals);
+  if (userMatrixInputNumber === null || userMatrixOutputNumber === null) {
+    return;
+  }
   const mixingLaw = getMixingLaw(userMatrixInputNumber, userMatrixOutputNumber);
   const routingMatrixIndexInput = [];
   const routingMatrixIndexOutput = [];
@@ -1577,15 +1634,38 @@ function onRouting(row, col, gain) {
   routingMatrixIndexInput.forEach((inputNumber, inputIndex) => {
     routingMatrixIndexOutput.forEach((outputNumber, outputIndex) => {
       if (mixingLaw.length !== 0) {
-        import_max_api.default.outlet(
-          "tomatrix",
-          inputNumber,
-          outputNumber,
-          gain * mixingLaw[outputIndex][inputIndex]
-        );
+        const routingGain = gain * mixingLaw[outputIndex][inputIndex];
+        import_max_api.default.outlet("tomatrix", inputNumber, outputNumber, routingGain);
+        setRoutingMatrixConnection(inputNumber, outputNumber, routingGain);
       }
     });
   });
+  let visualize = ``;
+  globals.routingMatrix.connections.forEach((connection2) => {
+    visualize += `${connection2.inputName} > ${connection2.outputName} : ${Math.round(atodb(connection2.gain))}dB
+`;
+  });
+  import_max_api.default.outlet("visualize", "set", visualize);
+}
+function setRoutingMatrixConnection(inputNumber, outputNumber, gain) {
+  const inputName = globals.routingMatrix.inputs[inputNumber];
+  const outputName = globals.routingMatrix.outputs[outputNumber];
+  const connectionIndex = globals.routingMatrix.connections.findIndex((e) => e.inputName === inputName && e.outputName === outputName);
+  if (gain !== 0) {
+    if (connectionIndex !== -1) {
+      globals.routingMatrix.connections[connectionIndex].gain = gain;
+    } else {
+      globals.routingMatrix.connections.push({
+        inputName,
+        outputName,
+        gain
+      });
+    }
+  } else {
+    globals.routingMatrix.connections = globals.routingMatrix.connections.filter((v, index) => {
+      return index !== connectionIndex;
+    });
+  }
 }
 function onMessage(...args) {
   const cmd = args[0];

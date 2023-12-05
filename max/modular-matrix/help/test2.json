@@ -1,29 +1,42 @@
-{"matrix":[
+{"inputs":[
   {
     name: "fleurs",
-    inputs: 1,
-    outputs: 0,
+    inputs: 1
   },
   {
     name: "bambou",
-    inputs: 1,
-    outputs: 0,
+    inputs: 1
   },
   {
     name: "obus",
-    inputs: 1,
-    outputs: 0,
+    inputs: 1
   },
   {
     name: "obuspiezo",
-    inputs: 1,
-    outputs: 0,
+    inputs: 1
   },
   {
     name: "sable",
-    inputs: 1,
-    outputs: 0,
+    inputs: 1
   },
+  {
+    name: "player",
+    inputs: 2
+  },
+], "outputs": [
+  {
+    name: "spat",
+    outputs: 1
+  },
+  {
+    name: "direct",
+    outputs: 4
+  },
+  {
+    name: "thundersheet",
+    outputs: 4
+  }
+], "objects": [
   {
     name: "clouds",
     inputs: 2,
@@ -33,11 +46,6 @@
     name: "crystallizer",
     inputs: 2,
     outputs: 1,
-  },
-  {
-    name: "player",
-    inputs: 2,
-    outputs: 0,
   },
   {
     name: "iana",
@@ -64,19 +72,4 @@
     inputs: 4,
     outputs: 1,
   },
-  {
-    name: "spat",
-    inputs: 0,
-    outputs: 1,
-  },
-  {
-    name: "direct",
-    inputs: 0,
-    outputs: 4,
-  },
-  {
-    name: "thundersheet",
-    inputs: 0,
-    outputs: 4,
-  }
 ]}

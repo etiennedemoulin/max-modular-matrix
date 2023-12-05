@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 363.0, 100.0, 1044.0, 767.0 ],
+		"rect" : [ 171.0, 100.0, 1080.0, 767.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -37,7 +37,8 @@
 		"tags" : "",
 		"style" : "",
 		"subpatcher_template" : "",
-		"showontab" : 1,
+		"showrootpatcherontab" : 0,
+		"showontab" : 0,
 		"assistshowspatchername" : 0,
 		"boxes" : [ 			{
 				"box" : 				{
@@ -58,7 +59,7 @@
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 0.0, 26.0, 1044.0, 741.0 ],
+						"rect" : [ 0.0, 26.0, 1080.0, 741.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 13.0,
@@ -619,7 +620,7 @@
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 363.0, 126.0, 1044.0, 741.0 ],
+						"rect" : [ 171.0, 126.0, 1080.0, 741.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 13.0,
@@ -650,105 +651,32 @@
 						"assistshowspatchername" : 0,
 						"boxes" : [ 							{
 								"box" : 								{
-									"data" : 									{
-										"inputs" : [ 											{
-												"name" : "flute",
-												"inputs" : 1
-											}
-, 											{
-												"name" : "oboe",
-												"inputs" : 1
-											}
- ],
-										"outputs" : [ 											{
-												"name" : "dac",
-												"outputs" : 4
-											}
-, 											{
-												"name" : "monitor",
-												"outputs" : 1
-											}
- ],
-										"objects" : [ 											{
-												"name" : "effect-1",
-												"inputs" : 2,
-												"outputs" : 2
-											}
- ]
-									}
-,
-									"id" : "obj-53",
-									"maxclass" : "newobj",
-									"numinlets" : 2,
-									"numoutlets" : 4,
-									"outlettype" : [ "dictionary", "", "", "" ],
-									"patching_rect" : [ 637.5, 610.5, 96.0, 23.0 ],
-									"saved_object_attributes" : 									{
-										"embed" : 1,
-										"parameter_enable" : 0,
-										"parameter_mappable" : 0
-									}
-,
-									"text" : "dict @embed 1"
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-50",
+									"bubble" : 1,
+									"fontname" : "Arial",
+									"fontsize" : 13.0,
+									"id" : "obj-34",
 									"linecount" : 2,
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 453.0, 604.0, 175.0, 36.0 ],
+									"patching_rect" : [ 195.5, 418.599853515625, 219.0, 40.0 ],
 									"presentation_linecount" : 2,
-									"text" : "re-think about new syntax : inputs , outputs, objects"
+									"text" : "double-click to watch connections, and open interface"
 								}
 
 							}
 , 							{
 								"box" : 								{
-									"id" : "obj-48",
+									"bubble" : 1,
+									"fontname" : "Arial",
+									"fontsize" : 13.0,
+									"id" : "obj-28",
+									"linecount" : 2,
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 593.0, 480.0, 20.0, 21.0 ],
-									"text" : "or"
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-46",
-									"maxclass" : "comment",
-									"numinlets" : 1,
-									"numoutlets" : 0,
-									"patching_rect" : [ 598.0, 506.0, 175.0, 21.0 ],
-									"presentation_linecount" : 2,
-									"text" : "list of inputs      list of outputs"
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-45",
-									"maxclass" : "comment",
-									"numinlets" : 1,
-									"numoutlets" : 0,
-									"patching_rect" : [ 587.5, 446.0, 408.0, 21.0 ],
-									"presentation_linecount" : 3,
-									"text" : "inputs Name (inlet number) -> output Name (outlet number) -> gain"
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-44",
-									"maxclass" : "comment",
-									"numinlets" : 1,
-									"numoutlets" : 0,
-									"patching_rect" : [ 453.0, 349.0, 150.0, 21.0 ],
-									"text" : "implement watch"
+									"patching_rect" : [ 207.0, 275.5, 274.0, 40.0 ],
+									"text" : "non implemented situations are impossible to patch"
 								}
 
 							}
@@ -759,45 +687,8 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 107.0, 344.0, 37.0, 23.0 ],
+									"patching_rect" : [ 56.0, 346.0, 37.0, 23.0 ],
 									"text" : "1 1 1"
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-41",
-									"linecount" : 2,
-									"maxclass" : "comment",
-									"numinlets" : 1,
-									"numoutlets" : 0,
-									"patching_rect" : [ 109.195999145507812, 244.0, 150.0, 36.0 ],
-									"presentation_linecount" : 2,
-									"text" : "non easy situations are impossible to patch"
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-40",
-									"linecount" : 3,
-									"maxclass" : "comment",
-									"numinlets" : 1,
-									"numoutlets" : 0,
-									"patching_rect" : [ 453.0, 297.0, 150.0, 50.0 ],
-									"text" : "double click to watch connection matrix result !"
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-38",
-									"linecount" : 3,
-									"maxclass" : "comment",
-									"numinlets" : 1,
-									"numoutlets" : 0,
-									"patching_rect" : [ 453.0, 244.0, 150.0, 50.0 ],
-									"text" : "up and downmixing is automatic with easy situations"
 								}
 
 							}
@@ -809,7 +700,7 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "bang" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 285.0, 255.0, 24.0, 24.0 ]
+									"patching_rect" : [ 56.0, 279.0, 24.0, 24.0 ]
 								}
 
 							}
@@ -817,7 +708,7 @@
 								"box" : 								{
 									"data" : 									{
 										"numins" : 2,
-										"numouts" : 4,
+										"numouts" : 3,
 										"gain" : 1,
 										"exclusive" : 0,
 										"offset" : 0,
@@ -831,7 +722,7 @@
 											}
 , 											{
 												"in" : "freqshift",
-												"out" : "3ch-output",
+												"out" : "myoutput",
 												"gain" : 0,
 												"ramptime" : 100
 											}
@@ -843,7 +734,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 4,
 									"outlettype" : [ "dictionary", "", "", "" ],
-									"patching_rect" : [ 275.0, 310.0, 96.0, 23.0 ],
+									"patching_rect" : [ 56.0, 309.0, 96.0, 23.0 ],
 									"saved_object_attributes" : 									{
 										"embed" : 1,
 										"parameter_enable" : 0,
@@ -861,8 +752,8 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 91.0, 310.0, 166.0, 23.0 ],
-									"text" : "patch freqshift 3ch-output 0"
+									"patching_rect" : [ 22.5, 245.5, 158.0, 23.0 ],
+									"text" : "patch freqshift myoutput 0"
 								}
 
 							}
@@ -990,7 +881,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 22.5, 338.0, 37.0, 23.0 ],
+									"patching_rect" : [ 207.0, 369.599853515625, 37.0, 23.0 ],
 									"text" : "open"
 								}
 
@@ -1076,7 +967,7 @@
 									"numoutlets" : 0,
 									"patching_rect" : [ 10.0, 69.599853515625, 433.0, 36.0 ],
 									"style" : "helpfile_label",
-									"text" : "Each matrix~ input/output node can have variable linear gain of an arbitrary value. An optional third argument sets the default gain."
+									"text" : "modular.matrix~ can support inputs, outputs and objects with more than one channel, allowing to reduce considerabily the size of the view. "
 								}
 
 							}
@@ -1096,17 +987,43 @@
 							}
 , 							{
 								"box" : 								{
-									"border" : 0,
-									"filename" : "helpargs.js",
-									"id" : "obj-4",
+									"background" : 1,
+									"bgcolor" : [ 1.0, 0.788235, 0.470588, 1.0 ],
+									"fontface" : 1,
+									"hint" : "",
+									"id" : "obj-37",
 									"ignoreclick" : 1,
-									"jsarguments" : [ "matrix~", 30 ],
-									"maxclass" : "jsui",
+									"legacytextcolor" : 1,
+									"maxclass" : "textbutton",
 									"numinlets" : 1,
-									"numoutlets" : 1,
-									"outlettype" : [ "" ],
+									"numoutlets" : 3,
+									"outlettype" : [ "", "", "int" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 201.258003234863281, 401.0, 243.483993530273438, 69.0 ]
+									"patching_rect" : [ 419.5, 430.099853515625, 20.0, 20.0 ],
+									"rounded" : 60.0,
+									"text" : "3",
+									"textcolor" : [ 0.34902, 0.34902, 0.34902, 1.0 ]
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"background" : 1,
+									"bgcolor" : [ 1.0, 0.788235, 0.470588, 1.0 ],
+									"fontface" : 1,
+									"hint" : "",
+									"id" : "obj-32",
+									"ignoreclick" : 1,
+									"legacytextcolor" : 1,
+									"maxclass" : "textbutton",
+									"numinlets" : 1,
+									"numoutlets" : 3,
+									"outlettype" : [ "", "", "int" ],
+									"parameter_enable" : 0,
+									"patching_rect" : [ 484.25, 285.5, 20.0, 20.0 ],
+									"rounded" : 60.0,
+									"text" : "2",
+									"textcolor" : [ 0.34902, 0.34902, 0.34902, 1.0 ]
 								}
 
 							}
@@ -1273,7 +1190,7 @@
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 0.0, 26.0, 1044.0, 741.0 ],
+						"rect" : [ 0.0, 26.0, 1080.0, 741.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 13.0,
@@ -1668,7 +1585,7 @@
 									"numoutlets" : 0,
 									"patching_rect" : [ 10.0, 72.5, 760.0, 36.0 ],
 									"style" : "helpfile_label",
-									"text" : "modular.matrix~ is mainly compatible with matrix~ object. You can use basic matrix~ functionalities and create connections using indexes and linear gain."
+									"text" : "modular.matrix~ is almost compatible with matrix~ object. You can use basic matrix~ functionalities and create connections using indexes and linear gain."
 								}
 
 							}
@@ -1958,7 +1875,7 @@
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 0.0, 26.0, 1044.0, 741.0 ],
+						"rect" : [ 0.0, 26.0, 1080.0, 741.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 13.0,
@@ -2511,7 +2428,7 @@
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 0.0, 26.0, 1044.0, 741.0 ],
+						"rect" : [ 0.0, 26.0, 1080.0, 741.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 13.0,
@@ -3178,7 +3095,7 @@
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 0.0, 26.0, 1044.0, 741.0 ],
+						"rect" : [ 0.0, 26.0, 1080.0, 741.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 13.0,
@@ -3209,13 +3126,26 @@
 						"assistshowspatchername" : 0,
 						"boxes" : [ 							{
 								"box" : 								{
+									"id" : "obj-10",
+									"linecount" : 6,
+									"maxclass" : "comment",
+									"numinlets" : 1,
+									"numoutlets" : 0,
+									"patching_rect" : [ 547.5, 157.0, 255.0, 94.0 ],
+									"presentation_linecount" : 9,
+									"style" : "helpfile_label",
+									"text" : "you can create differents entries in the configuration file :\nmultichannels inputs, \nmultichannels outputs,\nmultichannels objects : entries in the matrix who have both inputs and outputs"
+								}
+
+							}
+, 							{
+								"box" : 								{
 									"id" : "obj-26",
 									"linecount" : 4,
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
 									"patching_rect" : [ 468.5, 574.0, 170.0, 65.0 ],
-									"presentation_linecount" : 4,
 									"style" : "helpfile_label",
 									"text" : "for inputs : \n<name>-in-<input index>\nfor outputs : \n<name>-out-<output index>"
 								}
@@ -3232,7 +3162,6 @@
 									"numinlets" : 1,
 									"numoutlets" : 0,
 									"patching_rect" : [ 468.5, 512.5, 191.0, 54.0 ],
-									"presentation_linecount" : 3,
 									"text" : "all sends~ and receive~ are automaticaly created with the following syntax"
 								}
 
@@ -3639,7 +3568,7 @@
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 0.0, 26.0, 1044.0, 741.0 ],
+						"rect" : [ 0.0, 26.0, 1080.0, 741.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,

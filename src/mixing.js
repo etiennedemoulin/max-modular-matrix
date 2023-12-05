@@ -1,9 +1,54 @@
 const eye = n => [...Array(n)].map((e, i, a) => a.map(e => +!i--));
 
+export function disableConnectionWithName(inputName, outputName, globals) {
+  if (inputName === outputName) {
+    return true
+  } else {
+    return false
+  }
+}
+
+export function getNumChannelsFromInputName(inputName, globals) {
+
+  let inputStructure = globals.structure.inputs.find(e => e.name === inputName);
+  if (inputStructure === undefined) {
+    inputStructure = globals.structure.objects.find(e => e.name === inputName);
+  }
+
+  const inputNumber = inputStructure.inputs;
+
+  return inputNumber;
+}
+
+export function getNumChannelsFromOutputName(outputName, globals) {
+
+  let outputStructure = globals.structure.outputs.find(e => e.name === outputName);
+  if (outputStructure === undefined) {
+    outputStructure = globals.structure.objects.find(e => e.name === outputName);
+  }
+  if (outputStructure === undefined) {
+    return null;
+  }
+  const outputNumber = outputStructure.outputs;
+
+  return outputNumber;
+}
+
+export function getIndexesFromNames(inputName, outputName, globals) {
+  const inputIndex = globals.userMatrix.inputs.findIndex(e => e === inputName);
+  const outputIndex = globals.userMatrix.outputs.findIndex(e => e === outputName);
+  return { inputIndex, outputIndex };
+}
+
 
 export function allowConnectionWithName(inputName, outputName, globals) {
-  const inputNumber = globals.structure.find(e => e.name === inputName).inputs;
-  const outputNumber = globals.structure.find(e => e.name === outputName).outputs;
+  const inputNumber = getNumChannelsFromInputName(inputName, globals);
+  const outputNumber = getNumChannelsFromOutputName(outputName, globals);
+
+  if (inputName === outputName) {
+    return false;
+  }
+
   if (getMixingLaw(inputNumber, outputNumber) === null) {
     return false;
   } else {
@@ -14,13 +59,9 @@ export function allowConnectionWithName(inputName, outputName, globals) {
 export function allowConnectionWithIndex(inputIndex, outputIndex, globals) {
   const inputName = globals.userMatrix.inputs[inputIndex];
   const outputName = globals.userMatrix.outputs[outputIndex];
-  const inputNumber = globals.structure.find(e => e.name === inputName).inputs;
-  const outputNumber = globals.structure.find(e => e.name === outputName).outputs;
-  if (getMixingLaw(inputNumber, outputNumber) === null) {
-    return false;
-  } else {
-    return true;
-  }
+
+  return allowConnectionWithName(inputName, outputName, globals);
+
 }
 
 export function getMixingLaw(inputNumber, outputNumber) {
