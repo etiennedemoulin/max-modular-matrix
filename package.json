@@ -1,12 +1,12 @@
 {
   "name": "max-modular-matrix",
   "version": "2.0.1",
-  "description": "Max app for matrix easy life",
+  "description": "Max object for matrix~ design",
   "main": "index.js",
   "scripts": {
     "build": "npx esbuild ./src/modular-matrix.js  --bundle --format=cjs --platform=node --external:max-api --outfile=modular-matrix/javascript/modular.matrix.cjs"
   },
-  "author": "",
+  "author": "Etienne Démoulin",
   "license": "ISC",
   "dependencies": {
     "@ircam/sc-utils": "^1.3.2"

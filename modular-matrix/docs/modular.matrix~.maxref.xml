@@ -10,9 +10,7 @@
 	<description>
 		<o>modular.matrix~</o> is an array of signal connectors and mixers (adders). It can have any number of inlets and outlets. Signals entering at each inlet can be routed to one or more of the outlets, with a variable amount of gain. If an outlet is connected to more than one inlet, its output signal is the sum of the signals from the inlets.
 		<br />
-		<o>modular.matrix~</o> is a mc object : all of its signal inlets are combined into a single multichannel inlet and all of its signal outlets are combined into a single multichannel outlet. The behavior of <o>modular.matrix~</o> is otherwise identical to <o>matrix~</o>.
-		<br />
-		The only difference between <o>matrix~</o> and <o>modular.matrix~</o> is the way of accessing datas. <o>modular.matrix~</o> access datas by name instead of index, this permit to modify the matrix without breaking connections.
+		<o>modular.matrix~</o> is a mc object : all of its signal inlets are combined into a single multichannel inlet and all of its signal outlets are combined into a single multichannel outlet.
 	</description>
 	<!--METADATA-->
 	<metadatalist>
