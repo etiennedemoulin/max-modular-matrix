@@ -1,7 +1,6 @@
 import path from 'node:path';
 import fs from 'node:fs';
 import Max from 'max-api';
-import JSON5 from 'json5';
 import { getMixingLaw, allowConnectionWithName, allowConnectionWithIndex, getNumChannelsFromInputName, getNumChannelsFromOutputName, getIndexesFromNames, disableConnectionWithName } from './mixing.js';
 import { dbtoa, linearScale, atodb } from '@ircam/sc-utils';
 
