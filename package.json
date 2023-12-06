@@ -1,16 +1,15 @@
 {
   "name": "max-modular-matrix",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Max app for matrix easy life",
   "main": "index.js",
   "scripts": {
-    "build": "npx esbuild ./src/modular-matrix.js  --bundle --format=cjs --platform=node --external:max-api --outfile=max/modular-matrix/javascript/modular.matrix.cjs"
+    "build": "npx esbuild ./src/modular-matrix.js  --bundle --format=cjs --platform=node --external:max-api --outfile=modular-matrix/javascript/modular.matrix.cjs"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@ircam/sc-utils": "^1.3.2",
-    "json5": "^2.2.3",
-    "open": "^9.1.0"
+    "json5": "^2.2.3"
   }
 }

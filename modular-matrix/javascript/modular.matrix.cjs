@@ -1573,7 +1573,6 @@ function generateMatrix() {
     });
   });
   generateBox("user_matrix_routing", "spat5.matrix", ["@inputs", globals.userMatrix.inputs.length, "@outputs", globals.userMatrix.outputs.length, "@initwith", `"${globals.userMatrix.initwith}"`], { x: 400, y: 260 }, 0);
-  generateBox("routing_matrix_routing", "spat5.matrix", ["@inputs", globals.routingMatrix.inputs.length, "@outputs", globals.routingMatrix.outputs.length, "@initwith", `"${globals.routingMatrix.initwith}"`], { x: 20, y: 120 }, 0);
   generateBox("matrix", "matrix~", [globals.routingMatrix.inputs.length, globals.routingMatrix.outputs.length, "1.", `@ramp ${globals.ramp}`], { x: 40, y: 190 }, 0);
   generateBox("matrix_unpack", "mc.unpack~", [globals.routingMatrix.inputs.length], { x: 20, y: 30 }, 0);
   generateBox("matrix_pack", "mc.pack~", [globals.routingMatrix.outputs.length], { x: 20, y: 280 }, 0);
@@ -1584,7 +1583,6 @@ function generateMatrix() {
   generateLink("user_matrix_in", 0, "user_matrix_routing", 0);
   generateLink("route_mtrx", 0, "matrix_unpack", 0);
   generateLink("route_mtrx", 1, "matrix_unpack", 0);
-  generateLink("routing_matrix_filter", 1, "routing_matrix_routing", 0);
   generateLink("route_mtrx", 2, "dict", 0);
   globals.routingMatrix.inputs.forEach((name, index) => {
     generateBox(`recv-${name}`, "receive~", [name], { x: 40 + index * 120, y: 150 }, 0);

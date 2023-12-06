@@ -7,3 +7,4 @@ package-lock.json
 .matrix-checksum
 .DS_Store
 Thumbs.db
+modular.matrix.cjs

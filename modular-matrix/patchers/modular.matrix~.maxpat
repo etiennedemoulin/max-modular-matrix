@@ -65,19 +65,6 @@
 			}
 , 			{
 				"box" : 				{
-					"id" : "obj-20",
-					"maxclass" : "newobj",
-					"numinlets" : 2,
-					"numoutlets" : 2,
-					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 649.0, 455.0, 67.0, 22.0 ],
-					"text" : "route ramp",
-					"varname" : "routing_matrix_filter"
-				}
-
-			}
-, 			{
-				"box" : 				{
 					"comment" : "modular.matrix~:(dict) dump",
 					"id" : "obj-70",
 					"index" : 2,
@@ -135,27 +122,6 @@
 					"patching_rect" : [ 407.0, 356.0, 93.0, 22.0 ],
 					"text" : "prepend routing",
 					"varname" : "user_matrix_out"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"bgmode" : 0,
-					"border" : 0,
-					"clickthrough" : 0,
-					"enablehscroll" : 0,
-					"enablevscroll" : 0,
-					"id" : "obj-1",
-					"lockeddragscroll" : 0,
-					"lockedsize" : 0,
-					"maxclass" : "bpatcher",
-					"name" : "soundworks.monitor.maxpat",
-					"numinlets" : 1,
-					"numoutlets" : 1,
-					"offset" : [ 0.0, 0.0 ],
-					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 538.0, 613.0, 400.0, 220.0 ],
-					"viewvisibility" : 1
 				}
 
 			}
@@ -2780,16 +2746,7 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-1", 0 ],
-					"order" : 1,
-					"source" : [ "obj-82", 1 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
 					"destination" : [ "obj-74", 0 ],
-					"order" : 0,
 					"source" : [ "obj-82", 1 ]
 				}
 
@@ -2812,13 +2769,6 @@
 				"patchline" : 				{
 					"destination" : [ "obj-56", 1 ],
 					"source" : [ "obj-89", 3 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-20", 0 ],
-					"source" : [ "obj-9", 0 ]
 				}
 
 			}
