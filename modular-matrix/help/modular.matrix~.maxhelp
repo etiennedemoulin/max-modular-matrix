@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 426.0, 100.0, 1080.0, 767.0 ],
+		"rect" : [ 100.0, 100.0, 1080.0, 767.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -398,7 +398,7 @@
 									"numoutlets" : 0,
 									"patching_rect" : [ 10.0, 68.5, 760.0, 50.0 ],
 									"style" : "helpfile_label",
-									"text" : "The modular.matrix~ object can receive dictionaries to configure its state, with the possibility to recall matrix state by names, gain in dB and interpolation for each connection. When receiving a dictionary, all previous connections are cleared and replaced by the connections in the dictionary. You can also set some attributes including the default gain and ramp time. "
+									"text" : "The modular.matrix~ object can receive dictionaries to configure its state, with the possibility to recall matrix state by names, gain in decibel and interpolation for each connection. When receiving a dictionary, all previous connections are cleared and replaced by the connections in the dictionary. You can also set some attributes including the default gain and ramp time. "
 								}
 
 							}
@@ -620,7 +620,7 @@
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 426.0, 126.0, 1080.0, 741.0 ],
+						"rect" : [ 0.0, 26.0, 1080.0, 741.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 13.0,
@@ -2888,9 +2888,9 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 10.0, 69.599853515625, 465.0, 21.0 ],
+									"patching_rect" : [ 10.0, 69.599853515625, 486.0, 21.0 ],
 									"style" : "helpfile_label",
-									"text" : "Patch messages allows to connect with input and output names and gain in dB"
+									"text" : "Patch messages allows to connect with input and output names and gain in decibel"
 								}
 
 							}
@@ -3165,7 +3165,7 @@
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 0.0, 26.0, 1080.0, 741.0 ],
+						"rect" : [ 100.0, 126.0, 1080.0, 741.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 13.0,
@@ -3195,6 +3195,32 @@
 						"showontab" : 1,
 						"assistshowspatchername" : 0,
 						"boxes" : [ 							{
+								"box" : 								{
+									"fontface" : 1,
+									"id" : "obj-25",
+									"linecount" : 4,
+									"maxclass" : "comment",
+									"numinlets" : 1,
+									"numoutlets" : 0,
+									"patching_rect" : [ 591.0, 385.0, 161.0, 65.0 ],
+									"text" : "make sure spat5 package is installed before using modular.matrix~"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"fontface" : 1,
+									"id" : "obj-9",
+									"maxclass" : "comment",
+									"numinlets" : 1,
+									"numoutlets" : 0,
+									"patching_rect" : [ 591.0, 360.0, 60.0, 21.0 ],
+									"text" : "Warning",
+									"textcolor" : [ 1.0, 0.0, 0.0, 1.0 ]
+								}
+
+							}
+, 							{
 								"box" : 								{
 									"id" : "obj-8",
 									"maxclass" : "message",
@@ -3572,7 +3598,7 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 10.0, 10.0, 620.0, 125.0 ]
+									"patching_rect" : [ 10.0, 10.0, 1044.0, 132.0 ]
 								}
 
 							}
@@ -3858,12 +3884,6 @@
 		}
 ,
 		"dependency_cache" : [ 			{
-				"name" : "fit_jweb_to_bounds.js",
-				"bootpath" : "C74:/packages/Node for Max/patchers/debug-monitor",
-				"type" : "TEXT",
-				"implicit" : 1
-			}
-, 			{
 				"name" : "helpargs.js",
 				"bootpath" : "C74:/help/resources",
 				"type" : "TEXT",
@@ -3889,27 +3909,14 @@
 			}
 , 			{
 				"name" : "modular.matrix.cjs",
-				"bootpath" : "~/Github/max-modular-matrix/max/modular-matrix/javascript",
+				"bootpath" : "~/Github/max-modular-matrix/modular-matrix/javascript",
 				"patcherrelativepath" : "../javascript",
 				"type" : "TEXT",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "modular.matrix~.maxpat",
-				"bootpath" : "~/Github/max-modular-matrix/max/modular-matrix/patchers",
-				"patcherrelativepath" : "../patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "resize_n4m_monitor_patcher.js",
-				"bootpath" : "C74:/packages/Node for Max/patchers/debug-monitor",
-				"type" : "TEXT",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "soundworks.monitor.maxpat",
-				"bootpath" : "~/Github/max-modular-matrix/max/modular-matrix/patchers",
+				"bootpath" : "~/Github/max-modular-matrix/modular-matrix/patchers",
 				"patcherrelativepath" : "../patchers",
 				"type" : "JSON",
 				"implicit" : 1
