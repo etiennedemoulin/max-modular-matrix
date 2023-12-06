@@ -8,7 +8,6 @@ modular.matrix~ is a mc object : all of its signal inlets are combined into a si
 ## Installation
 Download modular-matrix.zip from [release](https://github.com/etiennedemoulin/max-modular-matrix/releases)  
 Unzip the package and copy the resulting directory in `~/Documents/Max 8/Library`  
-Run `cd ~/Documents/Max\ 8/Library/modular-matrix && xattr -d -r com.apple.quarantine .`   
 **Important** The graphical component of modular.matrix~ depend for now on `spat5.matrix` Max object who is a part of `spat5` project available on [IRCAM Forum](https://forum.ircam.fr).
 
 ## Development
