@@ -9,8 +9,12 @@ The only difference between matrix~ and modular.matrix~ is the way of accessing 
 ## Installation
 Download modular-matrix.zip from [release](https://github.com/etiennedemoulin/max-modular-matrix/releases)  
 Unzip the package and copy the resulting directory in `~/Documents/Max 8/Library`  
-Run `xattr -d -r com.apple.quarantine "~/Documents/Max 8/Library/modular-matrix"`   
+Run `cd ~/Documents/Max\ 8/Library/modular-matrix && xattr -d -r com.apple.quarantine .`   
+**Important** The graphical component of modular.matrix~ depend for now on `spat5.matrix` Max object who is a part of `spat5` project available on [IRCAM Forum](https://forum.ircam.fr).
 
+## Development
+Clone this repository and `cd max-modular-matrix && npm install && npm run build` to build the script from Max.  
+Sources files are located in `src` folder.  
 
 ## Usage
 Connections the the matrix can be made with inlets and outlets or with send~ and receive~  
