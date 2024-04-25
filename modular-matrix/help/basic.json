@@ -1,14 +1,38 @@
 {
  "inputs": [
   {
-   "name": "cycle",
-   "inputs": 4
+   "name": "in-1",
+   "inputs": 1
+  },
+  {
+   "name": "in-2",
+   "inputs": 1
+  },
+  {
+   "name": "in-3",
+   "inputs": 1
+  },
+  {
+   "name": "in-4",
+   "inputs": 1
   }
  ],
  "outputs": [
   {
-   "name": "dac",
-   "outputs": 2
+   "name": "out-1",
+   "outputs": 1
+  },
+  {
+   "name": "out-2",
+   "outputs": 1
+  },
+  {
+   "name": "out-3",
+   "outputs": 1
+  },
+  {
+   "name": "out-4",
+   "outputs": 1
   }
  ]
 }

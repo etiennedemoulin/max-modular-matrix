@@ -330,7 +330,7 @@ function generateMatrix() {
       if (e.inputs !== 0) {
         globals.userMatrix.inputs.push(e.name);
         for (let s = 1; s <= e.inputs; s++) {
-            globals.routingMatrix.inputs.push(`${e.name}-in-${s}`);
+            globals.routingMatrix.inputs.push(`${e.name}`);
         };
       }
     });
@@ -341,7 +341,7 @@ function generateMatrix() {
       if (e.outputs !== 0) {
         globals.userMatrix.outputs.push(e.name);
         for (let s = 1; s <= e.outputs; s++) {
-          globals.routingMatrix.outputs.push(`${e.name}-out-${s}`);
+          globals.routingMatrix.outputs.push(`${e.name}`);
         };
       }
     });
@@ -353,10 +353,10 @@ function generateMatrix() {
         globals.userMatrix.inputs.push(e.name);
         globals.userMatrix.outputs.push(e.name);
         for (let s = 1; s <= e.inputs; s++) {
-            globals.routingMatrix.inputs.push(`${e.name}-in-${s}`);
+            globals.routingMatrix.inputs.push(`${e.name}`);
         };
         for (let s = 1; s <= e.outputs; s++) {
-          globals.routingMatrix.outputs.push(`${e.name}-out-${s}`);
+          globals.routingMatrix.outputs.push(`${e.name}`);
         };
       }
     });
@@ -364,18 +364,18 @@ function generateMatrix() {
 
   globals.userMatrix.inputs.forEach((e, i) => {
     const numch = getNumChannelsFromInputName(e, globals);
-    globals.userMatrix.initwith += `/row/${i+1}/label ${e}(${numch}ch), `;
+    globals.userMatrix.initwith += `/row/${i+1}/name ${e}, `;
   })
   globals.userMatrix.outputs.forEach((e, i) => {
     const numch = getNumChannelsFromOutputName(e, globals);
-    globals.userMatrix.initwith += `/col/${i+1}/label ${e}(${numch}ch), `;
+    globals.userMatrix.initwith += `/col/${i+1}/name ${e}, `;
   })
   globals.routingMatrix.inputs.forEach((e, i) => {
-    globals.routingMatrix.initwith += `/row/${i+1}/label ${e}, `;
+    globals.routingMatrix.initwith += `/row/${i+1}/name ${e}, `;
     globals.routingMatrix.crosspatch.inputs += `${e} `;
   })
   globals.routingMatrix.outputs.forEach((e, i) => {
-    globals.routingMatrix.initwith += `/col/${i+1}/label ${e}, `;
+    globals.routingMatrix.initwith += `/col/${i+1}/name ${e}, `;
     globals.routingMatrix.crosspatch.outputs += `${e} `;
   })
 
@@ -391,39 +391,40 @@ function generateMatrix() {
   })
 
   // console.log(globals.userMatrix, globals.routingMatrix);
+  generateBox('user_matrix_routing', 'spat5.routing', ['@inputs', globals.userMatrix.inputs.length, '@outputs', globals.userMatrix.outputs.length, '@initwith', `"${globals.userMatrix.initwith}"`], { x: 420, y: 260 }, 0);
 
-  generateBox('user_matrix_routing', 'spat5.matrix', ['@inputs', globals.userMatrix.inputs.length, '@outputs', globals.userMatrix.outputs.length, '@initwith', `"${globals.userMatrix.initwith}"`], { x: 400, y: 260 }, 0);
+  generateBox('user_matrix_routing_translate', 'spat5.matrix', ['@inputs', globals.userMatrix.inputs.length, '@outputs', globals.userMatrix.outputs.length], { x: 400, y: 260 }, 0);
   // for debug
   // generateBox('routing_matrix_routing', 'spat5.matrix', ['@inputs', globals.routingMatrix.inputs.length, '@outputs', globals.routingMatrix.outputs.length, '@initwith', `"${globals.routingMatrix.initwith}"`], { x: 20, y: 120 }, 0);
   // generateLink('routing_matrix_in', 1, 'routing_matrix_routing', 0);
 
-  generateBox('matrix', 'matrix~', [globals.routingMatrix.inputs.length, globals.routingMatrix.outputs.length, '1.', `@ramp ${globals.ramp}`], { x: 40, y: 190 }, 0);
-  generateBox('matrix_unpack', 'mc.unpack~', [globals.routingMatrix.inputs.length], { x: 20, y:30 }, 0);
-  generateBox('matrix_pack', 'mc.pack~', [globals.routingMatrix.outputs.length], { x: 20, y:280 }, 0);
+  generateBox('matrix', 'matrix', [globals.routingMatrix.inputs.length, globals.routingMatrix.outputs.length, '1.'], { x: 40, y: 190 }, 0);
+  // generateBox('matrix_unpack', 'mc.unpack~', [globals.routingMatrix.inputs.length], { x: 20, y:30 }, 0);
+  // generateBox('matrix_pack', 'mc.pack~', [globals.routingMatrix.outputs.length], { x: 20, y:280 }, 0);
     // generate configuration dict
   generateBox('dict', 'dict', [globals.file], {x: 20, y: 3 }, 0);
 
-  generateLink('user_matrix_routing', 0, 'user_matrix_out', 0);
-  generateLink('matrix_pack', 0, 'mc-outlet', 0);
+  generateLink('user_matrix_routing', 0, 'user_matrix_routing_translate', 0);
+  generateLink('user_matrix_routing_translate', 0, 'user_matrix_out', 0);
+  // generateLink('matrix_pack', 0, 'mc-outlet', 0);
   generateLink('routing_matrix_in', 0, 'matrix', 0);
   generateLink('user_matrix_in', 0, 'user_matrix_routing', 0);
-  generateLink('route_mtrx', 0, 'matrix_unpack', 0);
-  generateLink('route_mtrx', 1, 'matrix_unpack', 0);
-  // generateLink('user_matrix_open', 0, 'user_matrix_routing', 0);
-  // generateLink('routing_matrix_open', 0, 'routing_matrix_routing', 0);
+  // generateLink('route_mtrx', 0, 'matrix_unpack', 0);
+  // generateLink('route_mtrx', 1, 'matrix_unpack', 0);
+
   generateLink('route_mtrx', 2, 'dict', 0);
 
   // generate receive boxes
   globals.routingMatrix.inputs.forEach((name, index) => {
-    generateBox(`recv-${name}`, 'receive~', [name], { x: (40 + index * 120), y: 150 }, 0);
-    generateLink(`recv-${name}`, 0, 'matrix', index);
-    generateLink('matrix_unpack', index, 'matrix', index);
+    generateBox(`recv-${name}`, 'receive', [name], { x: (40 + index * 120), y: 150 }, 0);
+    generateLink(`recv-${name}`, 0, 'matrix', index + 1);
+    // generateLink('matrix_unpack', index, 'matrix', index);
   });
 
   globals.routingMatrix.outputs.forEach((name, index) => {
-    generateBox(`send-${name}`, 'send~', [name], { x: (40 + index * 120), y: 230 }, 0);
-    generateLink('matrix', index, `send-${name}`, 0);
-    generateLink('matrix', index, 'matrix_pack', index);
+    generateBox(`send-${name}`, 'send', [name], { x: (40 + index * 120), y: 230 }, 0);
+    generateLink('matrix', index + 1, `send-${name}`, 0);
+    // generateLink('matrix', index, 'matrix_pack', index);
   });
 
   Max.outlet("visualize", "set", `no connections...`);
@@ -468,12 +469,12 @@ function onRouting(row, col, gain) {
   const routingMatrixIndexOutput = [];
 
   for (let i = 1; i <= userMatrixInputNumber; i++) {
-    const index = globals.routingMatrix.inputs.findIndex(e => e === `${userMatrixInput}-in-${i}`);
+    const index = globals.routingMatrix.inputs.findIndex(e => e === `${userMatrixInput}`);
     routingMatrixIndexInput.push(index);
   }
 
   for (let i = 1; i <= userMatrixOutputNumber; i++) {
-    const index = globals.routingMatrix.outputs.findIndex(e => e === `${userMatrixOutput}-out-${i}`);
+    const index = globals.routingMatrix.outputs.findIndex(e => e === `${userMatrixOutput}`);
     routingMatrixIndexOutput.push(index);
   }
 
