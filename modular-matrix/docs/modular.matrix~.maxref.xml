@@ -8,7 +8,7 @@
 		Signal routing and mixing matrix with integrated send receive connections, UI interface and snapshots.
 	</digest>
 	<description>
-		<o>modular.matrix~</o> is an array of signal connectors and mixers (adders). It can have any number of inlets and outlets. Signals entering at each inlet can be routed to one or more of the outlets, with a variable amount of gain. If an outlet is connected to more than one inlet, its output signal is the sum of the signals from the inlets.
+		<o>modular.matrix~</o> is an array of signal connectors and mixers (adders). It can have any number of inlets and outlets. Signals entering at each inlet can be routed to one or more of the outlets, with a variable amount of gain. If an outlet is connected to more than one inlet, its outlet signal is the sum of the signals from the inlet.
 		<br />
 		<o>modular.matrix~</o> is a mc object : all of its signal inlets are combined into a single multichannel inlet and all of its signal outlets are combined into a single multichannel outlet.
 	</description>
@@ -28,7 +28,7 @@
 	<inletlist>
 		<inlet id="0" type="signal">
 			<digest>
-				Input 0, connect (list), disconnect (list)
+				Inlet 0, connect (list), disconnect (list)
 			</digest>
 			<description>
 				TEXT_HERE
@@ -36,7 +36,7 @@
 		</inlet>
 		<inlet id="1" type="signal">
 			<digest>
-				Input 1
+				Inlet 1
 			</digest>
 			<description>
 				TEXT_HERE
@@ -47,7 +47,7 @@
 	<outletlist>
 		<outlet id="0" type="signal">
 			<digest>
-				Output 0
+				Outlet 0
 			</digest>
 			<description>
 				TEXT_HERE
@@ -55,7 +55,7 @@
 		</outlet>
 		<outlet id="1" type="signal">
 			<digest>
-				Output 1
+				Outlet 1
 			</digest>
 			<description>
 				TEXT_HERE
@@ -91,7 +91,7 @@
 				Connect inlets and outlets with indexes
 			</digest>
 			<description>
-				In left inlet: A list of three numbers connects inlets and outlets. The first number specifies the inlet, the second number specifies the outlet. If the third number is 0, the inlet is disconnected from the outlet. If the third number is non-zero it is interprted as a gain for the connection between the input and output.
+				In left inlet: A list of three numbers connects inlets and outlets. The first number specifies the inlet, the second number specifies the outlet. If the third number is 0, the inlet is disconnected from the outlet. If the third number is non-zero it is interprted as a gain for the connection between the inlet and output.
 				<br />
 				<br />
 				Note: To specify the gain of individual connections, you must use three-element list messages rather than the <m>connect</m> message. Connections formed with the <m>connect</m> message always have a gain specified by the third argument initially given to the <o>matrix~</o> object. However, subsequent list messages can alter the gain of connections formed with the <m>connect</m> message.
@@ -212,12 +212,12 @@
 		<seealso name="send~" />
 	</seealsolist>
 	<discussion>
-		Connections between inputs and outputs can have their own gains, and each connection can include a ramp time to avoid clicks.
+		Connections between inlets and outlets can have their own gains, and each connection can include a ramp time to avoid clicks.
 	</discussion>
 	<misc name="Output">
 		<entry name="signal">
 			<description>
-				The output signals for each outlet are the sum of their connected inputs, scaled by the gain values of the connections.
+				The output signals for each outlet are the sum of their connected inlets, scaled by the gain values of the connections.
 			</description>
 		</entry>
 		<entry name="list">

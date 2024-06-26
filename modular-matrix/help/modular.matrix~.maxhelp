@@ -3,8 +3,8 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 8,
-			"minor" : 5,
-			"revision" : 6,
+			"minor" : 6,
+			"revision" : 2,
 			"architecture" : "x64",
 			"modernui" : 1
 		}
@@ -52,8 +52,8 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 8,
-							"minor" : 5,
-							"revision" : 6,
+							"minor" : 6,
+							"revision" : 2,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
@@ -117,6 +117,7 @@
 											"parameter_longname" : "mc.live.gain~[4]",
 											"parameter_mmax" : 6.0,
 											"parameter_mmin" : -70.0,
+											"parameter_modmode" : 0,
 											"parameter_shortname" : "mc.live.gain~",
 											"parameter_type" : 0,
 											"parameter_unitstyle" : 4
@@ -300,11 +301,12 @@
 									"id" : "obj-12",
 									"maxclass" : "newobj",
 									"numinlets" : 2,
-									"numoutlets" : 4,
-									"outlettype" : [ "dictionary", "", "", "" ],
+									"numoutlets" : 5,
+									"outlettype" : [ "dictionary", "", "", "", "" ],
 									"patching_rect" : [ 281.5, 220.0, 96.0, 23.0 ],
 									"saved_object_attributes" : 									{
 										"embed" : 1,
+										"legacy" : 1,
 										"parameter_enable" : 0,
 										"parameter_mappable" : 0
 									}
@@ -347,11 +349,12 @@
 									"id" : "obj-8",
 									"maxclass" : "newobj",
 									"numinlets" : 2,
-									"numoutlets" : 4,
-									"outlettype" : [ "dictionary", "", "", "" ],
+									"numoutlets" : 5,
+									"outlettype" : [ "dictionary", "", "", "", "" ],
 									"patching_rect" : [ 77.5, 220.0, 96.0, 23.0 ],
 									"saved_object_attributes" : 									{
 										"embed" : 1,
+										"legacy" : 1,
 										"parameter_enable" : 0,
 										"parameter_mappable" : 0
 									}
@@ -377,6 +380,7 @@
 							}
 , 							{
 								"box" : 								{
+									"color" : [ 0.82517, 0.78181, 0.059545, 1.0 ],
 									"fontname" : "Arial",
 									"fontsize" : 13.0,
 									"id" : "obj-5",
@@ -396,7 +400,7 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 10.0, 68.5, 760.0, 50.0 ],
+									"patching_rect" : [ 10.0, 68.5, 761.0, 50.0 ],
 									"style" : "helpfile_label",
 									"text" : "The modular.matrix~ object can receive dictionaries to configure its state, with the possibility to recall matrix state by names, gain in decibel and interpolation for each connection. When receiving a dictionary, all previous connections are cleared and replaced by the connections in the dictionary. You can also set some attributes including the default gain and ramp time. "
 								}
@@ -613,8 +617,8 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 8,
-							"minor" : 5,
-							"revision" : 6,
+							"minor" : 6,
+							"revision" : 2,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
@@ -651,14 +655,16 @@
 						"assistshowspatchername" : 0,
 						"boxes" : [ 							{
 								"box" : 								{
+									"color" : [ 1.0, 0.0, 0.0, 1.0 ],
 									"id" : "obj-3",
 									"maxclass" : "newobj",
 									"numinlets" : 2,
-									"numoutlets" : 4,
-									"outlettype" : [ "dictionary", "", "", "" ],
+									"numoutlets" : 5,
+									"outlettype" : [ "dictionary", "", "", "", "" ],
 									"patching_rect" : [ 10.0, 117.0, 139.0, 23.0 ],
 									"saved_object_attributes" : 									{
 										"embed" : 0,
+										"legacy" : 1,
 										"parameter_enable" : 0,
 										"parameter_mappable" : 0
 									}
@@ -748,11 +754,12 @@
 									"id" : "obj-31",
 									"maxclass" : "newobj",
 									"numinlets" : 2,
-									"numoutlets" : 4,
-									"outlettype" : [ "dictionary", "", "", "" ],
+									"numoutlets" : 5,
+									"outlettype" : [ "dictionary", "", "", "", "" ],
 									"patching_rect" : [ 56.0, 309.0, 96.0, 23.0 ],
 									"saved_object_attributes" : 									{
 										"embed" : 1,
+										"legacy" : 1,
 										"parameter_enable" : 0,
 										"parameter_mappable" : 0
 									}
@@ -846,6 +853,7 @@
 							}
 , 							{
 								"box" : 								{
+									"color" : [ 0.093121, 0.536852, 0.511438, 1.0 ],
 									"id" : "obj-10",
 									"maxclass" : "newobj",
 									"numinlets" : 1,
@@ -858,6 +866,7 @@
 							}
 , 							{
 								"box" : 								{
+									"color" : [ 0.093121, 0.536852, 0.511438, 1.0 ],
 									"id" : "obj-11",
 									"maxclass" : "newobj",
 									"numinlets" : 1,
@@ -870,6 +879,7 @@
 							}
 , 							{
 								"box" : 								{
+									"color" : [ 0.093121, 0.536852, 0.511438, 1.0 ],
 									"id" : "obj-12",
 									"maxclass" : "newobj",
 									"numinlets" : 1,
@@ -881,6 +891,7 @@
 							}
 , 							{
 								"box" : 								{
+									"color" : [ 0.093121, 0.536852, 0.511438, 1.0 ],
 									"id" : "obj-14",
 									"maxclass" : "newobj",
 									"numinlets" : 1,
@@ -931,6 +942,7 @@
 											"parameter_longname" : "mc.live.gain~[5]",
 											"parameter_mmax" : 6.0,
 											"parameter_mmin" : -70.0,
+											"parameter_modmode" : 0,
 											"parameter_shortname" : "mc.live.gain~",
 											"parameter_type" : 0,
 											"parameter_unitstyle" : 4
@@ -989,6 +1001,7 @@
 							}
 , 							{
 								"box" : 								{
+									"color" : [ 0.82517, 0.78181, 0.059545, 1.0 ],
 									"fontname" : "Arial",
 									"fontsize" : 13.0,
 									"id" : "obj-5",
@@ -1199,8 +1212,8 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 8,
-							"minor" : 5,
-							"revision" : 6,
+							"minor" : 6,
+							"revision" : 2,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
@@ -1237,14 +1250,16 @@
 						"assistshowspatchername" : 0,
 						"boxes" : [ 							{
 								"box" : 								{
+									"color" : [ 1.0, 0.0, 0.0, 1.0 ],
 									"id" : "obj-1",
 									"maxclass" : "newobj",
 									"numinlets" : 2,
-									"numoutlets" : 4,
-									"outlettype" : [ "dictionary", "", "", "" ],
+									"numoutlets" : 5,
+									"outlettype" : [ "dictionary", "", "", "", "" ],
 									"patching_rect" : [ 213.25, 517.5, 134.0, 23.0 ],
 									"saved_object_attributes" : 									{
 										"embed" : 0,
+										"legacy" : 1,
 										"parameter_enable" : 0,
 										"parameter_mappable" : 0
 									}
@@ -1306,6 +1321,7 @@
 											"parameter_longname" : "mc.live.gain~[1]",
 											"parameter_mmax" : 6.0,
 											"parameter_mmin" : -70.0,
+											"parameter_modmode" : 0,
 											"parameter_shortname" : "mc.live.gain~",
 											"parameter_type" : 0,
 											"parameter_unitstyle" : 4
@@ -1346,6 +1362,7 @@
 											"parameter_initial_enable" : 1,
 											"parameter_invisible" : 1,
 											"parameter_longname" : "number",
+											"parameter_modmode" : 0,
 											"parameter_shortname" : "number",
 											"parameter_type" : 3
 										}
@@ -1407,6 +1424,7 @@
 							}
 , 							{
 								"box" : 								{
+									"color" : [ 0.203921568627451, 1.0, 0.0, 1.0 ],
 									"id" : "obj-35",
 									"maxclass" : "newobj",
 									"numinlets" : 1,
@@ -1640,6 +1658,7 @@
 							}
 , 							{
 								"box" : 								{
+									"color" : [ 0.82517, 0.78181, 0.059545, 1.0 ],
 									"fontname" : "Arial",
 									"fontsize" : 13.0,
 									"id" : "obj-5",
@@ -1902,8 +1921,8 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 8,
-							"minor" : 5,
-							"revision" : 6,
+							"minor" : 6,
+							"revision" : 2,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
@@ -1940,14 +1959,16 @@
 						"assistshowspatchername" : 0,
 						"boxes" : [ 							{
 								"box" : 								{
+									"color" : [ 1.0, 0.0, 0.0, 1.0 ],
 									"id" : "obj-1",
 									"maxclass" : "newobj",
 									"numinlets" : 2,
-									"numoutlets" : 4,
-									"outlettype" : [ "dictionary", "", "", "" ],
+									"numoutlets" : 5,
+									"outlettype" : [ "dictionary", "", "", "", "" ],
 									"patching_rect" : [ 10.0, 117.0, 195.0, 23.0 ],
 									"saved_object_attributes" : 									{
 										"embed" : 0,
+										"legacy" : 1,
 										"parameter_enable" : 0,
 										"parameter_mappable" : 0
 									}
@@ -1985,6 +2006,7 @@
 											"parameter_longname" : "mc.live.gain~[2]",
 											"parameter_mmax" : 6.0,
 											"parameter_mmin" : -70.0,
+											"parameter_modmode" : 0,
 											"parameter_shortname" : "mc.live.gain~",
 											"parameter_type" : 0,
 											"parameter_unitstyle" : 4
@@ -2164,11 +2186,12 @@
 									"id" : "obj-12",
 									"maxclass" : "newobj",
 									"numinlets" : 2,
-									"numoutlets" : 4,
-									"outlettype" : [ "dictionary", "", "", "" ],
+									"numoutlets" : 5,
+									"outlettype" : [ "dictionary", "", "", "", "" ],
 									"patching_rect" : [ 281.5, 220.0, 96.0, 23.0 ],
 									"saved_object_attributes" : 									{
 										"embed" : 1,
+										"legacy" : 1,
 										"parameter_enable" : 0,
 										"parameter_mappable" : 0
 									}
@@ -2207,11 +2230,12 @@
 									"id" : "obj-8",
 									"maxclass" : "newobj",
 									"numinlets" : 2,
-									"numoutlets" : 4,
-									"outlettype" : [ "dictionary", "", "", "" ],
+									"numoutlets" : 5,
+									"outlettype" : [ "dictionary", "", "", "", "" ],
 									"patching_rect" : [ 77.5, 220.0, 96.0, 23.0 ],
 									"saved_object_attributes" : 									{
 										"embed" : 1,
+										"legacy" : 1,
 										"parameter_enable" : 0,
 										"parameter_mappable" : 0
 									}
@@ -2237,6 +2261,7 @@
 							}
 , 							{
 								"box" : 								{
+									"color" : [ 0.82517, 0.78181, 0.059545, 1.0 ],
 									"fontname" : "Arial",
 									"fontsize" : 13.0,
 									"id" : "obj-5",
@@ -2473,14 +2498,14 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 8,
-							"minor" : 5,
-							"revision" : 6,
+							"minor" : 6,
+							"revision" : 2,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 0.0, 26.0, 1080.0, 741.0 ],
+						"rect" : [ 100.0, 126.0, 1080.0, 741.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 13.0,
@@ -2511,14 +2536,31 @@
 						"assistshowspatchername" : 0,
 						"boxes" : [ 							{
 								"box" : 								{
+									"bubble" : 1,
+									"id" : "obj-10",
+									"linecount" : 3,
+									"maxclass" : "comment",
+									"numinlets" : 1,
+									"numoutlets" : 0,
+									"patching_rect" : [ 438.5, 121.0, 255.0, 54.0 ],
+									"presentation_linecount" : 3,
+									"style" : "helpfile_label",
+									"text" : "creating objects into matrix configuration leads to entries with both inlets and outlets"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"color" : [ 1.0, 0.0, 0.0, 1.0 ],
 									"id" : "obj-13",
 									"maxclass" : "newobj",
 									"numinlets" : 2,
-									"numoutlets" : 4,
-									"outlettype" : [ "dictionary", "", "", "" ],
-									"patching_rect" : [ 187.0, 379.099853515625, 154.0, 23.0 ],
+									"numoutlets" : 5,
+									"outlettype" : [ "dictionary", "", "", "", "" ],
+									"patching_rect" : [ 276.0, 136.5, 154.0, 23.0 ],
 									"saved_object_attributes" : 									{
 										"embed" : 0,
+										"legacy" : 1,
 										"parameter_enable" : 0,
 										"parameter_mappable" : 0
 									}
@@ -2546,6 +2588,7 @@
 											"parameter_longname" : "mc.live.gain~[3]",
 											"parameter_mmax" : 6.0,
 											"parameter_mmin" : -70.0,
+											"parameter_modmode" : 0,
 											"parameter_shortname" : "mc.live.gain~",
 											"parameter_type" : 0,
 											"parameter_unitstyle" : 4
@@ -2760,6 +2803,7 @@
 							}
 , 							{
 								"box" : 								{
+									"color" : [ 0.274509803921569, 1.0, 0.0, 1.0 ],
 									"id" : "obj-11",
 									"maxclass" : "newobj",
 									"numinlets" : 1,
@@ -2784,6 +2828,7 @@
 							}
 , 							{
 								"box" : 								{
+									"color" : [ 0.093121, 0.536852, 0.511438, 1.0 ],
 									"id" : "obj-7",
 									"maxclass" : "newobj",
 									"numinlets" : 1,
@@ -2796,6 +2841,7 @@
 							}
 , 							{
 								"box" : 								{
+									"color" : [ 0.093121, 0.536852, 0.511438, 1.0 ],
 									"id" : "obj-6",
 									"maxclass" : "newobj",
 									"numinlets" : 1,
@@ -2808,6 +2854,7 @@
 							}
 , 							{
 								"box" : 								{
+									"color" : [ 0.093121, 0.536852, 0.511438, 1.0 ],
 									"id" : "obj-4",
 									"maxclass" : "newobj",
 									"numinlets" : 1,
@@ -2819,6 +2866,7 @@
 							}
 , 							{
 								"box" : 								{
+									"color" : [ 0.093121, 0.536852, 0.511438, 1.0 ],
 									"id" : "obj-3",
 									"maxclass" : "newobj",
 									"numinlets" : 1,
@@ -2896,6 +2944,7 @@
 							}
 , 							{
 								"box" : 								{
+									"color" : [ 0.82517, 0.78181, 0.059545, 1.0 ],
 									"fontname" : "Arial",
 									"fontsize" : 13.0,
 									"id" : "obj-5",
@@ -3158,14 +3207,14 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 8,
-							"minor" : 5,
-							"revision" : 6,
+							"minor" : 6,
+							"revision" : 2,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 100.0, 126.0, 1080.0, 741.0 ],
+						"rect" : [ 0.0, 26.0, 1080.0, 741.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 13.0,
@@ -3234,6 +3283,7 @@
 							}
 , 							{
 								"box" : 								{
+									"color" : [ 1.0, 0.0, 0.0, 1.0 ],
 									"data" : 									{
 										"inputs" : [ 											{
 												"name" : "cycle-1",
@@ -3262,11 +3312,12 @@
 									"id" : "obj-27",
 									"maxclass" : "newobj",
 									"numinlets" : 2,
-									"numoutlets" : 4,
-									"outlettype" : [ "dictionary", "", "", "" ],
+									"numoutlets" : 5,
+									"outlettype" : [ "dictionary", "", "", "", "" ],
 									"patching_rect" : [ 627.5, 217.0, 158.0, 23.0 ],
 									"saved_object_attributes" : 									{
 										"embed" : 1,
+										"legacy" : 1,
 										"parameter_enable" : 0,
 										"parameter_mappable" : 0
 									}
@@ -3296,19 +3347,6 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 627.5, 248.0, 111.0, 23.0 ],
 									"text" : "prepend generate"
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-10",
-									"linecount" : 6,
-									"maxclass" : "comment",
-									"numinlets" : 1,
-									"numoutlets" : 0,
-									"patching_rect" : [ 750.5, 245.0, 255.0, 94.0 ],
-									"style" : "helpfile_label",
-									"text" : "you can create differents entries in the configuration file :\nmultichannels inputs, \nmultichannels outputs,\nmultichannels objects : entries in the matrix who have both inputs and outputs"
 								}
 
 							}
@@ -3415,6 +3453,7 @@
 											"parameter_longname" : "mc.live.gain~",
 											"parameter_mmax" : 6.0,
 											"parameter_mmin" : -70.0,
+											"parameter_modmode" : 0,
 											"parameter_shortname" : "mc.live.gain~",
 											"parameter_type" : 0,
 											"parameter_unitstyle" : 4
@@ -3455,14 +3494,16 @@
 							}
 , 							{
 								"box" : 								{
+									"color" : [ 1.0, 0.0, 0.0, 1.0 ],
 									"id" : "obj-1",
 									"maxclass" : "newobj",
 									"numinlets" : 2,
-									"numoutlets" : 4,
-									"outlettype" : [ "dictionary", "", "", "" ],
+									"numoutlets" : 5,
+									"outlettype" : [ "dictionary", "", "", "", "" ],
 									"patching_rect" : [ 270.0, 171.0, 124.0, 23.0 ],
 									"saved_object_attributes" : 									{
 										"embed" : 0,
+										"legacy" : 1,
 										"parameter_enable" : 0,
 										"parameter_mappable" : 0
 									}
@@ -3558,6 +3599,7 @@
 							}
 , 							{
 								"box" : 								{
+									"color" : [ 0.82517, 0.78181, 0.059545, 1.0 ],
 									"fontname" : "Arial",
 									"fontsize" : 13.0,
 									"id" : "obj-56",
@@ -3808,8 +3850,8 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 8,
-							"minor" : 5,
-							"revision" : 6,
+							"minor" : 6,
+							"revision" : 2,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
