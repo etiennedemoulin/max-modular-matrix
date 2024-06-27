@@ -30,10 +30,10 @@ Max.addHandlers({
   file: (filename) => onConfigDictName(filename),
   routing: (row, col, gain) => onRouting(row, col, gain),
   clear: () => onClear(),
+  open: () => onOpen(),
   patch: (input, output, gain, time) => onPatch(input, output, gain, time),
   dumpconnections: () => dumpConnections(),
   dumppatch: () => dumpPatch(),
-  open: () => onOpen(),
   set: (row, col, gain) => onList(row, col, gain),
   [Max.MESSAGE_TYPES.ALL]: (handled, ...args) => onMessage(...args),
 });
@@ -521,8 +521,11 @@ function onMessage(...args) {
   const cmd = args[0];
   if (handledMessages.includes(cmd)) {
     return;
+  } else if (args[0].split('')[0] === '/') {
+    Max.outlet("tomatrixctl", ...args);
+  } else {
+    console.log(...args);
   }
-  console.log(...args);
 }
 
 // -------------------------------------------------------
