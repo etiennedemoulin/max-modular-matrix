@@ -1,35 +1,8 @@
 import path from 'node:path';
 import fs from 'node:fs';
 import Max from 'max-api';
-import { getMixingLaw, allowConnectionWithIndex, getIndexesFromNames, disableConnectionWithName } from './mixing.js';
+import { getMixingLaw, allowConnectionWithName, allowConnectionWithIndex, getNumChannelsFromInputName, getNumChannelsFromOutputName, getIndexesFromNames, disableConnectionWithName } from './mixing.js';
 import { dbtoa, linearScale, atodb } from '@ircam/sc-utils';
-
-
-function allowConnectionWithName(inputName, outputName, globals) {
-  const inputNumber = getNumChannelsFromInputName(inputName, globals);
-  const outputNumber = getNumChannelsFromOutputName(outputName, globals);
-
-  if (inputName === outputName) {
-    return false;
-  } else {
-    return true;
-  }
-
-}
-
-function getNumChannelsFromInputName(inputName, globals) {
-
-  let inputStructure = globals.structure.inputs.find(e => e === inputName);
-
-  return 1;
-}
-
-function getNumChannelsFromOutputName(outputName, globals) {
-
-  let outputStructure = globals.structure.outputs.find(e => e === outputName);
-
-  return 1;
-}
 
 const globals = {
   verbose: false,
@@ -123,8 +96,7 @@ function onList(row, col, gain, time) {
   if (!time) {
     time = globals.ramp;
   }
-  Max.outlet("tomatrixctl", `/row/${row+1}/col/${col+1}`, gain)
-  // sendLine(row, col, gain, time);
+  sendLine(row, col, gain, time);
 }
 
 function onClear() {
@@ -171,8 +143,7 @@ function onDict(dict) {
       if (!allowConnectionWithIndex(connection.in, connection.out, globals)) {
         return;
       }
-      Max.outlet("tomatrixctl", `/row/${connection.in+1}/col/${connection.out+1}`, connection.gain)
-      // Max.outlet("tomatrixctl", connection.in, connection.out, connection.gain);
+      Max.outlet("tomatrixctl", connection.in, connection.out, connection.gain);
     });
   } else {
     // names and dB dict support
@@ -207,8 +178,8 @@ function onDict(dict) {
       } else {
         ramptime = globals.ramp;
       }
-      Max.outlet("tomatrixctl", `/row/${inputIndex+1}/col/${outputIndex+1}`, connection.gain)
-      // sendLine(inputIndex, outputIndex, dbtoa(connection.gain), ramptime);
+
+      sendLine(inputIndex, outputIndex, dbtoa(connection.gain), ramptime);
     })
   }
 }
@@ -217,7 +188,7 @@ function onOpen() {
   Max.outlet("tomatrixctl", "/window/open");
 }
 
-function onPatch(input, output, lin, time) {
+function onPatch(input, output, dB, time) {
   if (!allowConnectionWithName(input, output, globals)) {
     return;
   }
@@ -227,10 +198,8 @@ function onPatch(input, output, lin, time) {
   const { inputIndex, outputIndex } = getIndexesFromNames(input, output, globals);
   // const inputIndex = globals.userMatrix.inputs.findIndex(e => e === input);
   // const outputIndex = globals.userMatrix.outputs.findIndex(e => e === output);
-  // const gainLin = dbtoa(dB);
-  Max.outlet("tomatrixctl", `/row/${inputIndex+1}/col/${outputIndex+1}`, lin)
-  // Max.outlet("tomatrixctl", inputIndex, outputIndex, lin);
-  // sendLine(inputIndex, outputIndex, lin, time);
+  const gainLin = dbtoa(dB);
+  sendLine(inputIndex, outputIndex, gainLin, time);
 }
 
 function dumpConnections() {
@@ -275,57 +244,56 @@ function dumpPatch() {
 }
 
 function sendLine(inputIndex, outputIndex, gainLin, time) {
-  Max.post('warning send line is not implemented');
-  // const connection = globals.userMatrix.connections.find(e => e.in === inputIndex && e.out === outputIndex);
+  const connection = globals.userMatrix.connections.find(e => e.in === inputIndex && e.out === outputIndex);
 
-  // const startValue = connection ? connection.gain : 0;
+  const startValue = connection ? connection.gain : 0;
 
-  // const scaledOutput = linearScale(0, 1, startValue, gainLin);
+  const scaledOutput = linearScale(0, 1, startValue, gainLin);
 
-  // let output = 0;
-  // const tick = 20; // ms
+  let output = 0;
+  const tick = 20; // ms
 
-  // let timeout = globals.timeoutMap.find((e) => e.in === inputIndex && e.out === outputIndex);
-  // if (timeout) {
-  //   clearInterval(timeout.function);
-  //   globals.timeoutMap = globals.timeoutMap.filter(e => {return e !== timeout});
-  // }
+  let timeout = globals.timeoutMap.find((e) => e.in === inputIndex && e.out === outputIndex);
+  if (timeout) {
+    clearInterval(timeout.function);
+    globals.timeoutMap = globals.timeoutMap.filter(e => {return e !== timeout});
+  }
 
-  // if (time !== 0) {
-  //   timeout = setInterval(() => {
-  //     if (output < 1) {
-  //       output = output + (1 / time * tick);
-  //       Max.outlet("tomatrixctl", inputIndex, outputIndex, scaledOutput(output));
-  //     } else {
-  //       output = 1;
-  //       Max.outlet("tomatrixctl", inputIndex, outputIndex, scaledOutput(output));
-  //       clearInterval(timeout);
-  //     }
-  //   }, tick);
-  //   // store interval function
-  //   globals.timeoutMap.push({
-  //     in: inputIndex,
-  //     out: outputIndex,
-  //     function: timeout
-  //   });
+  if (time !== 0) {
+    timeout = setInterval(() => {
+      if (output < 1) {
+        output = output + (1 / time * tick);
+        Max.outlet("tomatrixctl", inputIndex, outputIndex, scaledOutput(output));
+      } else {
+        output = 1;
+        Max.outlet("tomatrixctl", inputIndex, outputIndex, scaledOutput(output));
+        clearInterval(timeout);
+      }
+    }, tick);
+    // store interval function
+    globals.timeoutMap.push({
+      in: inputIndex,
+      out: outputIndex,
+      function: timeout
+    });
 
-  //   const connectionIndex = globals.userMatrix.connections.findIndex(e => e.in === inputIndex && e.out === outputIndex);
-  //   if (connectionIndex !== -1) {
-  //     // change ramptime
-  //     globals.userMatrix.connections[connectionIndex].ramptime = time;
-  //   } else {
-  //     // pre-create connection with ramptime argument
-  //     globals.userMatrix.connections.push({
-  //       in:inputIndex,
-  //       out:outputIndex,
-  //       gain:gainLin,
-  //       ramptime:time
-  //     });
-  //   }
+    const connectionIndex = globals.userMatrix.connections.findIndex(e => e.in === inputIndex && e.out === outputIndex);
+    if (connectionIndex !== -1) {
+      // change ramptime
+      globals.userMatrix.connections[connectionIndex].ramptime = time;
+    } else {
+      // pre-create connection with ramptime argument
+      globals.userMatrix.connections.push({
+        in:inputIndex,
+        out:outputIndex,
+        gain:gainLin,
+        ramptime:time
+      });
+    }
 
-  // } else {
-  //   Max.outlet("tomatrixctl", inputIndex, outputIndex, gainLin);
-  // }
+  } else {
+    Max.outlet("tomatrixctl", inputIndex, outputIndex, gainLin);
+  }
 
 }
 
@@ -360,8 +328,10 @@ function generateMatrix() {
     globals.structure.inputs.forEach((e, i) => {
       // user matrix
       if (e.inputs !== 0) {
-        globals.userMatrix.inputs.push(e);
-        globals.routingMatrix.inputs.push(e);
+        globals.userMatrix.inputs.push(e.name);
+        for (let s = 1; s <= e.inputs; s++) {
+            globals.routingMatrix.inputs.push(`${e.name}-in-${s}`);
+        };
       }
     });
   };
@@ -369,26 +339,43 @@ function generateMatrix() {
   if (globals.structure.outputs) {
     globals.structure.outputs.forEach((e, i) => {
       if (e.outputs !== 0) {
-        globals.userMatrix.outputs.push(e);
-        globals.routingMatrix.outputs.push(e);
+        globals.userMatrix.outputs.push(e.name);
+        for (let s = 1; s <= e.outputs; s++) {
+          globals.routingMatrix.outputs.push(`${e.name}-out-${s}`);
+        };
       }
     });
   }
 
+  if (globals.structure.objects) {
+    globals.structure.objects.forEach((e, i) => {
+      if (e.inputs !== 0 && e.outputs !== 0) {
+        globals.userMatrix.inputs.push(e.name);
+        globals.userMatrix.outputs.push(e.name);
+        for (let s = 1; s <= e.inputs; s++) {
+            globals.routingMatrix.inputs.push(`${e.name}-in-${s}`);
+        };
+        for (let s = 1; s <= e.outputs; s++) {
+          globals.routingMatrix.outputs.push(`${e.name}-out-${s}`);
+        };
+      }
+    });
+  };
+
   globals.userMatrix.inputs.forEach((e, i) => {
-    // const numch = getNumChannelsFromInputName(e, globals);
-    globals.userMatrix.initwith += `/row/${i+1}/name ${e}, `;
+    const numch = getNumChannelsFromInputName(e, globals);
+    globals.userMatrix.initwith += `/row/${i+1}/label ${e}(${numch}ch), `;
   })
   globals.userMatrix.outputs.forEach((e, i) => {
-    // const numch = getNumChannelsFromOutputName(e, globals);
-    globals.userMatrix.initwith += `/col/${i+1}/name ${e}, `;
+    const numch = getNumChannelsFromOutputName(e, globals);
+    globals.userMatrix.initwith += `/col/${i+1}/label ${e}(${numch}ch), `;
   })
   globals.routingMatrix.inputs.forEach((e, i) => {
-    globals.routingMatrix.initwith += `/row/${i+1}/name ${e}, `;
+    globals.routingMatrix.initwith += `/row/${i+1}/label ${e}, `;
     globals.routingMatrix.crosspatch.inputs += `${e} `;
   })
   globals.routingMatrix.outputs.forEach((e, i) => {
-    globals.routingMatrix.initwith += `/col/${i+1}/name ${e}, `;
+    globals.routingMatrix.initwith += `/col/${i+1}/label ${e}, `;
     globals.routingMatrix.crosspatch.outputs += `${e} `;
   })
 
@@ -405,20 +392,18 @@ function generateMatrix() {
 
   // console.log(globals.userMatrix, globals.routingMatrix);
 
-  generateBox('user_matrix_routing', 'spat5.routing', ['@inputs', globals.userMatrix.inputs.length, '@outputs', globals.userMatrix.outputs.length, '@initwith', `"${globals.userMatrix.initwith}"`], { x: 400, y: 260 }, 0);
-  generateBox('user_matrix_matrix_out', 'spat5.matrix', ['@inputs', globals.userMatrix.inputs.length, '@outputs', globals.userMatrix.outputs.length], { x: 400, y: 260 }, 0);
+  generateBox('user_matrix_routing', 'spat5.matrix', ['@inputs', globals.userMatrix.inputs.length, '@outputs', globals.userMatrix.outputs.length, '@initwith', `"${globals.userMatrix.initwith}"`], { x: 400, y: 260 }, 0);
   // for debug
   // generateBox('routing_matrix_routing', 'spat5.matrix', ['@inputs', globals.routingMatrix.inputs.length, '@outputs', globals.routingMatrix.outputs.length, '@initwith', `"${globals.routingMatrix.initwith}"`], { x: 20, y: 120 }, 0);
   // generateLink('routing_matrix_in', 1, 'routing_matrix_routing', 0);
 
-  generateBox('matrix', 'matrix', [globals.routingMatrix.inputs.length, globals.routingMatrix.outputs.length], { x: 40, y: 190 }, 0);
-  generateBox('matrix_unpack', 'unjoin', [globals.routingMatrix.inputs.length], { x: 20, y:30 }, 0);
-  generateBox('matrix_pack', 'join', [globals.routingMatrix.outputs.length, "@triggers -1"], { x: 20, y:280 }, 0);
+  generateBox('matrix', 'matrix~', [globals.routingMatrix.inputs.length, globals.routingMatrix.outputs.length, '1.', `@ramp ${globals.ramp}`], { x: 40, y: 190 }, 0);
+  generateBox('matrix_unpack', 'mc.unpack~', [globals.routingMatrix.inputs.length], { x: 20, y:30 }, 0);
+  generateBox('matrix_pack', 'mc.pack~', [globals.routingMatrix.outputs.length], { x: 20, y:280 }, 0);
     // generate configuration dict
   generateBox('dict', 'dict', [globals.file], {x: 20, y: 3 }, 0);
 
-  generateLink('user_matrix_routing', 0, 'user_matrix_matrix_out', 0);
-  generateLink('user_matrix_matrix_out', 0, 'user_matrix_out', 0);
+  generateLink('user_matrix_routing', 0, 'user_matrix_out', 0);
   generateLink('matrix_pack', 0, 'mc-outlet', 0);
   generateLink('routing_matrix_in', 0, 'matrix', 0);
   generateLink('user_matrix_in', 0, 'user_matrix_routing', 0);
@@ -430,15 +415,15 @@ function generateMatrix() {
 
   // generate receive boxes
   globals.routingMatrix.inputs.forEach((name, index) => {
-    generateBox(`recv-${name}`, 'receive', [name], { x: (40 + index * 120), y: 150 }, 0);
-    generateLink(`recv-${name}`, 0, 'matrix', index + 1);
-    generateLink('matrix_unpack', index, 'matrix', index + 1);
+    generateBox(`recv-${name}`, 'receive~', [name], { x: (40 + index * 120), y: 150 }, 0);
+    generateLink(`recv-${name}`, 0, 'matrix', index);
+    generateLink('matrix_unpack', index, 'matrix', index);
   });
 
   globals.routingMatrix.outputs.forEach((name, index) => {
-    generateBox(`send-${name}`, 'send', [name], { x: (40 + index * 120), y: 230 }, 0);
-    generateLink('matrix', index + 1, `send-${name}`, 0);
-    generateLink('matrix', index + 1, 'matrix_pack', index);
+    generateBox(`send-${name}`, 'send~', [name], { x: (40 + index * 120), y: 230 }, 0);
+    generateLink('matrix', index, `send-${name}`, 0);
+    generateLink('matrix', index, 'matrix_pack', index);
   });
 
   Max.outlet("visualize", "set", `no connections...`);
@@ -483,12 +468,12 @@ function onRouting(row, col, gain) {
   const routingMatrixIndexOutput = [];
 
   for (let i = 1; i <= userMatrixInputNumber; i++) {
-    const index = globals.routingMatrix.inputs.findIndex(e => e === userMatrixInput);
+    const index = globals.routingMatrix.inputs.findIndex(e => e === `${userMatrixInput}-in-${i}`);
     routingMatrixIndexInput.push(index);
   }
 
   for (let i = 1; i <= userMatrixOutputNumber; i++) {
-    const index = globals.routingMatrix.outputs.findIndex(e => e === userMatrixOutput);
+    const index = globals.routingMatrix.outputs.findIndex(e => e === `${userMatrixOutput}-out-${i}`);
     routingMatrixIndexOutput.push(index);
   }
 

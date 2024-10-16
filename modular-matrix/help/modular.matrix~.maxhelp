@@ -4,13 +4,13 @@
 		"appversion" : 		{
 			"major" : 8,
 			"minor" : 6,
-			"revision" : 2,
+			"revision" : 4,
 			"architecture" : "x64",
 			"modernui" : 1
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 72.0, 100.0, 1080.0, 767.0 ],
+		"rect" : [ 72.0, 100.0, 922.0, 767.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -53,13 +53,13 @@
 						"appversion" : 						{
 							"major" : 8,
 							"minor" : 6,
-							"revision" : 2,
+							"revision" : 4,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 0.0, 26.0, 1080.0, 741.0 ],
+						"rect" : [ 0.0, 26.0, 922.0, 741.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 13.0,
@@ -619,13 +619,13 @@
 						"appversion" : 						{
 							"major" : 8,
 							"minor" : 6,
-							"revision" : 2,
+							"revision" : 4,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 72.0, 126.0, 1080.0, 741.0 ],
+						"rect" : [ 72.0, 126.0, 922.0, 741.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 13.0,
@@ -657,20 +657,43 @@
 						"boxes" : [ 							{
 								"box" : 								{
 									"color" : [ 1.0, 0.0, 0.0, 1.0 ],
+									"data" : 									{
+										"inputs" : [ 											{
+												"name" : "mic",
+												"inputs" : 1
+											}
+ ],
+										"outputs" : [ 											{
+												"name" : "dac",
+												"outputs" : 4
+											}
+, 											{
+												"name" : "myoutput",
+												"outputs" : 3
+											}
+ ],
+										"objects" : [ 											{
+												"name" : "freqshift",
+												"inputs" : 2,
+												"outputs" : 2
+											}
+ ]
+									}
+,
 									"id" : "obj-3",
 									"maxclass" : "newobj",
 									"numinlets" : 2,
 									"numoutlets" : 5,
 									"outlettype" : [ "dictionary", "", "", "", "" ],
-									"patching_rect" : [ 10.0, 117.0, 139.0, 23.0 ],
+									"patching_rect" : [ 10.0, 117.0, 137.0, 23.0 ],
 									"saved_object_attributes" : 									{
-										"embed" : 0,
+										"embed" : 1,
 										"legacy" : 1,
 										"parameter_enable" : 0,
 										"parameter_mappable" : 0
 									}
 ,
-									"text" : "dict mixing mixing.json"
+									"text" : "dict mixing @embed 1"
 								}
 
 							}
@@ -1215,13 +1238,13 @@
 						"appversion" : 						{
 							"major" : 8,
 							"minor" : 6,
-							"revision" : 2,
+							"revision" : 4,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 0.0, 26.0, 1080.0, 741.0 ],
+						"rect" : [ 0.0, 26.0, 922.0, 741.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 13.0,
@@ -1933,13 +1956,13 @@
 						"appversion" : 						{
 							"major" : 8,
 							"minor" : 6,
-							"revision" : 2,
+							"revision" : 4,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 0.0, 26.0, 1080.0, 741.0 ],
+						"rect" : [ 0.0, 26.0, 922.0, 741.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 13.0,
@@ -1971,20 +1994,49 @@
 						"boxes" : [ 							{
 								"box" : 								{
 									"color" : [ 1.0, 0.0, 0.0, 1.0 ],
+									"data" : 									{
+										"inputs" : [ 											{
+												"name" : "cycle-1",
+												"inputs" : 1
+											}
+, 											{
+												"name" : "cycle-2",
+												"inputs" : 1
+											}
+, 											{
+												"name" : "cycle-3",
+												"inputs" : 1
+											}
+, 											{
+												"name" : "cycle-4",
+												"inputs" : 1
+											}
+ ],
+										"outputs" : [ 											{
+												"name" : "dac-1",
+												"outputs" : 1
+											}
+, 											{
+												"name" : "dac-2",
+												"outputs" : 1
+											}
+ ]
+									}
+,
 									"id" : "obj-1",
 									"maxclass" : "newobj",
 									"numinlets" : 2,
 									"numoutlets" : 5,
 									"outlettype" : [ "dictionary", "", "", "", "" ],
-									"patching_rect" : [ 10.0, 117.0, 195.0, 23.0 ],
+									"patching_rect" : [ 10.0, 117.0, 165.0, 23.0 ],
 									"saved_object_attributes" : 									{
-										"embed" : 0,
+										"embed" : 1,
 										"legacy" : 1,
 										"parameter_enable" : 0,
 										"parameter_mappable" : 0
 									}
 ,
-									"text" : "dict dictionaries dictionaries.json"
+									"text" : "dict dictionaries @embed 1"
 								}
 
 							}
@@ -2511,13 +2563,13 @@
 						"appversion" : 						{
 							"major" : 8,
 							"minor" : 6,
-							"revision" : 2,
+							"revision" : 4,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 0.0, 26.0, 1080.0, 741.0 ],
+						"rect" : [ 0.0, 26.0, 922.0, 741.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 13.0,
@@ -2584,20 +2636,43 @@
 , 							{
 								"box" : 								{
 									"color" : [ 1.0, 0.0, 0.0, 1.0 ],
+									"data" : 									{
+										"inputs" : [ 											{
+												"name" : "microphone",
+												"inputs" : 1
+											}
+ ],
+										"outputs" : [ 											{
+												"name" : "dac",
+												"outputs" : 4
+											}
+, 											{
+												"name" : "monitor",
+												"outputs" : 1
+											}
+ ],
+										"objects" : [ 											{
+												"name" : "effect-1",
+												"inputs" : 2,
+												"outputs" : 2
+											}
+ ]
+									}
+,
 									"id" : "obj-13",
 									"maxclass" : "newobj",
 									"numinlets" : 2,
 									"numoutlets" : 5,
 									"outlettype" : [ "dictionary", "", "", "", "" ],
-									"patching_rect" : [ 276.0, 136.5, 154.0, 23.0 ],
+									"patching_rect" : [ 276.0, 136.5, 145.0, 23.0 ],
 									"saved_object_attributes" : 									{
-										"embed" : 0,
+										"embed" : 1,
 										"legacy" : 1,
 										"parameter_enable" : 0,
 										"parameter_mappable" : 0
 									}
 ,
-									"text" : "dict connect connect.json"
+									"text" : "dict connect @embed 1"
 								}
 
 							}
@@ -3229,13 +3304,13 @@
 						"appversion" : 						{
 							"major" : 8,
 							"minor" : 6,
-							"revision" : 2,
+							"revision" : 4,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 0.0, 26.0, 1080.0, 741.0 ],
+						"rect" : [ 0.0, 26.0, 922.0, 741.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 13.0,
@@ -3538,20 +3613,33 @@
 , 							{
 								"box" : 								{
 									"color" : [ 1.0, 0.0, 0.0, 1.0 ],
+									"data" : 									{
+										"inputs" : [ 											{
+												"name" : "cycle",
+												"inputs" : 4
+											}
+ ],
+										"outputs" : [ 											{
+												"name" : "dac",
+												"outputs" : 2
+											}
+ ]
+									}
+,
 									"id" : "obj-1",
 									"maxclass" : "newobj",
 									"numinlets" : 2,
 									"numoutlets" : 5,
 									"outlettype" : [ "dictionary", "", "", "", "" ],
-									"patching_rect" : [ 277.0, 232.5, 124.0, 23.0 ],
+									"patching_rect" : [ 277.0, 232.5, 130.0, 23.0 ],
 									"saved_object_attributes" : 									{
-										"embed" : 0,
+										"embed" : 1,
 										"legacy" : 1,
 										"parameter_enable" : 0,
 										"parameter_mappable" : 0
 									}
 ,
-									"text" : "dict basic basic.json"
+									"text" : "dict basic @embed 1"
 								}
 
 							}
@@ -3882,13 +3970,13 @@
 						"appversion" : 						{
 							"major" : 8,
 							"minor" : 6,
-							"revision" : 2,
+							"revision" : 4,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 0.0, 26.0, 1080.0, 741.0 ],
+						"rect" : [ 0.0, 26.0, 922.0, 741.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
