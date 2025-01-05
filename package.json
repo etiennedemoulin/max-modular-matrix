@@ -4,7 +4,7 @@
   "description": "Max object for matrix~ design",
   "main": "index.js",
   "scripts": {
-    "build": "npx esbuild ./src/modular-matrix~.js  --bundle --format=cjs --platform=node --external:max-api --outfile=modular-matrix/javascript/modular.matrix~.cjs ; npx esbuild ./src/modular-matrix.js  --bundle --format=cjs --platform=node --external:max-api --outfile=modular-matrix/javascript/modular.matrix.cjs"
+    "build": "npx esbuild ./src/modular-matrix~.js  --bundle --format=cjs --platform=node --external:max-api --outfile=modular-matrix/javascript/modular.matrix~.js ; npx esbuild ./src/modular-matrix.js  --bundle --format=cjs --platform=node --external:max-api --outfile=modular-matrix/javascript/modular.matrix.js"
   },
   "author": "Etienne Démoulin",
   "license": "ISC",
