@@ -15,6 +15,13 @@ export function getNumChannelsFromInputName(inputName, globals) {
     inputStructure = globals.structure.objects.find(e => e.name === inputName);
   }
 
+
+  if (inputStructure === undefined) {
+    // structure do not exist
+    console.log(`${inputName} is not an entry in matrix`);
+    return;
+  }
+
   const inputNumber = inputStructure.inputs;
 
   return inputNumber;
