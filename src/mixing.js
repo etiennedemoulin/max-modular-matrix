@@ -75,7 +75,7 @@ export function getMixingLaw(inputNumber, outputNumber) {
       const outputArray = [];
       const numOfDup = outputNumber / inputNumber;
       const unitMatrix = eye(inputNumber)
-      for (i = 0; i < numOfDup; i++) {
+      for (let i = 0; i < numOfDup; i++) {
         unitMatrix.forEach(e => {
           outputArray.push(e);
         })
@@ -93,7 +93,7 @@ export function getMixingLaw(inputNumber, outputNumber) {
       unitMatrix.forEach(line => {
         // [0, 1]
         const intermediateArray = [];
-        for (i = 0; i < numOfDup; i++) {
+        for (let i = 0; i < numOfDup; i++) {
           line.forEach(e => {
             intermediateArray.push(e)
           })

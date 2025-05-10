@@ -3,12 +3,18 @@
   "version": "2.0.3",
   "description": "Max object for matrix~ design",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "build": "npx esbuild ./src/modular-matrix~.js  --bundle --format=cjs --platform=node --external:max-api --outfile=modular-matrix/javascript/modular.matrix~.cjs ; npx esbuild ./src/modular-matrix.js  --bundle --format=cjs --platform=node --external:max-api --outfile=modular-matrix/javascript/modular.matrix.cjs"
+    "build": "node bin/build.js"
   },
   "author": "Etienne Démoulin",
   "license": "ISC",
-  "dependencies": {
-    "@ircam/sc-utils": "^1.3.2"
+  "devDependencies": {
+    "@ircam/sc-utils": "^1.10.1",
+    "esbuild": "^0.20.2",
+    "find-process": "^1.4.7",
+    "mocha": "^10.2.0",
+    "open": "^10.1.0",
+    "markdown-toc": "^1.2.0"
   }
 }

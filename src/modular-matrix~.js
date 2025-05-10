@@ -364,11 +364,11 @@ function generateMatrix() {
 
   globals.userMatrix.inputs.forEach((e, i) => {
     const numch = getNumChannelsFromInputName(e, globals);
-    globals.userMatrix.initwith += `/row/${i+1}/label ${e}(${numch}ch), `;
+    globals.userMatrix.initwith += `/row/${i+1}/label ${e}(${numch}ch),`;
   })
   globals.userMatrix.outputs.forEach((e, i) => {
     const numch = getNumChannelsFromOutputName(e, globals);
-    globals.userMatrix.initwith += `/col/${i+1}/label ${e}(${numch}ch), `;
+    globals.userMatrix.initwith += `/col/${i+1}/label ${e}(${numch}ch),`;
   })
   globals.routingMatrix.inputs.forEach((e, i) => {
     globals.routingMatrix.initwith += `/row/${i+1}/label ${e}, `;
@@ -382,10 +382,10 @@ function generateMatrix() {
   globals.userMatrix.inputs.forEach((inputName, inputIndex) => {
     globals.userMatrix.outputs.forEach((outputName, outputIndex) => {
       if (!allowConnectionWithName(inputName, outputName, globals)) {
-        globals.userMatrix.initwith += `/row/${inputIndex + 1}/col/${outputIndex + 1}/editable 0, `;
+        globals.userMatrix.initwith += `/row/${inputIndex + 1}/col/${outputIndex + 1}/editable 0,`;
       }
       if (disableConnectionWithName(inputName, outputName, globals)) {
-        globals.userMatrix.initwith += `/row/${inputIndex + 1}/col/${outputIndex + 1}/visible 0, `;
+        globals.userMatrix.initwith += `/row/${inputIndex + 1}/col/${outputIndex + 1}/visible 0,`;
       }
     })
   })
