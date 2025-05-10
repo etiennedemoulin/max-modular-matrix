@@ -651,7 +651,8 @@
 					"patching_rect" : [ 675.0, 939.204721999999947, 18.0, 18.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 50.0, 53.0, 18.0, 18.0 ],
-					"prototypename" : "Arial9"
+					"prototypename" : "Arial9",
+					"svg" : ""
 				}
 
 			}
@@ -685,7 +686,8 @@
 					"patching_rect" : [ 712.0, 939.204721999999947, 18.0, 18.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 50.0, 76.0, 18.0, 18.0 ],
-					"prototypename" : "Arial9"
+					"prototypename" : "Arial9",
+					"svg" : ""
 				}
 
 			}
@@ -1095,7 +1097,8 @@
 									"outlettype" : [ "int" ],
 									"parameter_enable" : 0,
 									"patching_rect" : [ 466.0, 279.0, 18.0, 18.0 ],
-									"prototypename" : "Arial9"
+									"prototypename" : "Arial9",
+									"svg" : ""
 								}
 
 							}
@@ -2360,8 +2363,6 @@
 					"saved_object_attributes" : 					{
 						"autostart" : 1,
 						"defer" : 0,
-						"node_bin_path" : "",
-						"npm_bin_path" : "",
 						"watch" : 0
 					}
 ,

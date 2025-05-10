@@ -1,6 +1,6 @@
 {
   "name": "max-modular-matrix",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "description": "Max object for matrix~ design",
   "main": "index.js",
   "type": "module",
