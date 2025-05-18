@@ -8,3 +8,4 @@ package-lock.json
 .DS_Store
 Thumbs.db
 modular-matrix/javascript/modular.matrix.mjs
+modular-matrix/javascript/modular.matrix~.mjs
