@@ -48,7 +48,7 @@
 				"box" : 				{
 					"comment" : "modular.matrix~:(dict) dump",
 					"id" : "obj-70",
-					"index" : 2,
+					"index" : 0,
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
@@ -665,7 +665,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 664.0, 914.204721999999947, 41.0, 22.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 73.0, 51.0, 41.0, 22.0 ],
+					"presentation_rect" : [ 73.0, 50.0, 41.0, 22.0 ],
 					"text" : "View",
 					"textcolor" : [ 0.968627, 0.968627, 0.968627, 1.0 ]
 				}
@@ -699,7 +699,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 701.0, 914.204721999999947, 56.0, 22.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 73.0, 74.0, 58.0, 22.0 ],
+					"presentation_rect" : [ 73.0, 72.0, 58.0, 22.0 ],
 					"text" : "NoFloat",
 					"textcolor" : [ 0.968627, 0.968627, 0.968627, 1.0 ]
 				}
@@ -2377,7 +2377,7 @@
 				"box" : 				{
 					"comment" : "modular.matrix~:(mc.signal) Input 0, patch: (list), (list)",
 					"id" : "obj-83",
-					"index" : 1,
+					"index" : 0,
 					"maxclass" : "inlet",
 					"numinlets" : 0,
 					"numoutlets" : 1,
@@ -2411,7 +2411,7 @@
 				"box" : 				{
 					"comment" : "modular.matrix~:(mc.signal) Output 0",
 					"id" : "obj-78",
-					"index" : 1,
+					"index" : 0,
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
@@ -2423,7 +2423,7 @@
 , 			{
 				"box" : 				{
 					"data" : 					{
-						"list" : [ "user_matrix_routing", "matrix", "matrix_unpack", "matrix_pack", "dict", "recv-violin1-in-1", "recv-violin2-in-1", "recv-viola-in-1", "recv-cello-in-1", "recv-doublebass-in-1", "recv-flute-in-1", "recv-harm-in-1", "recv-rev-in-1", "send-out-out-1", "send-out-out-2", "send-harm-out-1", "send-harm-out-2", "send-rev-out-1", "send-rev-out-2" ]
+						"list" : [ "user_matrix_routing", "matrix", "matrix_unpack", "matrix_pack", "dict", "recv-piezo-plaque-in-1", "recv-piezo-plaque-in-2", "recv-piezo-plaque-in-3", "recv-piezo-drum-in-1", "recv-piezo-drum-in-2", "recv-piezo-drum-in-3", "recv-piezo-drum-in-4", "recv-piezo-drum-in-5", "recv-piezo-drum-in-6", "recv-augmented-vibra-in-1", "recv-augmented-vibra-in-2", "recv-augmented-vibra-in-3", "recv-augmented-vibra-in-4", "recv-augmented-vibra-in-5", "recv-augmented-vibra-in-6", "recv-1-thing-in-1", "recv-1-thing-in-2", "send-transducer-plaque-out-1", "send-transducer-plaque-out-2", "send-transducer-plaque-out-3", "send-transducer-drum-out-1", "send-transducer-drum-out-2", "send-transducer-drum-out-3", "send-transducer-drum-out-4", "send-transducer-drum-out-5", "send-transducer-drum-out-6", "send-speaker-out-1", "send-speaker-out-2", "send-1-thing-out-1", "send-1-thing-out-2" ]
 					}
 ,
 					"id" : "obj-7",
@@ -2449,9 +2449,10 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 445.0, 930.0, 181.0, 20.0 ],
+					"patching_rect" : [ 445.0, 930.0, 287.0, 20.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ -0.5, 0.0, 181.0, 20.0 ]
+					"presentation_rect" : [ 0.0, 0.0, 193.0, 20.0 ],
+					"text" : "matrix~ is not generated"
 				}
 
 			}
@@ -2668,7 +2669,16 @@
 				}
 
 			}
- ]
+ ],
+		"dependency_cache" : [ 			{
+				"name" : "modular.matrix~.mjs",
+				"bootpath" : "~/Github/max-modular-matrix/modular-matrix/javascript",
+				"patcherrelativepath" : "../javascript",
+				"type" : "TEXT",
+				"implicit" : 1
+			}
+ ],
+		"autosave" : 0
 	}
 
 }
