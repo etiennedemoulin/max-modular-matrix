@@ -27,7 +27,7 @@
 					"clickthrough" : 0,
 					"enablehscroll" : 0,
 					"enablevscroll" : 0,
-					"id" : "obj-1",
+					"id" : "obj-5",
 					"lockeddragscroll" : 0,
 					"lockedsize" : 0,
 					"maxclass" : "bpatcher",
@@ -36,7 +36,7 @@
 					"numoutlets" : 1,
 					"offset" : [ 0.0, 0.0 ],
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 543.0, 733.0, 400.0, 220.0 ],
+					"patching_rect" : [ 561.0, 679.0, 400.0, 220.0 ],
 					"viewvisibility" : 1
 				}
 
@@ -69,7 +69,7 @@
 				"box" : 				{
 					"comment" : "modular.matrix~:(dict) dump",
 					"id" : "obj-70",
-					"index" : 0,
+					"index" : 2,
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
@@ -84,7 +84,7 @@
 					"numinlets" : 0,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 542.0, 329.0, 139.0, 22.0 ],
+					"patching_rect" : [ 542.0, 329.0, 145.0, 22.0 ],
 					"text" : "receive #0_tomatrixctl",
 					"varname" : "user_matrix_in"
 				}
@@ -96,7 +96,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 289.571428571428555, 939.204721999999947, 126.0, 22.0 ],
+					"patching_rect" : [ 289.571428571428555, 939.204721999999947, 133.0, 22.0 ],
 					"text" : "send #0_tomatrixctl"
 				}
 
@@ -108,7 +108,7 @@
 					"numinlets" : 0,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 542.0, 360.0, 127.0, 22.0 ],
+					"patching_rect" : [ 542.0, 360.0, 133.0, 22.0 ],
 					"text" : "receive #0_tomatrix",
 					"varname" : "routing_matrix_in"
 				}
@@ -134,8 +134,8 @@
 					"numinlets" : 4,
 					"numoutlets" : 4,
 					"outlettype" : [ "", "", "", "" ],
-					"patching_rect" : [ 186.5, 501.0, 128.0, 22.0 ],
-					"text" : "routepass float list edit",
+					"patching_rect" : [ 186.5, 501.0, 221.0, 22.0 ],
+					"text" : "routepass multichannelsignal signal edit",
 					"varname" : "route_mtrx"
 				}
 
@@ -146,7 +146,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 144.571428571428669, 908.0, 114.0, 22.0 ],
+					"patching_rect" : [ 144.571428571428669, 908.0, 121.0, 22.0 ],
 					"text" : "send #0_tomatrix"
 				}
 
@@ -578,7 +578,7 @@
 									"fontname" : "Arial",
 									"fontsize" : 11.595186999999999,
 									"id" : "obj-40",
-									"linecount" : 2,
+									"linecount" : 3,
 									"maxclass" : "message",
 									"numinlets" : 2,
 									"numoutlets" : 1,
@@ -686,7 +686,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 664.0, 914.204721999999947, 41.0, 22.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 73.0, 51.0, 41.0, 22.0 ],
+					"presentation_rect" : [ 73.0, 49.0, 41.0, 22.0 ],
 					"text" : "View",
 					"textcolor" : [ 0.968627, 0.968627, 0.968627, 1.0 ]
 				}
@@ -720,7 +720,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 701.0, 914.204721999999947, 56.0, 22.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 73.0, 74.0, 58.0, 22.0 ],
+					"presentation_rect" : [ 73.0, 73.0, 58.0, 22.0 ],
 					"text" : "NoFloat",
 					"textcolor" : [ 0.968627, 0.968627, 0.968627, 1.0 ]
 				}
@@ -2314,7 +2314,7 @@
 					"numinlets" : 0,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 1556.0, 1026.0, 83.0, 22.0 ],
+					"patching_rect" : [ 1556.0, 1026.0, 89.0, 22.0 ],
 					"text" : "r #0_debug",
 					"varname" : "debug"
 				}
@@ -2326,7 +2326,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 315.5, 793.25, 89.0, 22.0 ],
+					"patching_rect" : [ 315.5, 793.25, 91.0, 22.0 ],
 					"text" : "s #0_debug"
 				}
 
@@ -2374,21 +2374,18 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 95.5, 755.5, 239.0, 22.0 ],
+					"patching_rect" : [ 95.5, 755.5, 270.0, 22.0 ],
 					"saved_object_attributes" : 					{
 						"autostart" : 1,
 						"defer" : 0,
-						"node_bin_path" : "",
-						"npm_bin_path" : "",
 						"watch" : 0
 					}
 ,
-					"text" : "node.script modular.matrix.cjs @autostart 1",
+					"text" : "node.script mc.modular.matrix~.mjs @autostart 1",
 					"textfile" : 					{
-						"text" : "",
-						"filename" : "modular.matrix.cjs.js",
+						"filename" : "mc.modular.matrix~.mjs",
 						"flags" : 0,
-						"embed" : 1,
+						"embed" : 0,
 						"autowatch" : 1
 					}
 
@@ -2399,7 +2396,7 @@
 				"box" : 				{
 					"comment" : "modular.matrix~:(mc.signal) Input 0, patch: (list), (list)",
 					"id" : "obj-83",
-					"index" : 0,
+					"index" : 1,
 					"maxclass" : "inlet",
 					"numinlets" : 0,
 					"numoutlets" : 1,
@@ -2433,7 +2430,7 @@
 				"box" : 				{
 					"comment" : "modular.matrix~:(mc.signal) Output 0",
 					"id" : "obj-78",
-					"index" : 0,
+					"index" : 1,
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
@@ -2445,7 +2442,7 @@
 , 			{
 				"box" : 				{
 					"data" : 					{
-						"list" : [ "user_matrix_routing", "user_matrix_matrix_out", "matrix", "matrix_unpack", "matrix_pack", "dict", "recv-somi-1-acc", "recv-somi-2-acc", "recv-somi-3-acc", "send-dummy-test-1", "send-dummy-test-2" ]
+						"list" : [ "user_matrix_routing", "matrix", "dict", "recv-hammer", "recv-noise", "recv-saw", "recv-dry", "send-string", "send-modal", "send-waveguide", "send-dry" ]
 					}
 ,
 					"id" : "obj-7",
@@ -2453,7 +2450,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 5,
 					"outlettype" : [ "dictionary", "", "", "", "" ],
-					"patching_rect" : [ 463.0, 527.0, 242.0, 22.0 ],
+					"patching_rect" : [ 463.0, 527.0, 249.0, 22.0 ],
 					"saved_object_attributes" : 					{
 						"embed" : 1,
 						"legacy" : 1,
@@ -2471,9 +2468,9 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 445.0, 930.0, 176.0, 20.0 ],
+					"patching_rect" : [ 445.0, 930.0, 287.0, 20.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ -0.5, 0.0, 197.0, 20.0 ],
+					"presentation_rect" : [ 0.0, 0.0, 193.0, 20.0 ],
 					"text" : "no connections..."
 				}
 
@@ -2665,7 +2662,7 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-1", 0 ],
+					"destination" : [ "obj-5", 0 ],
 					"order" : 1,
 					"source" : [ "obj-82", 1 ]
 				}
@@ -2700,27 +2697,7 @@
 				}
 
 			}
- ],
-		"dependency_cache" : [ 			{
-				"name" : "fit_jweb_to_bounds.js",
-				"bootpath" : "C74:/packages/Node for Max/patchers/debug-monitor",
-				"type" : "TEXT",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "n4m.monitor.maxpat",
-				"bootpath" : "C74:/packages/Node for Max/patchers/debug-monitor",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "resize_n4m_monitor_patcher.js",
-				"bootpath" : "C74:/packages/Node for Max/patchers/debug-monitor",
-				"type" : "TEXT",
-				"implicit" : 1
-			}
- ],
-		"autosave" : 0
+ ]
 	}
 
 }

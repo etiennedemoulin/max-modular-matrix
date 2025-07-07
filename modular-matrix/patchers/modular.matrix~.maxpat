@@ -63,7 +63,7 @@
 					"numinlets" : 0,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 542.0, 329.0, 139.0, 22.0 ],
+					"patching_rect" : [ 542.0, 329.0, 145.0, 22.0 ],
 					"text" : "receive #0_tomatrixctl",
 					"varname" : "user_matrix_in"
 				}
@@ -75,7 +75,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 289.571428571428555, 939.204721999999947, 126.0, 22.0 ],
+					"patching_rect" : [ 289.571428571428555, 939.204721999999947, 133.0, 22.0 ],
 					"text" : "send #0_tomatrixctl"
 				}
 
@@ -87,7 +87,7 @@
 					"numinlets" : 0,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 542.0, 360.0, 127.0, 22.0 ],
+					"patching_rect" : [ 542.0, 360.0, 133.0, 22.0 ],
 					"text" : "receive #0_tomatrix",
 					"varname" : "routing_matrix_in"
 				}
@@ -125,7 +125,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 144.571428571428669, 908.0, 114.0, 22.0 ],
+					"patching_rect" : [ 144.571428571428669, 908.0, 121.0, 22.0 ],
 					"text" : "send #0_tomatrix"
 				}
 
@@ -699,7 +699,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 701.0, 914.204721999999947, 56.0, 22.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 73.0, 72.0, 58.0, 22.0 ],
+					"presentation_rect" : [ 73.0, 73.0, 58.0, 22.0 ],
 					"text" : "NoFloat",
 					"textcolor" : [ 0.968627, 0.968627, 0.968627, 1.0 ]
 				}
@@ -2293,7 +2293,7 @@
 					"numinlets" : 0,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 1556.0, 1026.0, 83.0, 22.0 ],
+					"patching_rect" : [ 1556.0, 1026.0, 89.0, 22.0 ],
 					"text" : "r #0_debug",
 					"varname" : "debug"
 				}
@@ -2305,7 +2305,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 315.5, 793.25, 89.0, 22.0 ],
+					"patching_rect" : [ 315.5, 793.25, 91.0, 22.0 ],
 					"text" : "s #0_debug"
 				}
 
@@ -2423,7 +2423,7 @@
 , 			{
 				"box" : 				{
 					"data" : 					{
-						"list" : [ "user_matrix_routing", "matrix", "matrix_unpack", "matrix_pack", "dict", "recv-piezo-plaque-in-1", "recv-piezo-plaque-in-2", "recv-piezo-plaque-in-3", "recv-piezo-drum-in-1", "recv-piezo-drum-in-2", "recv-piezo-drum-in-3", "recv-piezo-drum-in-4", "recv-piezo-drum-in-5", "recv-piezo-drum-in-6", "recv-augmented-vibra-in-1", "recv-augmented-vibra-in-2", "recv-augmented-vibra-in-3", "recv-augmented-vibra-in-4", "recv-augmented-vibra-in-5", "recv-augmented-vibra-in-6", "recv-1-thing-in-1", "recv-1-thing-in-2", "send-transducer-plaque-out-1", "send-transducer-plaque-out-2", "send-transducer-plaque-out-3", "send-transducer-drum-out-1", "send-transducer-drum-out-2", "send-transducer-drum-out-3", "send-transducer-drum-out-4", "send-transducer-drum-out-5", "send-transducer-drum-out-6", "send-speaker-out-1", "send-speaker-out-2", "send-1-thing-out-1", "send-1-thing-out-2" ]
+						"list" : [ "user_matrix_routing", "matrix", "matrix_unpack", "matrix_pack", "dict", "recv-string-in-1", "recv-modal-in-1", "recv-waveguide-in-1", "recv-dry-in-1", "send-plates-out-1", "send-plates-out-2", "send-plates-out-3" ]
 					}
 ,
 					"id" : "obj-7",
@@ -2431,7 +2431,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 5,
 					"outlettype" : [ "dictionary", "", "", "", "" ],
-					"patching_rect" : [ 463.0, 527.0, 242.0, 22.0 ],
+					"patching_rect" : [ 463.0, 527.0, 249.0, 22.0 ],
 					"saved_object_attributes" : 					{
 						"embed" : 1,
 						"legacy" : 1,
